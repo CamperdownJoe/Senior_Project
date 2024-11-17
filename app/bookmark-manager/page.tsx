@@ -1,6 +1,6 @@
 import React from 'react';
 import BookmarkManager from '@/components/bookmarkmanager/BookmarkManager';
-// import { Shell } from '@/components/dashboard/shell';
+import { Shell } from '@/components/dashboard/shell';
 
 export const metadata = {
   title: 'Bookmark Manager',
@@ -9,8 +9,8 @@ export const metadata = {
 
 export default function BookmarkManagerPage() {
   return (
-    // <Shell>
+    <Shell>
       <BookmarkManager />
-    // </Shell>
+    </Shell>
   );
 }

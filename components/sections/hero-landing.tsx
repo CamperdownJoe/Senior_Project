@@ -1,95 +1,147 @@
-import Link from "next/link";
+"use client";
 
-import { env } from "@/env.mjs";
-import { siteConfig } from "@/config/site";
-import { cn, nFormatter } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { Icons } from "@/components/shared/icons";
+import { useState, useRef } from "react";
+import { Upload } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastProvider } from "@/components/ui/toast";
+import { Toaster } from "@/components/ui/toaster";
 
-export default async function HeroLanding() {
-  const { stargazers_count: stars } = await fetch(
-    "https://api.github.com/repos/mickasmt/next-saas-stripe-starter",
-    {
-      ...(env.GITHUB_OAUTH_TOKEN && {
-        headers: {
-          Authorization: `Bearer ${process.env.GITHUB_OAUTH_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-      }),
-      // data will revalidate every hour
-      next: { revalidate: 3600 },
-    },
-  )
-    .then((res) => res.json())
-    .catch((e) => console.log(e));
+import { parseBookmarks } from '@/lib/parseBookmarks';
+
+export default function HeroLanding() {
+  const router = useRouter();
+  const [dragActive, setDragActive] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const { toast } = useToast();
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      handleFile(e.target.files[0]);
+    }
+  };
+
+  const handleFile = (file: File) => {
+    if (file.type === "text/html") {
+      setFile(file);
+      toast({
+        title: "文件已选择",
+        description: `已选择文件: ${file.name}`,
+      });
+    } else {
+      toast({
+        title: "文件类型错误",
+        description: "请上传HTML文件",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleOrganizeBookmarks = async () => {
+    if (!file) {
+      toast({
+        title: "请先上传文件",
+        description: "请选择一个书签HTML文件后再继续",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "正在上传文件",
+      description: "请稍候...",
+    });
+
+    try {
+      const content = await file.text();
+      const bookmarks = parseBookmarks(content);
+
+      console.log(bookmarks);
+      
+      // Store bookmarks in localStorage or state management solution
+      localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+
+      // Navigate to organize-bookmarks page
+      router.push('/organize-bookmarks');
+    } catch (error) {
+      toast({
+        title: "处理文件时出错",
+        description: "请重试或联系支持",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
-    <section className="space-y-6 py-12 sm:py-20 lg:py-20">
-      <div className="container flex max-w-5xl flex-col items-center gap-5 text-center">
-        <Link
-          href="https://twitter.com/miickasmt/status/1810465801649938857"
-          className={cn(
-            buttonVariants({ variant: "outline", size: "sm", rounded: "full" }),
-            "px-4",
-          )}
-          target="_blank"
-        >
-          <span className="mr-3">🎉</span>
-          <span className="hidden md:flex">Introducing&nbsp;</span> Next Auth
-          Roles Template on <Icons.twitter className="ml-2 size-3.5" />
-        </Link>
-
-        <h1 className="text-balance font-urban text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-[66px]">
-          Kick off with a bang with{" "}
-          <span className="text-gradient_indigo-purple font-extrabold">
-            SaaS Starter
-          </span>
-        </h1>
-
-        <p
-          className="max-w-2xl text-balance leading-normal text-muted-foreground sm:text-xl sm:leading-8"
-          style={{ animationDelay: "0.35s", animationFillMode: "forwards" }}
-        >
-          Build your next project using Next.js 14, Prisma, Neon, Auth.js v5,
-          Resend, React Email, Shadcn/ui, Stripe.
-        </p>
-
-        <div
-          className="flex justify-center space-x-2 md:space-x-4"
-          style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}
-        >
-          <Link
-            href="/pricing"
-            prefetch={true}
-            className={cn(
-              buttonVariants({ size: "lg", rounded: "full" }),
-              "gap-2",
-            )}
-          >
-            <span>Go Pricing</span>
-            <Icons.arrowRight className="size-4" />
-          </Link>
-          <Link
-            href={siteConfig.links.github}
-            target="_blank"
-            rel="noreferrer"
-            className={cn(
-              buttonVariants({
-                variant: "outline",
-                size: "lg",
-                rounded: "full",
-              }),
-              "px-5",
-            )}
-          >
-            <Icons.gitHub className="mr-2 size-4" />
-            <p>
-              <span className="hidden sm:inline-block">Star on</span> GitHub{" "}
-              <span className="font-semibold">{nFormatter(stars)}</span>
-            </p>
-          </Link>
-        </div>
+    <ToastProvider>
+      <div className="flex flex-col min-h-screen">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                上传您的书签文件
+              </h1>
+              <Card className="w-full max-w-xl mx-auto">
+                <CardContent className="p-6">
+                  <div
+                    className={`border-4 border-dashed p-6 mb-4 w-full rounded-md cursor-pointer text-center transition duration-300 ${
+                      dragActive
+                        ? "border-primary bg-primary/10"
+                        : "border-gray-300 hover:border-primary hover:text-primary"
+                    }`}
+                    onDragEnter={handleDrag}
+                    onDragLeave={handleDrag}
+                    onDragOver={handleDrag}
+                    onDrop={handleDrop}
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                    <p className="mt-2 text-sm font-medium">
+                      {file ? file.name : "点击此处或拖拽书签HTML文件以上传"}
+                    </p>
+                  </div>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".html"
+                    className="hidden"
+                    onChange={handleFileInput}
+                  />
+                  <Button
+                    className="w-full"
+                    onClick={handleOrganizeBookmarks}
+                  >
+                    重新组织书签
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
       </div>
-    </section>
+      <Toaster />
+    </ToastProvider>
   );
 }
