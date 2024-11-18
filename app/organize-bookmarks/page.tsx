@@ -17,22 +17,53 @@ export default function OrganizeBookmarksPage() {
     const { toast } = useToast();
 
     useEffect(() => {
-        setOriginalBookmarks([
+      setOriginalBookmarks([
+        {
+          id: 'root',
+          title: 'Bookmarks',
+          type: 'folder',
+          children: [
             {
-                id: 'root',
-                title: 'Bookmarks',
-                type: 'folder',
-                children: []
+              id: '1',
+              title: 'Google',
+              type: 'link' as const,
+              url: 'https://www.google.com'
+            },
+            {
+              id: '2',
+              title: 'Facebook',
+              type: 'link' as const,
+              url: 'https://www.facebook.com'
+            },
+            {
+              id: '3',
+              title: 'Twitter',
+              type: 'link' as const,
+              url: 'https://www.twitter.com'
             }
-        ]);
+          ]
+        }
+      ]);
     }, []);
 
     const handleCleanCollections = async () => {
-        if (!originalBookmarks) return;
-        setStep('cleaning');
+      if (!originalBookmarks) {
+        return;
+      }
+      
+      setStep('cleaning');
+      
+      try {
         const cleaned = await cleanBookmarks(originalBookmarks, setProgress);
         setCleanedBookmarks(cleaned);
         setStep('review');
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "An error occurred while cleaning bookmarks.",
+          variant: "destructive",
+        });
+      }
     };
 
     const handleSkip = () => {

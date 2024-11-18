@@ -1,4 +1,4 @@
-import { Bookmark, BookmarkFolder, BookmarkTree } from '@/lib/types';
+import { BookmarkTree, Bookmark, BookmarkFolder } from '@/lib/types';
 
 function deduplicateBookmarks(bookmarks: Bookmark[]): Bookmark[] {
   const uniqueBookmarks: Bookmark[] = [];
@@ -21,33 +21,38 @@ export async function cleanBookmarks(
   let totalItems = 0;
   let processedItems = 0;
 
-  function countItems(item: BookmarkFolder | Bookmark): number {
-    if ('url' in item) return 1;
-    return 1 + item.children.reduce((sum, child) => sum + countItems(child), 0);
+  function countItems(items: BookmarkTree): number {
+    return items.reduce((sum, item) => {
+      if (item.type === 'folder') {
+        return sum + 1 + countItems(item.children);
+      }
+      return sum + 1;
+    }, 0);
   }
 
-  function cleanFolder(folder: BookmarkFolder): BookmarkFolder {
-    const cleanedChildren: (Bookmark | BookmarkFolder)[] = [];
+  function cleanItems(items: BookmarkTree): BookmarkTree {
+    const cleanedItems: BookmarkTree = [];
     const bookmarks: Bookmark[] = [];
 
-    for (const child of folder.children) {
-      if ('url' in child) {
-        bookmarks.push(child);
-      } else {
-        cleanedChildren.push(cleanFolder(child));
+    for (const item of items) {
+      if (item.type === 'link') {
+        bookmarks.push(item);
+      } else if (item.type === 'folder') {
+        cleanedItems.push({
+          ...item,
+          children: cleanItems(item.children)
+        });
       }
       processedItems++;
       setProgress(Math.round((processedItems / totalItems) * 100));
     }
 
     const deduplicatedBookmarks = deduplicateBookmarks(bookmarks);
-    cleanedChildren.push(...deduplicatedBookmarks);
-
-    return { ...folder, children: cleanedChildren };
+    return [...cleanedItems, ...deduplicatedBookmarks];
   }
 
   totalItems = countItems(bookmarkTree);
-  const cleanedTree = cleanFolder(bookmarkTree);
+  const cleanedTree = cleanItems(bookmarkTree);
 
   return cleanedTree;
 }
