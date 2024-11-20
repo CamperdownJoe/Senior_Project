@@ -102,3 +102,17 @@ tree -L 2 -I 'node_modules'
 </DL><p>
 
 ```
+
+
+## WSL2 下 无法热更新 next.js
+https://stackoverflow.com/questions/69276057/wsl-2-react-not-reloading-with-file-changes
+
+
+
+## 一些有用的信息
+
+https://ws-dl.blogspot.com/
+https://archive.org/help/wayback_api.php
+
+https://platform.openai.com/docs/guides/structured-outputs/introduction?context=without_parse&lang=node.js
+

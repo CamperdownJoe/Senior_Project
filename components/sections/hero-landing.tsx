@@ -78,11 +78,11 @@ export default function HeroLanding() {
       const content = await file.text();
       const bookmarks = parseBookmarks(content);
 
-      console.log(bookmarks);
+      // console.log(bookmarks);
       
       // Store bookmarks in localStorage or state management solution
-      localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
-
+      localStorage.setItem('bookmarks', JSON.stringify(Object.fromEntries(bookmarks)));
+      
       // Navigate to organize-bookmarks page
       router.push('/organize-bookmarks');
     } catch (error) {

@@ -1,43 +1,56 @@
-import { BookmarkTree, BookmarkFolder, Bookmark } from '@/lib/types';
+import { Bookmark, BookmarkMap } from '@/lib/types';
 import { bookmarksToJSON } from 'bookmarks-to-json';
+import crypto from 'crypto';
 
-function convertToBookmarkTree(data: any): BookmarkTree {
+function generateUniqueId(): string {
+  return crypto.randomBytes(16).toString('hex');
+}
+
+function convertToBookmarkMap(data: any): BookmarkMap {
   if (!Array.isArray(data)) {
-    console.warn('Data is not an array, returning empty array');
-    return [];
+    console.warn('Data is not an array, returning empty map');
+    return new Map();
   }
 
-  return data.map(item => {
+  const bookmarkMap = new Map<string, Bookmark>();
+
+  function processItem(item: any) {
     if (!item || typeof item !== 'object') {
       console.warn('Invalid item:', item);
-      return null;
+      return;
     }
 
     if (item.type === 'link') {
-      return {
-        id: item.url,
+      const id = generateUniqueId();
+      bookmarkMap.set(id, {
+        id,
         title: item.title,
         url: item.url,
         addDate: item.addDate,
         type: 'link'
-      } as Bookmark;
+      });
     } else if (item.type === 'folder') {
-      return {
-        id: item.title,
+      const id = generateUniqueId();
+      bookmarkMap.set(id, {
+        id,
         title: item.title,
         addDate: item.addDate,
         lastModified: item.lastModified,
-        type: 'folder',
-        children: convertToBookmarkTree(item.children || [])
-      } as BookmarkFolder;
+        type: 'folder'
+      });
+      if (Array.isArray(item.children)) {
+        item.children.forEach(processItem);
+      }
     } else {
       console.warn('Unknown item type:', item.type);
-      return null;
     }
-  }).filter((item): item is Bookmark | BookmarkFolder => item !== null);
+  }
+
+  data.forEach(processItem);
+  return bookmarkMap;
 }
 
-export function parseBookmarks(html: string): BookmarkTree {
+export function parseBookmarks(html: string): BookmarkMap {
   console.log("Starting parseBookmarks function");
   
   let parsedData;
@@ -46,7 +59,7 @@ export function parseBookmarks(html: string): BookmarkTree {
     console.log('Raw parsed data:', JSON.stringify(parsedData, null, 2));
   } catch (error) {
     console.error('Error parsing bookmarks:', error);
-    return [];
+    return new Map();
   }
   
   if (typeof parsedData === 'string') {
@@ -54,7 +67,7 @@ export function parseBookmarks(html: string): BookmarkTree {
       parsedData = JSON.parse(parsedData);
     } catch (error) {
       console.error('Error parsing JSON string:', error);
-      return [];
+      return new Map();
     }
   }
 
@@ -63,8 +76,8 @@ export function parseBookmarks(html: string): BookmarkTree {
     parsedData = [parsedData];
   }
 
-  const bookmarkTree = convertToBookmarkTree(parsedData);
-  console.log('Final BookmarkTree:', JSON.stringify(bookmarkTree, null, 2));
+  const bookmarkMap = convertToBookmarkMap(parsedData);
+  console.log('Final BookmarkMap:', JSON.stringify(Array.from(bookmarkMap.entries()), null, 2));
   
-  return bookmarkTree;
+  return bookmarkMap;
 }

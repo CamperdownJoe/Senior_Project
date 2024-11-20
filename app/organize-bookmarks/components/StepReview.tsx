@@ -1,65 +1,79 @@
+import { useState } from 'react';
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bookmark, BookmarkFolder, BookmarkTree } from '@/lib/types';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Bookmark } from '@/lib/types';
 
-interface StepReviewProps {
-  originalBookmarks: BookmarkTree;
-  cleanedBookmarks: BookmarkTree;
-  onUndo: (path: string[]) => void;
-  onRemove: (path: string[]) => void;
-}
+type DuplicateGroup = {
+  url: string;
+  bookmarks: Bookmark[];
+};
 
-export default function StepReview({ originalBookmarks, cleanedBookmarks, onUndo, onRemove }: StepReviewProps) {
+type Props = {
+  duplicateGroups: DuplicateGroup[];
+  onContinue: (selectedBookmarks: Record<string, string>) => void;
+};
 
-  function renderBookmarkTree(tree: BookmarkTree, path: string[] = []) {
-    console.log("Rendering tree:", tree);
-    
-    if (!Array.isArray(tree)) {
-      console.error("Expected an array, but received:", tree);
-      return null;
-    }
+export default function StepReview({ duplicateGroups, onContinue }: Props) {
+  const [selectedBookmarks, setSelectedBookmarks] = useState<Record<string, string>>({});
+  const [recommendationRule, setRecommendationRule] = useState<'short' | 'ai' | 'newest'>('short');
 
-    return (
-      <ul>
-        {tree.map((item, index) => {
-          const currentPath = [...path, index.toString()];
-          if (item.type === 'link') {
-            return (
-              <li key={item.id}>
-                <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title}</a>
-                <Button variant="outline" size="sm" onClick={() => onRemove(currentPath)}>Remove</Button>
-              </li>
-            );
-          } else if (item.type === 'folder') {
-            return (
-              <li key={item.id}>
-                <h3>{item.title}</h3>
-                {renderBookmarkTree(item.children, currentPath)}
-              </li>
-            );
-          } else {
-            console.error("Unknown item type:", item);
-            return null;
-          }
-        })}
-      </ul>
-    );
-  }
+  const handleCheckboxChange = (url: string, id: string) => {
+    setSelectedBookmarks(prev => ({
+      ...prev,
+      [url]: id
+    }));
+  };
 
-  if (!originalBookmarks || !cleanedBookmarks) {
-    return <div>Loading bookmarks...</div>;
-  }
+  const handleContinue = () => {
+    onContinue(selectedBookmarks);
+  };
 
   return (
-    <div className="flex space-x-4">
-      <ScrollArea className="h-[500px] w-1/2 rounded-md border p-4">
-        <h2 className="font-semibold mb-2">Original Bookmarks</h2>
-        {renderBookmarkTree(originalBookmarks)}
-      </ScrollArea>
-      <ScrollArea className="h-[500px] w-1/2 rounded-md border p-4">
-        <h2 className="font-semibold mb-2">Cleaned Bookmarks</h2>
-        {renderBookmarkTree(cleanedBookmarks)}
-      </ScrollArea>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">Review Duplicate Bookmarks</h2>
+      
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">Recommendation Rule</h3>
+        <RadioGroup
+          defaultValue="short"
+          onValueChange={(value) => setRecommendationRule(value as 'short' | 'ai' | 'newest')}
+        >
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="short" id="short" />
+            <Label htmlFor="short">Shortest Title</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="ai" id="ai" />
+            <Label htmlFor="ai">AI Recommendation</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="newest" id="newest" />
+            <Label htmlFor="newest">Newest (by ADD_DATE)</Label>
+          </div>
+        </RadioGroup>
+      </div>
+
+      {duplicateGroups.map((group) => (
+        <div key={group.url} className="border p-4 rounded-md">
+          <h3 className="text-lg font-semibold mb-2">{group.url}</h3>
+          {group.bookmarks.map((bookmark) => (
+            <div key={bookmark.id} className="flex items-center space-x-2 mb-2">
+              <Checkbox
+                id={bookmark.id}
+                checked={selectedBookmarks[group.url] === bookmark.id}
+                onCheckedChange={() => handleCheckboxChange(group.url, bookmark.id)}
+              />
+              <label htmlFor={bookmark.id} className="text-sm">
+                {bookmark.title}
+              </label>
+            </div>
+          ))}
+        </div>
+      ))}
+
+      <Button onClick={handleContinue}>Continue to Remove Invalid URLs</Button>
     </div>
   );
 }
