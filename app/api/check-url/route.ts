@@ -23,11 +23,11 @@ export async function GET(request: Request) {
 
     clearTimeout(timeoutId);
 
-    console.log(`Response for ${url}:`, {
-      status: response.status,
-      statusText: response.statusText,
-      headers: Object.fromEntries(response.headers),
-    });
+    // console.log(`Response for ${url}:`, {
+    //   status: response.status,
+    //   statusText: response.statusText,
+    //   headers: Object.fromEntries(response.headers),
+    // });
 
     if (!response.ok) {
       isBroken = true;

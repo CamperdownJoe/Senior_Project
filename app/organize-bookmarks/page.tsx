@@ -10,9 +10,13 @@ import StepInvalidUrls from './components/StepInvalidUrls';
 import StepReorganize from './components/StepReorganize';
 import { Bookmark, DuplicateGroup } from '@/lib/types';
 import { findDuplicates } from './utils/findDuplicates';
-import { checkInvalidUrls } from './utils/checkInvalidUrls';
 
 type Step = 'initial' | 'duplicates' | 'invalidUrls' | 'reorganize';
+
+type RepairInfo = {
+  newUrl: string;
+  archiveDate: string;
+};
 
 export default function OrganizeBookmarksPage() {
   const router = useRouter();
@@ -66,9 +70,25 @@ export default function OrganizeBookmarksPage() {
     setProgress(50);
   };
 
-  const handleInvalidUrlsComplete = (urlsToRemove: string[], urlsToRepair: string[]) => {
-    setItemsToRemove(prev => new Set([...prev, ...urlsToRemove]));
-    // TODO: Handle urlsToRepair
+  const handleInvalidUrlsComplete = (idsToRemove: string[], repairsMap: Map<string, RepairInfo>) => {
+    setItemsToRemove(prev => new Set([...prev, ...idsToRemove]));
+    
+    console.log(idsToRemove)
+    console.log(repairsMap)
+    // Handle repairs
+    const updatedBookmarks = new Map(bookmarks);
+    repairsMap.forEach((repairInfo, id) => {
+      const bookmark = updatedBookmarks.get(id);
+      if (bookmark) {
+        updatedBookmarks.set(id, {
+          ...bookmark,
+          url: repairInfo.newUrl,
+          archivedDate: repairInfo.archiveDate
+        });
+      }
+    });
+    setBookmarks(updatedBookmarks);
+
     setStep('reorganize');
     setProgress(75);
   };

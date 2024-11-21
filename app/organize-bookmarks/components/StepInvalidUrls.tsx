@@ -23,10 +23,15 @@ type RepairableBookmark = {
   archiveDate: string;
 };
 
+type RepairInfo = {
+  newUrl: string;
+  archiveDate: string;
+};
+
 type Props = {
   bookmarks: Map<string, Bookmark>;
   itemsToRemove: Set<string>;
-  onComplete: (urlsToRemove: string[], urlsToRepair: string[]) => void;
+  onComplete: (idsToRemove: string[], repairsMap: Map<string, RepairInfo>) => void;
 };
 
 export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }: Props) {
@@ -38,20 +43,24 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
   const [isChecking, setIsChecking] = useState(false);
   const [allUrlsChecked, setAllUrlsChecked] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const isCheckingRef = useRef(false);
 
   useEffect(() => {
-    if (bookmarks.size > 0) {
+    if (bookmarks.size > 0 && !isCheckingRef.current) {
       startUrlCheck();
     }
   }, [bookmarks]);
 
   const startUrlCheck = async () => {
+    if (isCheckingRef.current) return;
+    isCheckingRef.current = true;
     setIsChecking(true);
     setAllUrlsChecked(false);
     abortControllerRef.current = new AbortController();
     await checkUrls(bookmarks);
     setIsChecking(false);
     setAllUrlsChecked(true);
+    isCheckingRef.current = false;
   };
 
   const stopUrlCheck = () => {
@@ -59,13 +68,20 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
       abortControllerRef.current.abort();
     }
     setIsChecking(false);
+    isCheckingRef.current = false;
   };
 
   const checkUrls = async (bookmarks: Map<string, Bookmark>) => {
     setAllUrlsChecked(false);
     const bookmarksArray = Array.from(bookmarks.entries());
+    const totalChecks = bookmarksArray.length;
     let checkedCount = 0;
-  
+
+    const updateProgress = () => {
+      checkedCount++;
+      setCheckingProgress((checkedCount / totalChecks) * 100);
+    };
+
     for (const [id, bookmark] of bookmarksArray) {
       if (abortControllerRef.current?.signal.aborted) {
         break;
@@ -76,14 +92,12 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
           handleUrlCheckResult(id, bookmark, result);
         } catch (error) {
           if (error.name === 'AbortError') {
-            console.log('URL check aborted');
+            console.error(`Error checking ${bookmark.url}: ${error.message}`);
             break;
           }
-          console.error(`Error checking URL ${bookmark.url}:`, error);
         }
       }
-      checkedCount++;
-      setCheckingProgress((checkedCount / bookmarksArray.length) * 100);
+      updateProgress();
     }
     setAllUrlsChecked(true);
   };
@@ -150,9 +164,20 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
   };
 
   const handleContinue = () => {
-    const urlsToRemove = Array.from(selectedForRemoval);
-    const urlsToRepair = Array.from(selectedForRepair);
-    onComplete(urlsToRemove, urlsToRepair);
+    const idsToRemove = Array.from(selectedForRemoval) as string[];
+    const repairsMap = new Map<string, RepairInfo>();
+    
+    selectedForRepair.forEach(id => {
+      const bookmark = repairableBookmarks.find(b => b.id === id);
+      if (bookmark) {
+        repairsMap.set(id, {
+          newUrl: `https://web.archive.org/web/${bookmark.archiveDate}/${bookmark.url}`,
+          archiveDate: bookmark.archiveDate
+        });
+      }
+    });
+
+    onComplete(idsToRemove, repairsMap);
   };
 
   const isAnythingSelected = selectedForRemoval.size > 0 || selectedForRepair.size > 0;
@@ -264,7 +289,7 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
           variant={isAnythingSelected ? "default" : "secondary"}
           className="flex items-center space-x-2"
         >
-          <span>{isAnythingSelected ? "Continue to Reorganize" : "Skip to Reorganize"}</span>
+          <span>{isAnythingSelected ? "Continue to Reorganize" : "Continue without Changes"}</span>
           <ArrowRight className="h-4 w-4" />
         </Button>
       </div>

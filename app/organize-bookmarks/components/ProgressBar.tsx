@@ -5,5 +5,10 @@ interface ProgressBarProps {
 }
 
 export default function ProgressBar({ value }: ProgressBarProps) {
-  return <Progress value={value} className="w-full mb-4" />;
+  return (
+    <Progress 
+      value={value} 
+      className="w-full h-0.5 mb-4" 
+    />
+  );
 }

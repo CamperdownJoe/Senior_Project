@@ -28,7 +28,7 @@ export async function checkSingleUrlViaAPI(url: string, signal?: AbortSignal): P
   try {
     const response = await fetch(`/api/check-url?url=${encodeURIComponent(url)}`, { signal });
     const result = await response.json();
-    console.log(`API result for ${url}:`, result);
+    // console.log(`API result for ${url}:`, result);
 
     if (result.isBroken) {
       const archiveResult = await checkWebArchive(url, signal);
