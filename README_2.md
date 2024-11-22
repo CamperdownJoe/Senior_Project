@@ -116,3 +116,40 @@ https://archive.org/help/wayback_api.php
 
 https://platform.openai.com/docs/guides/structured-outputs/introduction?context=without_parse&lang=node.js
 
+
+
+## 数据库问题
+
+在 github codespace 可以连接数据库，但是在 wsl2 无法连接，不知道为什么
+
+```
+from sqlalchemy import create_engine, exc
+from sqlalchemy.engine import URL
+
+# 构建连接字符串，添加 endpoint 参数
+connection_string = URL.create(
+    'postgresql',
+    username='BookmarkDB_owner',
+    password='GX7NlBWVr4eK',
+    host='ep-quiet-morning-a5899c2h.us-east-2.aws.neon.tech',
+    database='BookmarkDB',
+    query={'sslmode': 'require', 'options': 'endpoint=ep-quiet-morning-a5899c2h'}
+)
+
+# 创建数据库引擎
+engine = create_engine(connection_string)
+
+# 尝试连接数据库
+try:
+    with engine.connect() as connection:
+        print("Connection to the database was successful!")
+except exc.SQLAlchemyError as e:
+    print(f"An error occurred: {e}")
+
+```
+
+
+
+npx prisma studio
+
+npx prisma db push
