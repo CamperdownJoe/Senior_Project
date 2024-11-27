@@ -1,25 +1,24 @@
 "use client";
 
 import { createContext, Dispatch, ReactNode, SetStateAction } from "react";
-
-import { useSignInModal } from "@/components/modals//sign-in-modal";
+import { useAuthModal } from "@/components/modals/auth-modal";
 
 export const ModalContext = createContext<{
-  setShowSignInModal: Dispatch<SetStateAction<boolean>>;
+  setShowAuthModal: Dispatch<SetStateAction<boolean>>;
 }>({
-  setShowSignInModal: () => {},
+  setShowAuthModal: () => {},
 });
 
 export default function ModalProvider({ children }: { children: ReactNode }) {
-  const { SignInModal, setShowSignInModal } = useSignInModal();
+  const { AuthModal, setShowAuthModal } = useAuthModal();
 
   return (
     <ModalContext.Provider
       value={{
-        setShowSignInModal,
+        setShowAuthModal,
       }}
     >
-      <SignInModal />
+      <AuthModal />
       {children}
     </ModalContext.Provider>
   );

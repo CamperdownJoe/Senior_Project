@@ -26,7 +26,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
       ? true
       : false;
   const [isYearly, setIsYearly] = useState<boolean>(!!isYearlyDefault);
-  const { setShowSignInModal } = useContext(ModalContext);
+  const { setShowAuthModal } = useContext(ModalContext);
 
   const toggleBilling = () => {
     setIsYearly(!isYearly);
@@ -126,7 +126,7 @@ export function PricingCards({ userId, subscriptionPlan }: PricingCardsProps) {
                   : "outline"
               }
               rounded="full"
-              onClick={() => setShowSignInModal(true)}
+              onClick={() => setShowAuthModal(true)}
             >
               Sign in
             </Button>

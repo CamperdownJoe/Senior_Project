@@ -153,3 +153,27 @@ except exc.SQLAlchemyError as e:
 npx prisma studio
 
 npx prisma db push
+
+
+Prisma + neon 的问题
+
+这是因为 neon 的数据库无法在国内连接的原因
+
+无论是us，还是 sg 的数据库都无法连接
+
+当把数据库更换为 tencent 的mysql之后，可以成功发送 要请登陆的链接，成功使用 resend
+
+解决这个问题不需要更改proxy
+
+可以解决 发送邮件的文件
+
+
+
+
+但是依然无法解决，使用 google 认证的问题，即使使用 set proxy
+
+
+
+测试当前terminal是否能链接google
+curl -L http://www.google.com
+
