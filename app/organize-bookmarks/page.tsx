@@ -8,10 +8,13 @@ import StepInitial from './components/StepInitial';
 import StepDuplicates from './components/StepDuplicates';
 import StepInvalidUrls from './components/StepInvalidUrls';
 import StepReorganize from './components/StepReorganize';
-import { Bookmark, DuplicateGroup } from '@/lib/types';
+import StepReview from './components/StepReview';
+import { Bookmark, DuplicateGroup, BookmarkStructure } from '@/lib/types';
 import { findDuplicates } from './utils/findDuplicates';
+import { reorganizeBookmarks } from './utils/reorganizeBookmarks';
 
-type Step = 'initial' | 'duplicates' | 'invalidUrls' | 'reorganize';
+
+type Step = 'initial' | 'duplicates' | 'invalidUrls' | 'reorganize' | 'review';
 
 type RepairInfo = {
   newUrl: string;
@@ -27,6 +30,10 @@ export default function OrganizeBookmarksPage() {
   const [duplicateGroups, setDuplicateGroups] = useState<DuplicateGroup[]>([]);
   const [invalidUrls, setInvalidUrls] = useState<string[]>([]);
   const [itemsToRemove, setItemsToRemove] = useState<Set<string>>(new Set());
+  const [reorganizationMethod, setReorganizationMethod] = useState<'dewey' | 'ai' | null>(null);
+  const [reorganizedBookmarks, setReorganizedBookmarks] = useState<BookmarkStructure | null>(null);
+
+
 
   useEffect(() => {
     const storedBookmarks = localStorage.getItem('bookmarks');
@@ -93,18 +100,30 @@ export default function OrganizeBookmarksPage() {
     setProgress(75);
   };
 
-  const handleReorganizeComplete = (newBookmarkTree: Map<string, Bookmark>) => {
-    // Apply all removals and set the new bookmark tree
-    const finalBookmarks = new Map(newBookmarkTree);
-    itemsToRemove.forEach(id => finalBookmarks.delete(id));
-    setBookmarks(finalBookmarks);
-    localStorage.setItem('bookmarks', JSON.stringify(Object.fromEntries(finalBookmarks)));
+  // const handleReorganizeComplete = (newBookmarkTree: Map<string, Bookmark>) => {
+  //   // Apply all removals and set the new bookmark tree
+  //   const finalBookmarks = new Map(newBookmarkTree);
+  //   itemsToRemove.forEach(id => finalBookmarks.delete(id));
+  //   setBookmarks(finalBookmarks);
+  //   localStorage.setItem('bookmarks', JSON.stringify(Object.fromEntries(finalBookmarks)));
+  //   setProgress(100);
+  //   toast({
+  //     title: "Bookmarks organized",
+  //     description: "Your bookmarks have been successfully organized.",
+  //   });
+  //   // Navigate to the next page or show a completion message
+  // };
+  const handleReorganizeComplete = (method: 'dewey' | 'ai', reorganized: BookmarkStructure) => {
+    console.log("--------")
+    
+    setReorganizationMethod(method);
+    setReorganizedBookmarks(reorganized);
+    // console.log(method)
+    // console.log(reorganized)
+
+    // console.log(reorganizedBookmarks)
+    setStep('review');
     setProgress(100);
-    toast({
-      title: "Bookmarks organized",
-      description: "Your bookmarks have been successfully organized.",
-    });
-    // Navigate to the next page or show a completion message
   };
 
   return (
@@ -116,6 +135,7 @@ export default function OrganizeBookmarksPage() {
       {step === 'duplicates' && <StepDuplicates duplicateGroups={duplicateGroups} bookmarks={bookmarks} onComplete={handleDuplicatesComplete} />}
       {step === 'invalidUrls' && <StepInvalidUrls bookmarks={bookmarks} itemsToRemove={itemsToRemove} onComplete={handleInvalidUrlsComplete} />}
       {step === 'reorganize' && <StepReorganize bookmarks={bookmarks} onComplete={handleReorganizeComplete} />}
+      {step === 'review' && reorganizedBookmarks && <StepReview bookmarks={bookmarks} reorganizedBookmarks={reorganizedBookmarks} />}
     </div>
   );
 }

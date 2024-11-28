@@ -1,23 +1,40 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { BookmarkMap } from '@/lib/types';
+import { BookmarkMap, BookmarkStructure } from '@/lib/types';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import Image from 'next/image';
 import { Icons } from "@/components/shared/icons";
+import { reorganizeBookmarks } from '../utils/reorganizeBookmarks';
 
 type Props = {
-  bookmarks: BookmarkMap | null;
-  onComplete: (newBookmarkMap: BookmarkMap) => void;
+  bookmarks: BookmarkMap;
+  onComplete: (method: 'dewey' | 'ai', reorganizedBookmarks: BookmarkStructure) => void;
 };
 
 export default function StepReorganize({ bookmarks, onComplete }: Props) {
   const [selectedMethod, setSelectedMethod] = useState<'dewey' | 'ai' | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleMethodSelect = (method: 'dewey' | 'ai') => {
     setSelectedMethod(method);
-    // Here you would call the AI or Dewey classification function
-    // and then call onComplete with the result
   };
+
+  const handleReorganize = async () => {
+    if (!selectedMethod) return;
+
+    setIsLoading(true);
+    try {
+      const reorganizedBookmarks = await reorganizeBookmarks(bookmarks, selectedMethod);
+      // console.log('AI API Response:', reorganizedBookmarks);
+      onComplete(selectedMethod, reorganizedBookmarks);
+    } catch (error) {
+      console.error('Error reorganizing bookmarks:', error);
+      // Handle error (e.g., show a toast notification)
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   return (
     <div className="space-y-8">
@@ -91,10 +108,10 @@ export default function StepReorganize({ bookmarks, onComplete }: Props) {
       {selectedMethod && (
         <div className="text-center">
           <Button 
-            onClick={() => onComplete(bookmarks!)}
-            // className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-full transition-colors duration-300"
+            onClick={handleReorganize}
+            disabled={isLoading}
           >
-            Complete Organization
+            {isLoading ? 'Reorganizing...' : 'Complete Organization'}
           </Button>
         </div>
       )}

@@ -1,79 +1,48 @@
-import { useState } from 'react';
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Bookmark } from '@/lib/types';
-
-type DuplicateGroup = {
-  url: string;
-  bookmarks: Bookmark[];
-};
+import { BookmarkMap, BookmarkStructure } from '@/lib/types';
 
 type Props = {
-  duplicateGroups: DuplicateGroup[];
-  onContinue: (selectedBookmarks: Record<string, string>) => void;
+  bookmarks: BookmarkMap;
+  reorganizedBookmarks: BookmarkStructure;
 };
 
-export default function StepReview({ duplicateGroups, onContinue }: Props) {
-  const [selectedBookmarks, setSelectedBookmarks] = useState<Record<string, string>>({});
-  const [recommendationRule, setRecommendationRule] = useState<'short' | 'ai' | 'newest'>('short');
+export default function StepReview({ bookmarks, reorganizedBookmarks }: Props) {
 
-  const handleCheckboxChange = (url: string, id: string) => {
-    setSelectedBookmarks(prev => ({
-      ...prev,
-      [url]: id
-    }));
-  };
+  if (!reorganizedBookmarks) {
+    console.log('reorganizedBookmarks is null or undefined');
+    return <div>No reorganized bookmarks available.</div>;
+  }
 
-  const handleContinue = () => {
-    onContinue(selectedBookmarks);
-  };
-
+  if (Object.keys(reorganizedBookmarks).length === 0) {
+    console.log('reorganizedBookmarks is an empty object');
+    return <div>Reorganized bookmarks structure is empty.</div>;
+  }
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Review Duplicate Bookmarks</h2>
-      
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Recommendation Rule</h3>
-        <RadioGroup
-          defaultValue="short"
-          onValueChange={(value) => setRecommendationRule(value as 'short' | 'ai' | 'newest')}
-        >
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="short" id="short" />
-            <Label htmlFor="short">Shortest Title</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="ai" id="ai" />
-            <Label htmlFor="ai">AI Recommendation</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="newest" id="newest" />
-            <Label htmlFor="newest">Newest (by ADD_DATE)</Label>
-          </div>
-        </RadioGroup>
-      </div>
-
-      {duplicateGroups.map((group) => (
-        <div key={group.url} className="border p-4 rounded-md">
-          <h3 className="text-lg font-semibold mb-2">{group.url}</h3>
-          {group.bookmarks.map((bookmark) => (
-            <div key={bookmark.id} className="flex items-center space-x-2 mb-2">
-              <Checkbox
-                id={bookmark.id}
-                checked={selectedBookmarks[group.url] === bookmark.id}
-                onCheckedChange={() => handleCheckboxChange(group.url, bookmark.id)}
-              />
-              <label htmlFor={bookmark.id} className="text-sm">
-                {bookmark.title}
-              </label>
+    <div>
+      <h2 className="text-2xl font-bold mb-4">Review Reorganized Bookmarks</h2>
+      {Object.entries(reorganizedBookmarks).map(([categoryName, category]) => (
+        <div key={categoryName} className="mb-4">
+          <h3 className="text-xl font-semibold">{category.name}</h3>
+          <ul className="ml-4">
+            {category.bookmarks.map(bookmarkId => (
+              <li key={bookmarkId}>{bookmarks.get(bookmarkId)?.title || `Unknown Bookmark (${bookmarkId})`}</li>
+            ))}
+          </ul>
+          {category.subcategories && (
+            <div className="ml-4">
+              {Object.entries(category.subcategories).map(([subCategoryName, subCategory]) => (
+                <div key={subCategoryName} className="mb-2">
+                  <h4 className="text-lg font-medium">{subCategory.name}</h4>
+                  <ul className="ml-4">
+                    {subCategory.bookmarks.map(bookmarkId => (
+                      <li key={bookmarkId}>{bookmarks.get(bookmarkId)?.title || `Unknown Bookmark (${bookmarkId})`}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
       ))}
-
-      <Button onClick={handleContinue}>Continue to Remove Invalid URLs</Button>
     </div>
   );
 }

@@ -67,6 +67,9 @@ git push origin main
 
 tree -L 2 -I 'node_modules'
 
+windows 下 tree
+
+tree . /F
 
 ## Html 书签格式
 
@@ -116,7 +119,7 @@ https://archive.org/help/wayback_api.php
 
 https://platform.openai.com/docs/guides/structured-outputs/introduction?context=without_parse&lang=node.js
 
-
+https://community.openai.com/t/how-do-i-use-the-new-json-mode/475890/41
 
 ## 数据库问题
 
@@ -176,4 +179,19 @@ Prisma + neon 的问题
 
 测试当前terminal是否能链接google
 curl -L http://www.google.com
+
+##
+
+Wow, thanks, but I think we need to discuss some problems. 
+
+we have Bookmark type, right? And we use BookmarkMap to store the user BookMark, right?
+
+When we talk about reorganaztion the bookmark, we need suitable data structrure to store the structure.
+
+In my opinion.
+For bookmark category, I think 1-2 level is suitable, it 3 level, there is so detail, user might can't find bookmark. 
+
+I think if user has little bookmarks, we just use 1 level, if has many, we use 2 level.
+
+
 
