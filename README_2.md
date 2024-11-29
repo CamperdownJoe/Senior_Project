@@ -71,6 +71,12 @@ windows 下 tree
 
 tree . /F
 
+Hand-drawn like style
+
+
+Mind-Elixir 布局
+Excalidraw 手绘风格
+
 ## Html 书签格式
 
 ```html
@@ -194,4 +200,814 @@ For bookmark category, I think 1-2 level is suitable, it 3 level, there is so de
 I think if user has little bookmarks, we just use 1 level, if has many, we use 2 level.
 
 
+## structure
 
+
+├── LICENSE.md
+├── README.md
+├── README_2.md
+├── Test_AI_API.ipynb
+├── actions
+│   ├── generate-user-stripe.ts
+│   ├── open-customer-portal.ts
+│   ├── update-user-name.ts
+│   └── update-user-role.ts
+├── app
+│   ├── (auth)
+│   │   ├── layout.tsx
+│   │   ├── login
+│   │   └── register
+│   ├── (docs)
+│   │   ├── docs
+│   │   ├── guides
+│   │   └── layout.tsx
+│   ├── (marketing)
+│   │   ├── (blog-post)
+│   │   ├── [slug]
+│   │   ├── blog
+│   │   ├── error.tsx
+│   │   ├── layout.tsx
+│   │   ├── not-found.tsx
+│   │   ├── page.tsx
+│   │   └── pricing
+│   ├── (protected)
+│   │   ├── admin
+│   │   ├── dashboard
+│   │   └── layout.tsx
+│   ├── api
+│   │   ├── ai-recommend
+│   │   ├── auth
+│   │   ├── check-url
+│   │   ├── og
+│   │   ├── user
+│   │   └── webhooks
+│   ├── bookmark-manager
+│   │   └── page.tsx
+│   ├── layout.tsx
+│   ├── opengraph-image.jpg
+│   ├── organize-bookmarks
+│   │   ├── components
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   └── utils
+│   └── robots.ts
+├── assets
+│   └── fonts
+│       ├── CalSans-SemiBold.ttf
+│       ├── CalSans-SemiBold.woff2
+│       ├── GeistVF.woff2
+│       ├── Inter-Bold.ttf
+│       ├── Inter-Regular.ttf
+│       └── index.ts
+├── auth.config.ts
+├── auth.ts
+├── components
+│   ├── analytics.tsx
+│   ├── bookmarkmanager
+│   │   └── BookmarkManager.tsx
+│   ├── charts
+│   │   ├── area-chart-stacked.tsx
+│   │   ├── bar-chart-mixed.tsx
+│   │   ├── interactive-bar-chart.tsx
+│   │   ├── line-chart-multiple.tsx
+│   │   ├── radar-chart-simple.tsx
+│   │   ├── radial-chart-grid.tsx
+│   │   ├── radial-shape-chart.tsx
+│   │   ├── radial-stacked-chart.tsx
+│   │   └── radial-text-chart.tsx
+│   ├── content
+│   │   ├── author.tsx
+│   │   ├── blog-card.tsx
+│   │   ├── blog-header-layout.tsx
+│   │   ├── blog-posts.tsx
+│   │   ├── mdx-card.tsx
+│   │   └── mdx-components.tsx
+│   ├── dashboard
+│   │   ├── delete-account.tsx
+│   │   ├── header.tsx
+│   │   ├── info-card.tsx
+│   │   ├── project-switcher.tsx
+│   │   ├── search-command.tsx
+│   │   ├── section-columns.tsx
+│   │   ├── shell.tsx
+│   │   ├── transactions-list.tsx
+│   │   └── upgrade-card.tsx
+│   ├── docs
+│   │   ├── page-header.tsx
+│   │   ├── pager.tsx
+│   │   ├── search.tsx
+│   │   └── sidebar-nav.tsx
+│   ├── forms
+│   │   ├── billing-form-button.tsx
+│   │   ├── customer-portal-button.tsx
+│   │   ├── newsletter-form.tsx
+│   │   ├── user-auth-form.tsx
+│   │   ├── user-name-form.tsx
+│   │   └── user-role-form.tsx
+│   ├── layout
+│   │   ├── dashboard-sidebar.tsx
+│   │   ├── mobile-nav.tsx
+│   │   ├── mode-toggle.tsx
+│   │   ├── navbar.tsx
+│   │   ├── site-footer.tsx
+│   │   └── user-account-nav.tsx
+│   ├── modals
+│   │   ├── auth-modal.tsx
+│   │   ├── delete-account-modal.tsx
+│   │   ├── providers.tsx
+│   │   └── sign-in-modal.tsx
+│   ├── pricing
+│   │   ├── billing-info.tsx
+│   │   ├── compare-plans.tsx
+│   │   ├── pricing-cards.tsx
+│   │   └── pricing-faq.tsx
+│   ├── sections
+│   │   ├── bentogrid.tsx
+│   │   ├── features.tsx
+│   │   ├── hero-landing.tsx
+│   │   ├── info-landing.tsx
+│   │   ├── powered.tsx
+│   │   ├── preview-landing.tsx
+│   │   └── testimonials.tsx
+│   ├── shared
+│   │   ├── blur-image.tsx
+│   │   ├── callout.tsx
+│   │   ├── card-skeleton.tsx
+│   │   ├── copy-button.tsx
+│   │   ├── empty-placeholder.tsx
+│   │   ├── header-section.tsx
+│   │   ├── icons.tsx
+│   │   ├── max-width-wrapper.tsx
+│   │   ├── section-skeleton.tsx
+│   │   ├── toc.tsx
+│   │   └── user-avatar.tsx
+│   ├── tailwind-indicator.tsx
+│   └── ui
+│       ├── accordion.tsx
+│       ├── alert-dialog.tsx
+│       ├── alert.tsx
+│       ├── aspect-ratio.tsx
+│       ├── avatar.tsx
+│       ├── badge.tsx
+│       ├── button.tsx
+│       ├── calendar.tsx
+│       ├── card.tsx
+│       ├── chart.tsx
+│       ├── checkbox.tsx
+│       ├── collapsible.tsx
+│       ├── command.tsx
+│       ├── context-menu.tsx
+│       ├── dialog.tsx
+│       ├── dropdown-menu.tsx
+│       ├── form.tsx
+│       ├── hover-card.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── menubar.tsx
+│       ├── modal.tsx
+│       ├── navigation-menu.tsx
+│       ├── popover.tsx
+│       ├── progress.tsx
+│       ├── radio-group.tsx
+│       ├── scroll-area.tsx
+│       ├── select.tsx
+│       ├── separator.tsx
+│       ├── sheet.tsx
+│       ├── skeleton.tsx
+│       ├── slider.tsx
+│       ├── sonner.tsx
+│       ├── switch.tsx
+│       ├── table.tsx
+│       ├── tabs.tsx
+│       ├── textarea.tsx
+│       ├── toast.tsx
+│       ├── toaster.tsx
+│       ├── toggle-group.tsx
+│       ├── toggle.tsx
+│       ├── tooltip.tsx
+│       └── use-toast.ts
+├── components.json
+├── config
+│   ├── blog.ts
+│   ├── dashboard.ts
+│   ├── docs.ts
+│   ├── landing.ts
+│   ├── marketing.ts
+│   ├── site.ts
+│   └── subscriptions.ts
+├── content
+│   ├── blog
+│   │   ├── deploying-next-apps.mdx
+│   │   ├── dynamic-routing-static-regeneration.mdx
+│   │   ├── preview-mode-headless-cms.mdx
+│   │   └── server-client-components.mdx
+│   ├── docs
+│   │   ├── configuration
+│   │   ├── in-progress.mdx
+│   │   ├── index.mdx
+│   │   └── installation.mdx
+│   ├── guides
+│   │   ├── build-blog-using-contentlayer-mdx.mdx
+│   │   └── using-next-auth-next-13.mdx
+│   └── pages
+│       ├── privacy.mdx
+│       └── terms.mdx
+├── contentlayer.config.ts
+├── emails
+│   └── magic-link-email.tsx
+├── env.mjs
+├── hooks
+│   ├── use-intersection-observer.ts
+│   ├── use-local-storage.ts
+│   ├── use-lock-body.ts
+│   ├── use-media-query.ts
+│   ├── use-mounted.ts
+│   └── use-scroll.ts
+├── lib
+│   ├── db.ts
+│   ├── email.ts
+│   ├── exceptions.ts
+│   ├── parseBookmarks.ts
+│   ├── passwordUtils.ts
+│   ├── rateLimit.ts
+│   ├── session.ts
+│   ├── stripe.ts
+│   ├── subscription.ts
+│   ├── toc.ts
+│   ├── types.ts
+│   ├── user.ts
+│   ├── utils.ts
+│   └── validations
+│       ├── auth.ts
+│       ├── og.ts
+│       └── user.ts
+├── middleware.ts
+├── next.config.js
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.js
+├── prettier.config.js
+├── prisma
+│   ├── migrations
+│   │   └── 0_init
+│   └── schema.prisma
+├── public
+│   ├── _static
+│   │   ├── avatars
+│   │   ├── blog
+│   │   ├── docs
+│   │   ├── favicons
+│   │   ├── illustrations
+│   │   └── og.jpg
+│   ├── favicon.ico
+│   └── site.webmanifest
+├── styles
+│   ├── globals.css
+│   └── mdx.css
+├── tailwind.config.ts
+├── tsconfig.json
+└── types
+    ├── index.d.ts
+    └── next-auth.d.ts
+
+
+## 表现得很好的左右结构的图
+
+```
+import React, { useCallback, useEffect } from 'react';
+import ReactFlow, { 
+  Node, 
+  Edge, 
+  useNodesState, 
+  useEdgesState,
+  Controls,
+  Background,
+  MarkerType,
+  Position
+} from 'reactflow';
+import dagre from '@dagrejs/dagre';
+import 'reactflow/dist/style.css';
+
+import { BookmarkStructure, Bookmark } from '@/lib/types';
+
+interface BookmarkFlowChartProps {
+  structure: BookmarkStructure;
+  bookmarks: Map<string, Bookmark>;
+}
+
+const MAX_BOOKMARKS_PER_CATEGORY = 3;
+
+const nodeWidth = 172;
+const nodeHeight = 36;
+
+const getLayoutedElements = (nodes: Node[], edges: Edge[], direction = 'LR') => {
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+  const isHorizontal = direction === 'LR';
+  dagreGraph.setGraph({ rankdir: direction });
+
+  nodes.forEach((node) => {
+    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+  });
+
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  nodes.forEach((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    node.targetPosition = isHorizontal ? Position.Left : Position.Top;
+    node.sourcePosition = isHorizontal ? Position.Right : Position.Bottom;
+    node.position = {
+      x: nodeWithPosition.x - nodeWidth / 2,
+      y: nodeWithPosition.y - nodeHeight / 2,
+    };
+  });
+
+  return { nodes, edges };
+};
+
+const BookmarkFlowChart: React.FC<BookmarkFlowChartProps> = ({ structure, bookmarks }) => {
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  const convertToFlowElements = useCallback(() => {
+    const newNodes: Node[] = [];
+    const newEdges: Edge[] = [];
+
+    // Add root node
+    newNodes.push({
+      id: 'root',
+      data: { label: 'BOOKMARKS' },
+      position: { x: 0, y: 0 },
+      type: 'input',
+    });
+
+    Object.entries(structure).forEach(([categoryName, category], index) => {
+      const categoryId = `category-${index}`;
+      newNodes.push({
+        id: categoryId,
+        data: { label: categoryName },
+        position: { x: 0, y: 0 },
+      });
+      newEdges.push({
+        id: `root-${categoryId}`,
+        source: 'root',
+        target: categoryId,
+        type: 'smoothstep',
+        markerEnd: { type: MarkerType.ArrowClosed },
+      });
+
+      // Add subcategory nodes and edges
+      Object.entries(category.subcategories || {}).forEach(([subName, subCategory], subIndex) => {
+        const subId = `${categoryId}-sub-${subIndex}`;
+        newNodes.push({
+          id: subId,
+          data: { label: subName },
+          position: { x: 0, y: 0 },
+        });
+        newEdges.push({
+          id: `${categoryId}-${subId}`,
+          source: categoryId,
+          target: subId,
+          type: 'smoothstep',
+          markerEnd: { type: MarkerType.ArrowClosed },
+        });
+
+        // Add a sample of bookmark nodes for subcategory
+        subCategory.bookmarks.slice(0, MAX_BOOKMARKS_PER_CATEGORY).forEach((bookmarkId, bmIndex) => {
+          const bookmark = bookmarks.get(bookmarkId);
+          if (bookmark) {
+            const bmId = `${subId}-bm-${bmIndex}`;
+            newNodes.push({
+              id: bmId,
+              data: { label: bookmark.title },
+              position: { x: 0, y: 0 },
+            });
+            newEdges.push({
+              id: `${subId}-${bmId}`,
+              source: subId,
+              target: bmId,
+              type: 'smoothstep',
+              markerEnd: { type: MarkerType.ArrowClosed },
+            });
+          }
+        });
+
+        // Add ellipsis node if there are more bookmarks
+        if (subCategory.bookmarks.length > MAX_BOOKMARKS_PER_CATEGORY) {
+          const ellipsisId = `${subId}-ellipsis`;
+          newNodes.push({
+            id: ellipsisId,
+            data: { label: '...' },
+            position: { x: 0, y: 0 },
+          });
+          newEdges.push({
+            id: `${subId}-${ellipsisId}`,
+            source: subId,
+            target: ellipsisId,
+            type: 'smoothstep',
+            markerEnd: { type: MarkerType.ArrowClosed },
+          });
+        }
+      });
+
+      // Add a sample of bookmark nodes for main category
+      category.bookmarks.slice(0, MAX_BOOKMARKS_PER_CATEGORY).forEach((bookmarkId, bmIndex) => {
+        const bookmark = bookmarks.get(bookmarkId);
+        if (bookmark) {
+          const bmId = `${categoryId}-bm-${bmIndex}`;
+          newNodes.push({
+            id: bmId,
+            data: { label: bookmark.title },
+            position: { x: 0, y: 0 },
+          });
+          newEdges.push({
+            id: `${categoryId}-${bmId}`,
+            source: categoryId,
+            target: bmId,
+            type: 'smoothstep',
+            markerEnd: { type: MarkerType.ArrowClosed },
+          });
+        }
+      });
+
+      // Add ellipsis node if there are more bookmarks in the main category
+      if (category.bookmarks.length > MAX_BOOKMARKS_PER_CATEGORY) {
+        const ellipsisId = `${categoryId}-ellipsis`;
+        newNodes.push({
+          id: ellipsisId,
+          data: { label: '...' },
+          position: { x: 0, y: 0 },
+        });
+        newEdges.push({
+          id: `${categoryId}-${ellipsisId}`,
+          source: categoryId,
+          target: ellipsisId,
+          type: 'smoothstep',
+          markerEnd: { type: MarkerType.ArrowClosed },
+        });
+      }
+    });
+
+    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(newNodes, newEdges);
+
+    setNodes(layoutedNodes);
+    setEdges(layoutedEdges);
+  }, [structure, bookmarks, setNodes, setEdges]);
+
+  useEffect(() => {
+    convertToFlowElements();
+  }, [convertToFlowElements]);
+
+  return (
+    <div style={{ width: '100%', height: '600px' }}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        fitView
+        proOptions={{ hideAttribution: true }}
+      >
+        <Controls />
+        <Background />
+      </ReactFlow>
+    </div>
+  );
+};
+
+export default BookmarkFlowChart;
+```
+
+
+表现得不错的 Excalidraw
+```
+"use client";
+
+import React, { useEffect, useState, useCallback } from 'react';
+import dynamic from 'next/dynamic';
+import { ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
+import { BookmarkStructure, Bookmark } from '@/lib/types';
+import dagre from '@dagrejs/dagre';
+import { MainMenu } from '@excalidraw/excalidraw';
+
+const Excalidraw = dynamic(
+  async () => {
+    const mod = await import("@excalidraw/excalidraw");
+    return mod.Excalidraw;
+  },
+  { ssr: false }
+);
+
+
+interface BookmarkFlowChartProps {
+  structure: BookmarkStructure;
+  bookmarks: Map<string, Bookmark>;
+}
+
+const MAX_BOOKMARKS_PER_CATEGORY = 1;
+const NODE_WIDTH = 150;
+const NODE_HEIGHT = 60;
+
+const BookmarkFlowChart: React.FC<BookmarkFlowChartProps> = ({ structure, bookmarks }) => {
+  const [isClient, setIsClient] = useState(false);
+  const [elements, setElements] = useState<ExcalidrawElement[]>([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+
+  useEffect(() => {
+    setIsClient(true);
+    const style = document.createElement('style');
+    style.textContent = `
+      .excalidraw .App-menu_top .Stack_horizontal {
+        display: none !important;
+      }
+    `;
+    document.head.append(style);
+  }, []);
+
+  const createNode = (id: string, text: string, x: number, y: number, backgroundColor: string): ExcalidrawElement[] => {
+    return [
+      {
+        type: "rectangle",
+        id: id,
+        x: x,
+        y: y,
+        width: NODE_WIDTH,
+        height: NODE_HEIGHT,
+        backgroundColor: backgroundColor,
+        strokeColor: "#000000",
+        fillStyle: "hachure",
+        strokeWidth: 1,
+        roughness: 1,
+        opacity: 100,
+        roundness: { type: 3 },
+        seed: Math.floor(Math.random() * 1000),
+        version: 1,
+        versionNonce: 0,
+        isDeleted: false,
+        boundElements: null,
+        updated: 1,
+        link: null,
+        locked: false,
+      } as ExcalidrawElement,
+      {
+        type: "text",
+        id: `text-${id}`,
+        x: x + 10,
+        y: y + 10,
+        width: NODE_WIDTH - 20,
+        height: NODE_HEIGHT - 20,
+        text: text,
+        fontSize: 16,
+        fontFamily: 1,
+        textAlign: "center",
+        verticalAlign: "middle",
+        baseline: 18,
+        containerId: id,
+        originalText: text,
+        seed: Math.floor(Math.random() * 1000),
+        version: 1,
+        versionNonce: 0,
+        isDeleted: false,
+        boundElements: null,
+        updated: 1,
+        link: null,
+        locked: false,
+      } as ExcalidrawElement,
+    ];
+  };
+
+  const CURVE_TENSION = 0.3; // Adjust this value to change the curve's "bulge"
+
+  const createEdge = (
+    id: string,
+    startNode: { x: number; y: number; width: number; height: number },
+    endNode: { x: number; y: number; width: number; height: number }
+  ): ExcalidrawElement => {
+    const [startX, startY] = calculateEdgePoint(startNode, endNode);
+    const [endX, endY] = calculateEdgePoint(endNode, startNode);
+    const [cp1x, cp1y, cp2x, cp2y] = calculateControlPoints(startX, startY, endX, endY);
+  
+    return {
+      type: "line",
+      id: id,
+      x: startX,
+      y: startY,
+      width: endX - startX,
+      height: endY - startY,
+      angle: 0,
+      strokeColor: "#000000",
+      backgroundColor: "transparent",
+      fillStyle: "hachure",
+      strokeWidth: 1,
+      strokeStyle: "solid",
+      roughness: 1,
+      opacity: 100,
+      groupIds: [],
+      roundness: { type: 2 },
+      seed: Math.floor(Math.random() * 1000),
+      version: 1,
+      versionNonce: 0,
+      isDeleted: false,
+      boundElements: null,
+      updated: 1,
+      link: null,
+      locked: false,
+      points: [
+        [0, 0],
+        [cp1x - startX, cp1y - startY],
+        [cp2x - startX, cp2y - startY],
+        [endX - startX, endY - startY]
+      ],
+      lastCommittedPoint: null,
+      startBinding: null,
+      endBinding: null,
+      startArrowhead: null,
+      endArrowhead: "arrow",
+      frameId: null, // Add this line
+    } as ExcalidrawElement;
+  };
+  
+  const calculateEdgePoint = (
+    sourceNode: { x: number; y: number; width: number; height: number },
+    targetNode: { x: number; y: number; width: number; height: number }
+  ): [number, number] => {
+    const sourceCenter = {
+      x: sourceNode.x + sourceNode.width / 2,
+      y: sourceNode.y + sourceNode.height / 2
+    };
+    const targetCenter = {
+      x: targetNode.x + targetNode.width / 2,
+      y: targetNode.y + targetNode.height / 2
+    };
+  
+    const angle = Math.atan2(targetCenter.y - sourceCenter.y, targetCenter.x - sourceCenter.x);
+    
+    return [
+      sourceCenter.x + Math.cos(angle) * sourceNode.width / 2,
+      sourceCenter.y + Math.sin(angle) * sourceNode.height / 2
+    ];
+  };
+  
+  const calculateControlPoints = (
+    startX: number,
+    startY: number,
+    endX: number,
+    endY: number
+  ): [number, number, number, number] => {
+    const dx = endX - startX;
+    const dy = endY - startY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    
+    // Calculate the unit vector
+    const ux = dx / distance;
+    const uy = dy / distance;
+  
+    // Calculate the control points
+    const cp1x = startX + ux * distance * CURVE_TENSION;
+    const cp1y = startY + uy * distance * CURVE_TENSION;
+    const cp2x = endX - ux * distance * CURVE_TENSION;
+    const cp2y = endY - uy * distance * CURVE_TENSION;
+  
+    return [cp1x, cp1y, cp2x, cp2y];
+  };
+
+  const convertToExcalidrawElements = useCallback(() => {
+    const graph = new dagre.graphlib.Graph();
+    graph.setDefaultEdgeLabel(() => ({}));
+    graph.setGraph({ rankdir: 'LR', nodesep: 150, ranksep: 200, marginx: 20, marginy: 20 });
+
+    const nodes: { [key: string]: { id: string, label: string, type: string } } = {};
+    const edges: { source: string, target: string }[] = [];
+
+    // Add root node
+    nodes['root'] = { id: 'root', label: 'BOOKMARKS', type: 'root' };
+    graph.setNode('root', { width: NODE_WIDTH, height: NODE_HEIGHT });
+
+    Object.entries(structure).forEach(([categoryName, category], index) => {
+      const categoryId = `category-${index}`;
+      nodes[categoryId] = { id: categoryId, label: categoryName, type: 'category' };
+      graph.setNode(categoryId, { width: NODE_WIDTH, height: NODE_HEIGHT });
+      edges.push({ source: 'root', target: categoryId });
+
+      Object.entries(category.subcategories || {}).forEach(([subName, subCategory], subIndex) => {
+        const subId = `${categoryId}-sub-${subIndex}`;
+        nodes[subId] = { id: subId, label: subName, type: 'subcategory' };
+        graph.setNode(subId, { width: NODE_WIDTH, height: NODE_HEIGHT });
+        edges.push({ source: categoryId, target: subId });
+
+        subCategory.bookmarks.slice(0, MAX_BOOKMARKS_PER_CATEGORY).forEach((bookmarkId, bmIndex) => {
+          const bookmark = bookmarks.get(bookmarkId);
+          if (bookmark) {
+            const bmId = `${subId}-bm-${bmIndex}`;
+            nodes[bmId] = { id: bmId, label: bookmark.title, type: 'bookmark' };
+            graph.setNode(bmId, { width: NODE_WIDTH, height: NODE_HEIGHT });
+            edges.push({ source: subId, target: bmId });
+          }
+        });
+      });
+
+      category.bookmarks.slice(0, MAX_BOOKMARKS_PER_CATEGORY).forEach((bookmarkId, bmIndex) => {
+        const bookmark = bookmarks.get(bookmarkId);
+        if (bookmark) {
+          const bmId = `${categoryId}-bm-${bmIndex}`;
+          nodes[bmId] = { id: bmId, label: bookmark.title, type: 'bookmark' };
+          graph.setNode(bmId, { width: NODE_WIDTH, height: NODE_HEIGHT });
+          edges.push({ source: categoryId, target: bmId });
+        }
+      });
+    });
+
+    edges.forEach(edge => graph.setEdge(edge.source, edge.target));
+
+    dagre.layout(graph);
+
+    const newElements: ExcalidrawElement[] = [];
+
+    Object.values(nodes).forEach(node => {
+      const nodeWithPosition = graph.node(node.id);
+      const backgroundColor = 
+        node.type === 'root' ? '#ffeaa7' :
+        node.type === 'category' ? '#81ecec' :
+        node.type === 'subcategory' ? '#74b9ff' :
+        '#ffeaa7';
+      newElements.push(...createNode(node.id, node.label, nodeWithPosition.x, nodeWithPosition.y, backgroundColor));
+    });
+
+    edges.forEach(edge => {
+      const sourceNode = graph.node(edge.source);
+      const targetNode = graph.node(edge.target);
+      newElements.push(createEdge(
+        `edge-${edge.source}-${edge.target}`,
+        { x: sourceNode.x, y: sourceNode.y, width: NODE_WIDTH, height: NODE_HEIGHT },
+        { x: targetNode.x, y: targetNode.y, width: NODE_WIDTH, height: NODE_HEIGHT }
+      ));
+    });
+
+    setElements(newElements);
+  }, [structure, bookmarks]);
+
+  useEffect(() => {
+    convertToExcalidrawElements();
+  }, [convertToExcalidrawElements]);
+
+  const toggleDarkMode = useCallback(() => {
+    setIsDarkMode((prev) => !prev);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+  return (
+    <div style={{ height: "800px", width: "100%" }}>
+      <Excalidraw
+        initialData={{
+          elements: elements,
+          appState: { 
+            viewBackgroundColor: isDarkMode ? "#111111" : "#FFFFFF",
+            currentItemFontFamily: 1,
+            theme: isDarkMode ? "dark" : "light",
+          },
+        }}
+        UIOptions={{
+          canvasActions: {
+            changeViewBackgroundColor: false,
+            clearCanvas: false,
+            export: false,
+            loadScene: false,
+            saveAsImage: false,
+            saveScene: false,
+            theme: false,
+          },
+        }}
+        viewModeEnabled={true}
+        zenModeEnabled={true}
+        gridModeEnabled={false}
+      >
+        {/* <MainMenu>
+
+        </MainMenu> */}
+        {
+          <MainMenu>
+          </MainMenu>
+        }
+      </Excalidraw>
+    </div>
+  );
+};
+
+export default BookmarkFlowChart;
+```
+
+## 
+画布自定义
+
+https://github.com/excalidraw/excalidraw/pull/6034
+
+https://docs.excalidraw.com/docs/@excalidraw/excalidraw/api/children-components/main-menu

@@ -126,16 +126,38 @@ export default function OrganizeBookmarksPage() {
     setProgress(100);
   };
 
+  const handleReviewComplete = () => {
+    // Apply all removals and set the new bookmark structure
+    const finalBookmarks = new Map(bookmarks);
+    itemsToRemove.forEach(id => finalBookmarks.delete(id));
+    setBookmarks(finalBookmarks);
+    localStorage.setItem('bookmarks', JSON.stringify(Object.fromEntries(finalBookmarks)));
+    toast({
+      title: "Bookmarks organized",
+      description: "Your bookmarks have been successfully organized.",
+    });
+    // Navigate to the next page or show a completion message
+    router.push('/bookmark-manager'); // Adjust this as needed
+  };
+
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 flex flex-col h-[calc(100vh-4rem)]">
       <h1 className="text-2xl font-bold mb-4">Organize Bookmarks</h1>
       <ProgressBar value={progress} />
-
-      {step === 'initial' && <StepInitial onClean={handleStartOrganizing} onSkip={handleSkip} />}
-      {step === 'duplicates' && <StepDuplicates duplicateGroups={duplicateGroups} bookmarks={bookmarks} onComplete={handleDuplicatesComplete} />}
-      {step === 'invalidUrls' && <StepInvalidUrls bookmarks={bookmarks} itemsToRemove={itemsToRemove} onComplete={handleInvalidUrlsComplete} />}
-      {step === 'reorganize' && <StepReorganize bookmarks={bookmarks} onComplete={handleReorganizeComplete} />}
-      {step === 'review' && reorganizedBookmarks && <StepReview bookmarks={bookmarks} reorganizedBookmarks={reorganizedBookmarks} />}
+  
+      <div className="flex-grow overflow-hidden">
+        {step === 'initial' && <StepInitial onClean={handleStartOrganizing} onSkip={handleSkip} />}
+        {step === 'duplicates' && <StepDuplicates duplicateGroups={duplicateGroups} bookmarks={bookmarks} onComplete={handleDuplicatesComplete} />}
+        {step === 'invalidUrls' && <StepInvalidUrls bookmarks={bookmarks} itemsToRemove={itemsToRemove} onComplete={handleInvalidUrlsComplete} />}
+        {step === 'reorganize' && <StepReorganize bookmarks={bookmarks} onComplete={handleReorganizeComplete} />}
+        {step === 'review' && reorganizedBookmarks && (
+          <StepReview 
+            bookmarks={bookmarks} 
+            reorganizedBookmarks={reorganizedBookmarks} 
+            onComplete={handleReviewComplete}
+          />
+        )}
+      </div>
     </div>
   );
 }

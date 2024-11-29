@@ -1,48 +1,47 @@
+import React from 'react';
+import { Button } from "@/components/ui/button";
+import BookmarkStructureView from './BookmarkStructureView';
 import { BookmarkMap, BookmarkStructure } from '@/lib/types';
 
 type Props = {
   bookmarks: BookmarkMap;
   reorganizedBookmarks: BookmarkStructure;
+  onComplete: () => void;
 };
 
-export default function StepReview({ bookmarks, reorganizedBookmarks }: Props) {
-
-  if (!reorganizedBookmarks) {
-    console.log('reorganizedBookmarks is null or undefined');
-    return <div>No reorganized bookmarks available.</div>;
+export default function StepReview({ bookmarks, reorganizedBookmarks, onComplete }: Props) {
+  if (!reorganizedBookmarks || Object.keys(reorganizedBookmarks).length === 0) {
+    return (
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Review Your Organized Bookmarks</h2>
+        <p>No reorganized bookmarks available.</p>
+      </div>
+    );
   }
 
-  if (Object.keys(reorganizedBookmarks).length === 0) {
-    console.log('reorganizedBookmarks is an empty object');
-    return <div>Reorganized bookmarks structure is empty.</div>;
-  }
+  const totalBookmarks = bookmarks.size;
+  const totalCategories = Object.keys(reorganizedBookmarks).length;
+
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Review Reorganized Bookmarks</h2>
-      {Object.entries(reorganizedBookmarks).map(([categoryName, category]) => (
-        <div key={categoryName} className="mb-4">
-          <h3 className="text-xl font-semibold">{category.name}</h3>
-          <ul className="ml-4">
-            {category.bookmarks.map(bookmarkId => (
-              <li key={bookmarkId}>{bookmarks.get(bookmarkId)?.title || `Unknown Bookmark (${bookmarkId})`}</li>
-            ))}
-          </ul>
-          {category.subcategories && (
-            <div className="ml-4">
-              {Object.entries(category.subcategories).map(([subCategoryName, subCategory]) => (
-                <div key={subCategoryName} className="mb-2">
-                  <h4 className="text-lg font-medium">{subCategory.name}</h4>
-                  <ul className="ml-4">
-                    {subCategory.bookmarks.map(bookmarkId => (
-                      <li key={bookmarkId}>{bookmarks.get(bookmarkId)?.title || `Unknown Bookmark (${bookmarkId})`}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          )}
+    <div className="flex flex-col h-full space-y-4">
+      <div className="space-y-2">
+        <h2 className="text-2xl font-bold">Review Your Organized Bookmarks</h2>
+        <p className="text-muted-foreground">Check the new structure of your bookmarks below</p>
+        
+        <div className="flex justify-between text-sm text-muted-foreground">
+          <span>Total Bookmarks: {totalBookmarks}</span>
+          <span>Total Categories: {totalCategories}</span>
         </div>
-      ))}
+      </div>
+      
+      <div className="flex-grow min-h-0">
+        <BookmarkStructureView structure={reorganizedBookmarks} bookmarks={bookmarks} />
+      </div>
+      
+      <div className="flex justify-between items-center pt-2">
+        <Button variant="outline">Edit Categories</Button>
+        <Button onClick={onComplete}>Confirm and Save</Button>
+      </div>
     </div>
   );
 }
