@@ -2,51 +2,48 @@ import { FeatureLdg, InfoLdg, TestimonialType } from "types";
 
 export const infos: InfoLdg[] = [
   {
-    title: "Empower your projects",
+    title: "Effortless Bookmark Organization",
     description:
-      "Unlock the full potential of your projects with our open-source SaaS platform. Collaborate seamlessly, innovate effortlessly, and scale limitlessly.",
-    image: "/_static/illustrations/work-from-home.jpg",
+      "Transform your chaotic bookmarks into a well-organized collection. Our AI-powered system helps you clean up and structure your bookmarks effortlessly.",
+    image: "/_static/illustrations/Bookmark.webp", // You'll need to add this image
     list: [
       {
-        title: "Collaborative",
-        description: "Work together with your team members in real-time.",
-        icon: "laptop",
+        title: "AI-Powered",
+        description: "Intelligent categorization and organization of your bookmarks.",
+        icon: "brain",
       },
       {
-        title: "Innovative",
-        description: "Stay ahead of the curve with access constant updates.",
-        icon: "settings",
+        title: "Time-Saving",
+        description: "Quickly clean up and organize years worth of bookmarks.",
+        icon: "clock",
       },
       {
-        title: "Scalable",
-        description:
-          "Our platform offers the scalability needed to adapt to your needs.",
-        icon: "search",
+        title: "User-Friendly",
+        description: "Simple interface for easy bookmark management.",
+        icon: "userCheck",
       },
     ],
   },
   {
     title: "Seamless Integration",
     description:
-      "Integrate our open-source SaaS seamlessly into your existing workflows. Effortlessly connect with your favorite tools and services for a streamlined experience.",
-    image: "/_static/illustrations/work-from-home.jpg",
+      "Easily import your bookmarks from major browsers and export your organized collection back to your preferred platform.",
+    image: "/_static/illustrations/browser-integration.jpg", // You'll need to add this image
     list: [
       {
-        title: "Flexible",
-        description:
-          "Customize your integrations to fit your unique requirements.",
-        icon: "laptop",
+        title: "Multi-Browser Support",
+        description: "Import from Chrome, Firefox, Safari, and more.",
+        icon: "globe",
       },
       {
-        title: "Efficient",
-        description: "Streamline your processes and reducing manual effort.",
-        icon: "search",
+        title: "Easy Export",
+        description: "Export your organized bookmarks back to your browser.",
+        icon: "fileExport",
       },
       {
-        title: "Reliable",
-        description:
-          "Rely on our robust infrastructure and comprehensive documentation.",
-        icon: "settings",
+        title: "Cloud Sync",
+        description: "Access your bookmarks from any device.",
+        icon: "cloudSync",
       },
     ],
   },
@@ -54,97 +51,98 @@ export const infos: InfoLdg[] = [
 
 export const features: FeatureLdg[] = [
   {
-    title: "Feature 1",
-    description:
-      "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
-    link: "/",
-    icon: "nextjs",
+    title: "Duplicate Removal",
+    description: "Automatically detect and remove duplicate bookmarks to keep your collection clean and efficient.",
+    link: "/features/duplicate-removal",
+    icon: "trash",
   },
   {
-    title: "Feature 2",
-    description:
-      "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
-    link: "/",
-    icon: "google",
+    title: "Dead Link Detection",
+    description: "Identify and flag dead or broken links, allowing you to easily remove or update outdated bookmarks.",
+    link: "/features/dead-link-detection",
+    icon: "linkOff",
   },
   {
-    title: "Feature 3",
-    description:
-      "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
-    link: "/",
-    icon: "gitHub",
+    title: "AI-Powered Categorization",
+    description: "Our intelligent system categorizes and structures your bookmarks for intuitive navigation and easy access.",
+    link: "/features/ai-categorization",
+    icon: "brain",
   },
   {
-    title: "Feature 4",
-    description:
-      "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
-    link: "/",
-    icon: "laptop",
+    title: "Easy Import/Export",
+    description: "Seamlessly import your bookmarks from major browsers and export your organized collection anytime.",
+    link: "/features/import-export",
+    icon: "fileImport",
   },
   {
-    title: "Feature 5",
-    description:
-      "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
-    link: "/",
-    icon: "user",
+    title: "Custom Categories",
+    description: "Create and manage custom categories to tailor the organization to your specific needs and preferences.",
+    link: "/features/custom-categories",
+    icon: "folderPlus",
   },
   {
-    title: "Feature 6",
-    description:
-      "Amet praesentium deserunt ex commodi tempore fuga voluptatem. Sit, sapiente.",
-    link: "/",
-    icon: "copy",
+    title: "Cloud Sync",
+    description: "Access your organized bookmarks from any device with secure cloud synchronization.",
+    link: "/features/cloud-sync",
+    icon: "cloudSync",
   },
 ];
 
 export const testimonials: TestimonialType[] = [
   {
     name: "John Doe",
-    job: "Full Stack Developer",
+    job: "Digital Marketer",
     image: "https://randomuser.me/api/portraits/men/1.jpg",
     review:
-      "The next-saas-stripe-starter repo has truly revolutionized my development workflow. With its comprehensive features and seamless integration with Stripe, I've been able to build and deploy projects faster than ever before. The documentation is clear and concise, making it easy to navigate through the setup process. I highly recommend next-saas-stripe-starter to any developer.",
+      "This bookmark organizer has been a game-changer for me. I used to have thousands of unorganized bookmarks, but now everything is neatly categorized and easily accessible. It's saved me hours of manual organization!",
   },
   {
     name: "Alice Smith",
-    job: "UI/UX Designer",
+    job: "Researcher",
     image: "https://randomuser.me/api/portraits/women/2.jpg",
     review:
-      "Thanks to next-saas-stripe-starter, I've been able to create modern and attractive user interfaces in record time. The starter kit provides a solid foundation for building sleek and intuitive designs, allowing me to focus more on the creative aspects of my work.",
+      "As a researcher, I rely heavily on bookmarks for my work. This tool has made it so much easier to manage my sources and find what I need quickly. The AI categorization is impressively accurate!",
   },
   {
-    name: "David Johnson",
-    job: "DevOps Engineer",
+    name: "Michael Chen",
+    job: "Software Developer",
     image: "https://randomuser.me/api/portraits/men/3.jpg",
     review:
-      "Thanks to next-saas-stripe-starter, I was able to streamline the entire process and get payments up and running in no time. ",
+      "I was skeptical at first, but this app really delivered. It cleaned up my messy bookmarks folder and even found dead links I'd forgotten about. The browser integration is seamless - big thumbs up!",
   },
   {
-    name: "Michael Wilson",
-    job: "Project Manager",
-    image: "https://randomuser.me/api/portraits/men/5.jpg",
-    review:
-      "I'm impressed by the quality of code and clear documentation of next-saas-stripe-starter. Kudos to the team!",
-  },
-  {
-    name: "Sophia Garcia",
-    job: "Data Analyst",
-    image: "https://randomuser.me/api/portraits/women/6.jpg",
-    review:
-      "next-saas-stripe-starter provided me with the tools I needed to efficiently manage user data. Thank you so much!",
-  },
-  {
-    name: "Emily Brown",
-    job: "Marketing Manager",
+    name: "Emily Johnson",
+    job: "Freelance Writer",
     image: "https://randomuser.me/api/portraits/women/4.jpg",
     review:
-      "next-saas-stripe-starter has been an invaluable asset in my role as a marketing manager. With its seamless integration with Stripe, I've been able to launch targeted marketing campaigns with built-in payment functionality, allowing us to monetize our products and services more effectively.",
+      "I can't believe how much time I've saved with this tool. It organized years of haphazard bookmarking into neat categories. Now I can actually find the articles and resources I need without endless scrolling.",
   },
   {
-    name: "Jason Stan",
-    job: "Web Designer",
-    image: "https://randomuser.me/api/portraits/men/9.jpg",
+    name: "David Rodriguez",
+    job: "Student",
+    image: "https://randomuser.me/api/portraits/men/5.jpg",
     review:
-      "Thanks to next-saas-stripe-starter, I've been able to create modern and attractive user interfaces in record time. The starter kit provides a solid foundation for building sleek and intuitive designs, allowing me to focus more on the creative aspects of my work.",
+      "As a student, I'm always bookmarking research papers and study materials. This app has made my life so much easier. The AI categorization is surprisingly good, and the cloud sync means I can access my bookmarks on any device.",
   },
+  {
+    name: "Sarah Kim",
+    job: "UX Designer",
+    image: "https://randomuser.me/api/portraits/women/6.jpg",
+    review:
+      "I love how this tool has streamlined my workflow. The custom categories feature is fantastic for organizing design inspiration. Plus, the interface is clean and intuitive - clearly designed with users in mind!",
+  },
+  {
+    name: "Tom Wilson",
+    job: "Entrepreneur",
+    image: "https://randomuser.me/api/portraits/men/7.jpg",
+    review:
+      "Running a startup means I'm constantly saving articles and resources. This app has become an essential part of my toolkit. The duplicate removal alone has cleared up so much clutter. Highly recommended for any busy professional!",
+  },
+  {
+    name: "Lisa Patel",
+    job: "Teacher",
+    image: "https://randomuser.me/api/portraits/women/8.jpg",
+    review:
+      "I use this to organize resources for my classes, and it's been incredible. The dead link detection saves me from embarrassing moments in class, and the easy export feature lets me share curated lists with my students effortlessly.",
+  }
 ];

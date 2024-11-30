@@ -31,6 +31,15 @@ import {
   Trash,
   User,
   X,
+  Brain,
+  Clock,
+  UserCheck,
+  Globe,
+  FileDown,
+  Cloud,
+  Link2Off,
+  FolderPlus,
+  FileUp,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -115,6 +124,16 @@ export const Icons = {
   spinner: Loader2,
   sun: SunMedium,
   trash: Trash,
+  brain: Brain,
+  clock: Clock,
+  userCheck: UserCheck,
+  globe: Globe,
+  fileExport: FileDown,
+  cloudSync: Cloud,
+  linkOff: Link2Off,
+  folderPlus: FolderPlus,
+  fileImport: FileUp,
+
   twitter: ({ ...props }: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"

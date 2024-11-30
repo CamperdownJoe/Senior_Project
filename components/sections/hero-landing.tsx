@@ -101,8 +101,11 @@ export default function HeroLanding() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                上传您的书签文件
+                Organize Your Bookmarks Effortlessly
               </h1>
+              <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
+                Upload your bookmarks and let our AI-powered system remove duplicates, clean up dead links, and create a logical structure for easy navigation.
+              </p>
               <Card className="w-full max-w-xl mx-auto">
                 <CardContent className="p-6">
                   <div

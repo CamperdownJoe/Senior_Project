@@ -12,11 +12,10 @@ export default function Features() {
       <div className="pb-6 pt-28">
         <MaxWidthWrapper>
           <HeaderSection
-            label="Features"
-            title="Discover all features."
-            subtitle="Harum quae dolore inventore repudiandae? orrupti aut temporibus
-          ariatur."
-          />
+              label="Features"
+              title="Organize Your Bookmarks with Ease"
+              subtitle="Discover how our powerful features can transform your chaotic bookmarks into an organized, efficient collection."
+            />
 
           <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => {

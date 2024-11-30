@@ -64,13 +64,15 @@ export default async function PostPage({
   const category = BLOG_CATEGORIES.find(
     (category) => category.slug === post.categories[0],
   )!;
-
+  console.log(post.related);
   const relatedArticles =
     (post.related &&
       post.related.map(
         (slug) => allPosts.find((post) => post.slugAsParams === slug)!,
       )) ||
     [];
+
+  console.log(relatedArticles);
 
   const toc = await getTableOfContents(post.body.raw);
 
