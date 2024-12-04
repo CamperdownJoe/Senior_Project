@@ -140,24 +140,17 @@ export default function OrganizeBookmarksPage() {
     router.push('/bookmark-manager'); // Adjust this as needed
   };
 
+
   return (
-    <div className="container mx-auto p-4 flex flex-col h-[calc(100vh-4rem)]">
-      <h1 className="text-2xl font-bold mb-4">Organize Bookmarks</h1>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4 text-center">Organize Bookmarks</h1>
       <ProgressBar value={progress} />
-  
-      <div className="flex-grow overflow-hidden">
-        {step === 'initial' && <StepInitial onClean={handleStartOrganizing} onSkip={handleSkip} />}
-        {step === 'duplicates' && <StepDuplicates duplicateGroups={duplicateGroups} bookmarks={bookmarks} onComplete={handleDuplicatesComplete} />}
-        {step === 'invalidUrls' && <StepInvalidUrls bookmarks={bookmarks} itemsToRemove={itemsToRemove} onComplete={handleInvalidUrlsComplete} />}
-        {step === 'reorganize' && <StepReorganize bookmarks={bookmarks} onComplete={handleReorganizeComplete} />}
-        {step === 'review' && reorganizedBookmarks && (
-          <StepReview 
-            bookmarks={bookmarks} 
-            reorganizedBookmarks={reorganizedBookmarks} 
-            onComplete={handleReviewComplete}
-          />
-        )}
-      </div>
+
+      {step === 'initial' && <StepInitial onClean={handleStartOrganizing} onSkip={handleSkip} />}
+      {step === 'duplicates' && <StepDuplicates duplicateGroups={duplicateGroups} bookmarks={bookmarks} onComplete={handleDuplicatesComplete} />}
+      {step === 'invalidUrls' && <StepInvalidUrls bookmarks={bookmarks} itemsToRemove={itemsToRemove} onComplete={handleInvalidUrlsComplete} />}
+      {step === 'reorganize' && <StepReorganize bookmarks={bookmarks} onComplete={handleReorganizeComplete} />}
+      {step === 'review' && reorganizedBookmarks && <StepReview bookmarks={bookmarks} reorganizedBookmarks={reorganizedBookmarks}  onComplete={handleReviewComplete}/>}
     </div>
   );
 }

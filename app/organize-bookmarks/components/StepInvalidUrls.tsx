@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Bookmark } from '@/lib/types';
 import { checkSingleUrlViaAPI, UrlCheckResult } from '../utils/urlUtils';
-import { PlayCircle, StopCircle, ArrowRight, AlertCircle } from 'lucide-react';
+import { PlayCircle, StopCircle, ArrowRight, AlertCircle, Clock } from 'lucide-react';
 
 type InvalidBookmark = {
   id: string;
@@ -41,13 +41,17 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
   const [selectedForRepair, setSelectedForRepair] = useState<Set<string>>(new Set());
   const [checkingProgress, setCheckingProgress] = useState(0);
   const [isChecking, setIsChecking] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [allUrlsChecked, setAllUrlsChecked] = useState(false);
+  const [lastCheckedIndex, setLastCheckedIndex] = useState(0);
+  const [estimatedTime, setEstimatedTime] = useState(0);
   const abortControllerRef = useRef<AbortController | null>(null);
   const isCheckingRef = useRef(false);
 
   useEffect(() => {
     if (bookmarks.size > 0 && !isCheckingRef.current) {
       startUrlCheck();
+      setEstimatedTime(Math.ceil(bookmarks.size / 10));
     }
   }, [bookmarks]);
 
@@ -55,11 +59,21 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
     if (isCheckingRef.current) return;
     isCheckingRef.current = true;
     setIsChecking(true);
+    setIsPaused(false);
     setAllUrlsChecked(false);
     abortControllerRef.current = new AbortController();
     await checkUrls(bookmarks);
+    // setIsChecking(false);
+    // setAllUrlsChecked(true);
+    // isCheckingRef.current = false;
+  };
+
+  const pauseUrlCheck = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
     setIsChecking(false);
-    setAllUrlsChecked(true);
+    setIsPaused(true);
     isCheckingRef.current = false;
   };
 
@@ -68,24 +82,33 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
       abortControllerRef.current.abort();
     }
     setIsChecking(false);
+    setIsPaused(true);
     isCheckingRef.current = false;
   };
+
+  const resumeUrlCheck = () => {
+    startUrlCheck();
+  };
+
+
 
   const checkUrls = async (bookmarks: Map<string, Bookmark>) => {
     setAllUrlsChecked(false);
     const bookmarksArray = Array.from(bookmarks.entries());
     const totalChecks = bookmarksArray.length;
-    let checkedCount = 0;
+    let checkedCount = lastCheckedIndex;
 
     const updateProgress = () => {
       checkedCount++;
+      setLastCheckedIndex(checkedCount);
       setCheckingProgress((checkedCount / totalChecks) * 100);
     };
 
-    for (const [id, bookmark] of bookmarksArray) {
+    for (let i = lastCheckedIndex; i < bookmarksArray.length; i++) {
       if (abortControllerRef.current?.signal.aborted) {
         break;
       }
+      const [id, bookmark] = bookmarksArray[i];
       if (bookmark.type === 'link' && !itemsToRemove.has(id)) {
         try {
           const result = await checkSingleUrlViaAPI(bookmark.url!, abortControllerRef.current?.signal);
@@ -99,7 +122,9 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
       }
       updateProgress();
     }
-    setAllUrlsChecked(true);
+    setAllUrlsChecked(checkedCount === totalChecks);
+    setIsChecking(false);
+    isCheckingRef.current = false;
   };
 
   const handleUrlCheckResult = (id: string, bookmark: Bookmark, result: UrlCheckResult) => {
@@ -184,33 +209,55 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Review Invalid URLs</h2>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={isChecking ? stopUrlCheck : startUrlCheck}
-              disabled={allUrlsChecked}
-            >
-              {isChecking ? <StopCircle className="h-6 w-6" /> : <PlayCircle className="h-6 w-6" />}
-            </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{isChecking ? 'Stop checking' : 'Start checking'} URLs</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-2xl font-bold">Review Invalid URLs</CardTitle>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center text-muted-foreground">
+              <Clock className="mr-2 h-4 w-4" />
+              <span>Est. time: {estimatedTime} min</span>
+            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={isChecking ? pauseUrlCheck : resumeUrlCheck}
+                    disabled={allUrlsChecked}
+                  >
+                    {isChecking ? <StopCircle className="h-6 w-6" /> : <PlayCircle className="h-6 w-6" />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{isChecking ? 'Pause checking' : isPaused ? 'Resume checking' : 'Start checking'} URLs</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            <Progress value={checkingProgress} className="w-full" />
+            <p className="text-sm text-muted-foreground">
+              Checking URLs: {Math.round(checkingProgress)}%
+              {isPaused && " (Paused)"}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
       
-      {isChecking && (
+      {/* {isChecking && (
         <div className="space-y-2">
           <Progress value={checkingProgress} className="w-full" />
           <p className="text-sm text-gray-500">Checking URLs: {Math.round(checkingProgress)}%</p>
         </div>
-      )}
+      )} */}
+
+      {/* <div className="space-y-2">
+        <Progress value={checkingProgress} className="w-full" />
+        <p className="text-sm text-gray-500">Checking URLs: {Math.round(checkingProgress)}%</p>
+      </div> */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
@@ -221,7 +268,7 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-[400px] pr-4">
+            <ScrollArea className="h-[300px] pr-4">
               {Object.entries(finalBrokenBookmarks).map(([errorCode, bookmarks]) => (
                 <div key={errorCode} className="mb-4">
                   <h4 className="text-sm font-semibold mb-2">Error {errorCode} ({bookmarks.length})</h4>
@@ -257,7 +304,7 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-[400px] pr-4">
+            <ScrollArea className="h-[300px] pr-4">
             {repairableBookmarks.map(bookmark => (
               <div key={bookmark.id} className="flex items-center space-x-2 mb-2">
                 <Checkbox

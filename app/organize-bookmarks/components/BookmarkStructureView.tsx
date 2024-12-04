@@ -89,7 +89,7 @@ const BookmarkStructureView: React.FC<BookmarkStructureViewProps> = ({ structure
         <CardTitle>Bookmark Structure</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <ScrollArea className="h-[calc(100vh-16rem)] w-full rounded-md">
+        <ScrollArea className="h-[300px] w-full rounded-md">
           <div className="p-4">
             <ul className="space-y-2">
               {Object.entries(structure).map(([categoryName, category]) => 

@@ -47,13 +47,13 @@ export default function HeroLanding() {
     if (file.type === "text/html") {
       setFile(file);
       toast({
-        title: "文件已选择",
-        description: `已选择文件: ${file.name}`,
+        title: "File selected",
+        description: `Selected file: ${file.name}`,
       });
     } else {
       toast({
-        title: "文件类型错误",
-        description: "请上传HTML文件",
+        title: "Invalid file type",
+        description: "Please upload an HTML file",
         variant: "destructive",
       });
     }
@@ -62,16 +62,16 @@ export default function HeroLanding() {
   const handleOrganizeBookmarks = async () => {
     if (!file) {
       toast({
-        title: "请先上传文件",
-        description: "请选择一个书签HTML文件后再继续",
+        title: "Please upload a file first",
+        description: "Select a bookmark HTML file to continue",
         variant: "destructive",
       });
       return;
     }
-
+  
     toast({
-      title: "正在上传文件",
-      description: "请稍候...",
+      title: "Uploading file",
+      description: "Please wait...",
     });
 
     try {
@@ -87,8 +87,8 @@ export default function HeroLanding() {
       router.push('/organize-bookmarks');
     } catch (error) {
       toast({
-        title: "处理文件时出错",
-        description: "请重试或联系支持",
+        title: "Error processing file",
+        description: "Please try again or contact support",
         variant: "destructive",
       });
     }
@@ -122,7 +122,7 @@ export default function HeroLanding() {
                   >
                     <Upload className="mx-auto h-12 w-12 text-gray-400" />
                     <p className="mt-2 text-sm font-medium">
-                      {file ? file.name : "点击此处或拖拽书签HTML文件以上传"}
+                      {file ? file.name : "Click or drag to upload bookmarks"}
                     </p>
                   </div>
                   <input
@@ -136,7 +136,7 @@ export default function HeroLanding() {
                     className="w-full"
                     onClick={handleOrganizeBookmarks}
                   >
-                    重新组织书签
+                    Organize Bookmarks
                   </Button>
                 </CardContent>
               </Card>
