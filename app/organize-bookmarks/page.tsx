@@ -156,7 +156,7 @@ export default function OrganizeBookmarksPage() {
     }
 
     // Navigate to the next page or show a completion message
-    router.push('/bookmark-manager'); // Adjust this as needed
+    router.push('/'); // Adjust this as needed
   };
 
 

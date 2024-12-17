@@ -10,6 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { FirefoxIcon, ChromeIcon, ArcIcon } from "./BrowserIcons"
+
 
 type Props = {
   bookmarks: BookmarkMap;
@@ -59,8 +61,10 @@ export default function StepReview({ bookmarks, reorganizedBookmarks, onComplete
       </div>
       
       <div className="flex justify-between items-center pt-2">
-        <Button variant="outline">Edit Categories</Button>
-        <Button onClick={handleConfirmAndSave}>Confirm and Save</Button>
+        <div className="invisible">
+          <Button variant="outline">Edit Categories</Button>
+        </div>
+        <Button onClick={handleConfirmAndSave}>Confirm and Download</Button>
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -73,10 +77,24 @@ export default function StepReview({ bookmarks, reorganizedBookmarks, onComplete
               <SelectValue placeholder="Select a browser or service" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="chrome">Chrome</SelectItem>
-              <SelectItem value="firefox">Firefox</SelectItem>
-              <SelectItem value="arc">Arc</SelectItem>
-              <SelectItem value="raindrop">Raindrop</SelectItem>
+              <SelectItem value="chrome">
+                <div className="flex items-center">
+                  {/* <ChromeIcon className="mr-2 h-4 w-4" /> */}
+                  Chrome
+                </div>
+              </SelectItem>
+              <SelectItem value="firefox">
+                <div className="flex items-center">
+                  {/* <FirefoxIcon className="mr-2 h-4 w-4" /> */}
+                  Firefox
+                </div>
+              </SelectItem>
+              <SelectItem value="arc">
+                <div className="flex items-center">
+                  {/* <ArcIcon className="mr-2 h-4 w-4" /> */}
+                  Arc
+                </div>
+              </SelectItem>
             </SelectContent>
           </Select>
           <Button onClick={handleExport} disabled={!selectedFormat}>

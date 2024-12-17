@@ -164,6 +164,9 @@ npx prisma studio
 npx prisma db push
 
 
+国内的免费数据库
+https://cloud.memfiredb.com/db/manage/databases
+
 Prisma + neon 的问题
 
 这是因为 neon 的数据库无法在国内连接的原因

@@ -112,7 +112,41 @@ export const Icons = {
   home: Home,
   laptop: Laptop,
   lineChart: LineChart,
-  logo: Puzzle,
+  // logo: Puzzle,
+  logo: ({ size = 24, ...props }: LucideProps & { size?: number }) => (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <circle cx="12" cy="12" r="11.5" fill="currentColor" />
+      <path
+        d="M7.2 6H16.8C17.4627 6 18 6.53726 18 7.2V18L12 14.4L6 18V7.2C6 6.53726 6.53726 6 7.2 6Z"
+        fill="white"
+      />
+      <path
+        d="M8.4 9.6H15.6"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8.4 12H13.2"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8.4 14.4H12"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
   media: Image,
   messages: MessagesSquare,
   moon: Moon,
