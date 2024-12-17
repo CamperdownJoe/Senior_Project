@@ -1,18 +1,13 @@
-import { Bookmark, BookmarkMap } from '@/lib/types';
-import { bookmarksToJSON } from 'bookmarks-to-json';
+import { Bookmark } from '@/lib/types';
+import NBFFConverter from 'nbff-converter';
 import crypto from 'crypto';
 
 function generateUniqueId(): string {
   return crypto.randomBytes(16).toString('hex');
 }
 
-function convertToBookmarkMap(data: any): BookmarkMap {
-  if (!Array.isArray(data)) {
-    console.warn('Data is not an array, returning empty map');
-    return new Map();
-  }
-
-  const bookmarkMap = new Map<string, Bookmark>();
+function convertToBookmarkObject(data: any): { [key: string]: Bookmark } {
+  const bookmarkObject: { [key: string]: Bookmark } = {};
 
   function processItem(item: any) {
     if (!item || typeof item !== 'object') {
@@ -20,24 +15,23 @@ function convertToBookmarkMap(data: any): BookmarkMap {
       return;
     }
 
-    if (item.type === 'link') {
-      const id = generateUniqueId();
-      bookmarkMap.set(id, {
+    const id = generateUniqueId();
+    if (item.type === 'url') {
+      bookmarkObject[id] = {
         id,
         title: item.title,
         url: item.url,
-        addDate: item.addDate,
+        addDate: parseInt(item.dateAdded),
         type: 'link'
-      });
+      };
     } else if (item.type === 'folder') {
-      const id = generateUniqueId();
-      bookmarkMap.set(id, {
+      bookmarkObject[id] = {
         id,
         title: item.title,
-        addDate: item.addDate,
-        lastModified: item.lastModified,
+        addDate: parseInt(item.dateAdded),
+        lastModified: parseInt(item.dateModified),
         type: 'folder'
-      });
+      };
       if (Array.isArray(item.children)) {
         item.children.forEach(processItem);
       }
@@ -46,38 +40,27 @@ function convertToBookmarkMap(data: any): BookmarkMap {
     }
   }
 
-  data.forEach(processItem);
-  return bookmarkMap;
+  if (Array.isArray(data.children)) {
+    data.children.forEach(processItem);
+  }
+
+  return bookmarkObject;
 }
 
-export function parseBookmarks(html: string): BookmarkMap {
-  console.log("Starting parseBookmarks function");
+export async function parseBookmarks(html: string): Promise<{ [key: string]: Bookmark }> {
+  // console.log("Starting parseBookmarks function");
   
-  let parsedData;
   try {
-    parsedData = bookmarksToJSON(html);
-    console.log('Raw parsed data:', JSON.stringify(parsedData, null, 2));
+    const converter = new NBFFConverter();
+    const parsedData = await converter.netscapeToJSON(html);
+    // console.log('Raw parsed data:', JSON.stringify(parsedData, null, 2));
+
+    const bookmarkObject = convertToBookmarkObject(parsedData);
+    // console.log('Final BookmarkObject:', JSON.stringify(bookmarkObject, null, 2));
+    
+    return bookmarkObject;
   } catch (error) {
     console.error('Error parsing bookmarks:', error);
-    return new Map();
+    throw error;
   }
-  
-  if (typeof parsedData === 'string') {
-    try {
-      parsedData = JSON.parse(parsedData);
-    } catch (error) {
-      console.error('Error parsing JSON string:', error);
-      return new Map();
-    }
-  }
-
-  if (!Array.isArray(parsedData)) {
-    console.warn('Parsed data is not an array, wrapping it in an array');
-    parsedData = [parsedData];
-  }
-
-  const bookmarkMap = convertToBookmarkMap(parsedData);
-  console.log('Final BookmarkMap:', JSON.stringify(Array.from(bookmarkMap.entries()), null, 2));
-  
-  return bookmarkMap;
 }

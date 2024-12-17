@@ -1,8 +1,30 @@
 import { Bookmark, BookmarkMap, BookmarkStructure } from '@/lib/types';
 import { fetchAIRecommendation } from './fetchAIRecommendation';
 
+interface SeparatedBookmarks {
+  folders: Bookmark[];
+  links: Bookmark[];
+}
+
+function separateBookmarks(bookmarks: BookmarkMap): SeparatedBookmarks {
+  const folders: Bookmark[] = [];
+  const links: Bookmark[] = [];
+
+  bookmarks.forEach((bookmark) => {
+    if (bookmark.type === 'folder') {
+      folders.push(bookmark);
+    } else {
+      links.push(bookmark);
+    }
+  });
+
+  return { folders, links };
+}
+
 export async function reorganizeBookmarks(bookmarks: BookmarkMap, method: 'dewey' | 'ai'): Promise<BookmarkStructure> {
-  const bookmarkList = Array.from(bookmarks.values());
+  // const bookmarkList = Array.from(bookmarks.values());
+  const { folders, links } = separateBookmarks(bookmarks);
+
 
   let systemPrompt: string;
   let userPrompt: string;
@@ -37,7 +59,7 @@ export async function reorganizeBookmarks(bookmarks: BookmarkMap, method: 'dewey
     }
 
     Here are the bookmarks to categorize:
-    ${JSON.stringify(bookmarkList, null, 2)}`;
+    ${JSON.stringify(links, null, 2)}`;
   } else {
     systemPrompt = `You are an AI assistant skilled in organizing information based on user-specific needs and interests. Your task is to create a tailored organizational structure for a set of bookmarks and categorize them accordingly.`;
 
@@ -70,10 +92,10 @@ export async function reorganizeBookmarks(bookmarks: BookmarkMap, method: 'dewey
     }
 
     Here are the bookmarks to categorize:
-    ${JSON.stringify(bookmarkList, null, 2)}`;
+    ${JSON.stringify(links, null, 2)}`;
   }
 
-  const aiResponse = await fetchAIRecommendation(bookmarkList, 'categorize', systemPrompt, userPrompt);
+  const aiResponse = await fetchAIRecommendation(links, 'categorize', systemPrompt, userPrompt);
 
   return aiResponse.categories;
 }
