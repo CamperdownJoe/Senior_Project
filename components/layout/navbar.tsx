@@ -79,7 +79,7 @@ export function NavBar({ scroll = false }: NavBarProps) {
 
         <div className="flex items-center space-x-3">
           {/* right header for docs */}
-          {documentation ? (
+          {/* {documentation ? (
             <div className="hidden flex-1 items-center space-x-4 sm:justify-end lg:flex">
               <div className="hidden lg:flex lg:grow-0">
                 <DocsSearch />
@@ -98,9 +98,9 @@ export function NavBar({ scroll = false }: NavBarProps) {
                 </Link>
               </div>
             </div>
-          ) : null}
+          ) : null} */}
 
-          {session ? (
+          {/* {session ? (
             <Link
               href={session.user.role === "ADMIN" ? "/admin" : "/dashboard"}
               className="hidden md:block"
@@ -127,7 +127,34 @@ export function NavBar({ scroll = false }: NavBarProps) {
             </Button>
           ) : (
             <Skeleton className="hidden h-9 w-28 rounded-full lg:flex" />
-          )}
+          )} */}
+          {session ? (
+            session.user.role === "ADMIN" && (
+              <Link href="/admin" className="hidden md:block">
+                <Button
+                  className="gap-2 px-5"
+                  variant="default"
+                  size="sm"
+                  rounded="full"
+                >
+                  <span>Dashboard</span>
+                </Button>
+              </Link>
+            )
+          ) : status === "unauthenticated" ? (
+            <Button
+              className="hidden gap-2 px-5 md:flex"
+              variant="default"
+              size="sm"
+              rounded="full"
+              onClick={() => setShowAuthModal(true)}
+            >
+              <span>Sign In</span>
+              <Icons.arrowRight className="size-4" />
+            </Button>
+          ) : (
+            <Skeleton className="hidden h-9 w-28 rounded-full lg:flex" />
+          )}       
         </div>
       </MaxWidthWrapper>
     </header>

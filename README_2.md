@@ -189,6 +189,12 @@ Prisma + neon 的问题
 测试当前terminal是否能链接google
 curl -L http://www.google.com
 
+
+## cursor 无法正确更新.env 文件
+
+需要重新安装，过程是，卸载，然后删除`.cursor`文件夹，然后重新安装
+
+
 ##
 
 Wow, thanks, but I think we need to discuss some problems. 
