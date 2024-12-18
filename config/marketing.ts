@@ -18,5 +18,9 @@ export const marketingConfig: MarketingConfig = {
       title: "Remove Duplicates",
       href: "/remove-duplicates",
     },
+    {
+      title: "Check Invalid URLs",
+      href: "/check-invalid-urls",
+    },
   ],
 }

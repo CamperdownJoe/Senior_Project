@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Progress } from "@/components/ui/progress";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Bookmark } from '@/lib/types';
 import { checkSingleUrlViaAPI, UrlCheckResult } from '../utils/urlUtils';
 import { PlayCircle, StopCircle, ArrowRight, AlertCircle, Clock } from 'lucide-react';
@@ -31,10 +32,22 @@ type RepairInfo = {
 type Props = {
   bookmarks: Map<string, Bookmark>;
   itemsToRemove: Set<string>;
-  onComplete: (idsToRemove: string[], repairsMap: Map<string, RepairInfo>) => void;
+  onFinish: (idsToRemove: string[], repairsMap: Map<string, { newUrl: string; archiveDate: string }>) => void;
+  showExportOption?: boolean;
+  onExport?: (format: string, idsToRemove: string[], repairsMap: Map<string, { newUrl: string; archiveDate: string }>) => void;
+  isProcessing?: boolean;
+  standalone?: boolean;
 };
 
-export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }: Props) {
+export default function StepInvalidUrls({ 
+  bookmarks, 
+  itemsToRemove, 
+  onFinish, 
+  showExportOption = false,
+  onExport,
+  isProcessing = false,
+  standalone = false 
+}: Props) {
   const [finalBrokenBookmarks, setFinalBrokenBookmarks] = useState<Record<number, InvalidBookmark[]>>({});
   const [repairableBookmarks, setRepairableBookmarks] = useState<RepairableBookmark[]>([]);
   const [selectedForRemoval, setSelectedForRemoval] = useState<Set<string>>(new Set());
@@ -47,6 +60,8 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
   const [estimatedTime, setEstimatedTime] = useState(0);
   const abortControllerRef = useRef<AbortController | null>(null);
   const isCheckingRef = useRef(false);
+
+  const [exportFormat, setExportFormat] = useState<string>('');
 
   useEffect(() => {
     if (bookmarks.size > 0 && !isCheckingRef.current) {
@@ -63,9 +78,6 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
     setAllUrlsChecked(false);
     abortControllerRef.current = new AbortController();
     await checkUrls(bookmarks);
-    // setIsChecking(false);
-    // setAllUrlsChecked(true);
-    // isCheckingRef.current = false;
   };
 
   const pauseUrlCheck = () => {
@@ -89,8 +101,6 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
   const resumeUrlCheck = () => {
     startUrlCheck();
   };
-
-
 
   const checkUrls = async (bookmarks: Map<string, Bookmark>) => {
     setAllUrlsChecked(false);
@@ -190,7 +200,7 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
 
   const handleContinue = () => {
     const idsToRemove = Array.from(selectedForRemoval) as string[];
-    const repairsMap = new Map<string, RepairInfo>();
+    const repairsMap = new Map<string, { newUrl: string; archiveDate: string }>();
     
     selectedForRepair.forEach(id => {
       const bookmark = repairableBookmarks.find(b => b.id === id);
@@ -202,7 +212,11 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
       }
     });
 
-    onComplete(idsToRemove, repairsMap);
+    if (showExportOption && onExport && exportFormat) {
+      onExport(exportFormat, idsToRemove, repairsMap);
+    } else if (onFinish) {
+      onFinish(idsToRemove, repairsMap);
+    }
   };
 
   const isAnythingSelected = selectedForRemoval.size > 0 || selectedForRepair.size > 0;
@@ -247,18 +261,6 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
         </CardContent>
       </Card>
       
-      {/* {isChecking && (
-        <div className="space-y-2">
-          <Progress value={checkingProgress} className="w-full" />
-          <p className="text-sm text-gray-500">Checking URLs: {Math.round(checkingProgress)}%</p>
-        </div>
-      )} */}
-
-      {/* <div className="space-y-2">
-        <Progress value={checkingProgress} className="w-full" />
-        <p className="text-sm text-gray-500">Checking URLs: {Math.round(checkingProgress)}%</p>
-      </div> */}
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
@@ -329,14 +331,35 @@ export default function StepInvalidUrls({ bookmarks, itemsToRemove, onComplete }
         </Card>
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end items-center space-x-4">
+        {showExportOption && (
+          <Select onValueChange={setExportFormat}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select format" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="chrome">Chrome</SelectItem>
+              <SelectItem value="firefox">Firefox</SelectItem>
+              <SelectItem value="safari">Safari</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
         <Button 
           onClick={handleContinue} 
-          disabled={isChecking}
-          variant={isAnythingSelected ? "default" : "secondary"}
+          disabled={isChecking || (showExportOption && !exportFormat)}
           className="flex items-center space-x-2"
         >
-          <span>{isAnythingSelected ? "Continue to Reorganize" : "Continue without Changes"}</span>
+          <span>
+            {showExportOption 
+              ? isProcessing 
+                ? 'Processing...' 
+                : 'Fix and Export' 
+              : standalone 
+                ? isAnythingSelected 
+                  ? "Finish and Apply Changes" 
+                  : "Finish without Changes"
+                : "Continue to Reorganize"}
+          </span>
           <ArrowRight className="h-4 w-4" />
         </Button>
       </div>

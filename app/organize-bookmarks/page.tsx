@@ -89,29 +89,27 @@ export default function OrganizeBookmarksPage() {
     setProgress(50);
   };
 
-  const handleInvalidUrlsComplete = (idsToRemove: string[], repairsMap: Map<string, RepairInfo>) => {
+  const handleInvalidUrlsComplete = (idsToRemove: string[], repairsMap: Map<string, { newUrl: string; archiveDate: string }>) => {
     setItemsToRemove(prev => new Set([...prev, ...idsToRemove]));
-
     
     const updatedBookmarks = new Map(bookmarks);
-
+  
     idsToRemove.forEach(id => {
       updatedBookmarks.delete(id);
     });
-
-    // Handle repairs
+  
     repairsMap.forEach((repairInfo, id) => {
       const bookmark = updatedBookmarks.get(id);
       if (bookmark) {
         updatedBookmarks.set(id, {
           ...bookmark,
           url: repairInfo.newUrl,
-          // archivedDate: repairInfo.archiveDate
         });
       }
     });
+  
     setBookmarks(updatedBookmarks);
-
+  
     setStep('reorganize');
     setProgress(75);
   };
@@ -176,7 +174,16 @@ export default function OrganizeBookmarksPage() {
           showExportOption={false}
         />
       )}      
-      {step === 'invalidUrls' && <StepInvalidUrls bookmarks={bookmarks} itemsToRemove={itemsToRemove} onComplete={handleInvalidUrlsComplete} />}
+      {step === 'invalidUrls' && (
+        <StepInvalidUrls 
+          bookmarks={bookmarks} 
+          itemsToRemove={itemsToRemove} 
+          onFinish={handleInvalidUrlsComplete}
+          showExportOption={false}
+          isProcessing={false}
+          standalone={false}
+        />
+      )}  
       {step === 'reorganize' && <StepReorganize bookmarks={bookmarks} onComplete={handleReorganizeComplete} />}
       {step === 'review' && reorganizedBookmarks && (
         <StepReview 
