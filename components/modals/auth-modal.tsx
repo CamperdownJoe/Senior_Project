@@ -57,7 +57,7 @@ function AuthModal({
       });
   
       if (result?.error) {
-        toast.error(result.error);
+        toast.error("Invalid email or password");
       } else {
         setShowAuthModal(false);
         toast.success(authMode === "signin" ? "Signed in successfully" : "Account created and signed in");
