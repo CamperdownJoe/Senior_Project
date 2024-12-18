@@ -41,7 +41,8 @@ export default function OrganizeBookmarksPage() {
     const storedBookmarks = localStorage.getItem('bookmarks');
     if (storedBookmarks) {
       const parsedBookmarks = JSON.parse(storedBookmarks);
-      setBookmarks(new Map(Object.entries(parsedBookmarks)));
+      // setBookmarks(new Map(Object.entries(parsedBookmarks)));
+      setBookmarks(new Map(parsedBookmarks));
     } else {
       router.push('/');
       toast({
@@ -57,6 +58,7 @@ export default function OrganizeBookmarksPage() {
 
     setStep('duplicates');
     setProgress(25);
+    console.log('bookmarks', bookmarks);
     const duplicates = findDuplicates(bookmarks);
     setDuplicateGroups(duplicates);
   };
@@ -166,7 +168,14 @@ export default function OrganizeBookmarksPage() {
       <ProgressBar value={progress} />
 
       {step === 'initial' && <StepInitial onClean={handleStartOrganizing} onSkip={handleSkip} />}
-      {step === 'duplicates' && <StepDuplicates duplicateGroups={duplicateGroups} bookmarks={bookmarks} onComplete={handleDuplicatesComplete} />}
+      {step === 'duplicates' && (
+        <StepDuplicates 
+          duplicateGroups={duplicateGroups} 
+          bookmarks={bookmarks} 
+          onComplete={handleDuplicatesComplete} 
+          showExportOption={false}
+        />
+      )}      
       {step === 'invalidUrls' && <StepInvalidUrls bookmarks={bookmarks} itemsToRemove={itemsToRemove} onComplete={handleInvalidUrlsComplete} />}
       {step === 'reorganize' && <StepReorganize bookmarks={bookmarks} onComplete={handleReorganizeComplete} />}
       {step === 'review' && reorganizedBookmarks && (

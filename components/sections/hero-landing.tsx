@@ -9,8 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { ToastProvider } from "@/components/ui/toast";
 import { Toaster } from "@/components/ui/toaster";
 
-import { parseBookmarks } from '@/lib/parseBookmarks';
-const NBFFConverter = require('nbff-converter');
+import { convertHtmlToJson, convertJsonToBookMarkMap } from '@/lib/parseBookmarks';
 
 export default function HeroLanding() {
   const router = useRouter();
@@ -78,13 +77,18 @@ export default function HeroLanding() {
     try {
       const content = await file.text();
 
-      const bookmarks = await parseBookmarks(content);
+      const bookmarksJson = await convertHtmlToJson(content);
+      const bookmarks = await convertJsonToBookMarkMap(bookmarksJson);
+
+      // const bookmarks = await parseBookmarks(content);
 
       // console.log(bookmarks);
       
       // Store bookmarks in localStorage or state management solution
       // localStorage.setItem('bookmarks', JSON.stringify(Object.fromEntries(bookmarks)));
-      localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+      // localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+      localStorage.setItem('bookmarks', JSON.stringify(Array.from(bookmarks)));
+
 
       // Navigate to organize-bookmarks page
       router.push('/organize-bookmarks');
