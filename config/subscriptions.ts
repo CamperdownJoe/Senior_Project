@@ -1,6 +1,21 @@
 import { PlansRow, SubscriptionPlan } from "types";
 import { env } from "@/env.mjs";
 
+export const oneTimePurchase = {
+  title: "Bookmark Reorganization",
+  description: "One-time service to reorganize your bookmarks",
+  benefits: [
+    "AI-powered bookmark categorization",
+    "Remove duplicates",
+    "Clean up dead links",
+    "Create logical structure",
+    "Easy navigation",
+  ],
+  price: 5, // Set your desired price
+  stripeId: env.NEXT_PUBLIC_STRIPE_ONE_TIME_PURCHASE_ID, // You'll need to add this to your env file
+};
+
+
 export const pricingData: SubscriptionPlan[] = [
   {
     title: "Starter",

@@ -1020,3 +1020,114 @@ export default BookmarkFlowChart;
 https://github.com/excalidraw/excalidraw/pull/6034
 
 https://docs.excalidraw.com/docs/@excalidraw/excalidraw/api/children-components/main-menu
+
+
+
+
+
+
+.
+├── LICENSE.md
+├── README.md
+├── README_2.md
+├── Test_AI_API.ipynb
+├── actions
+│   ├── generate-user-stripe.ts
+│   ├── open-customer-portal.ts
+│   ├── update-user-name.ts
+│   └── update-user-role.ts
+├── app
+│   ├── (auth)
+│   ├── (docs)
+│   ├── (marketing)
+│   ├── (protected)
+│   ├── api
+│   ├── bookmark-manager
+│   ├── layout.tsx
+│   ├── opengraph-image.jpg
+│   ├── organize-bookmarks
+│   ├── robots.ts
+│   └── test
+├── assets
+│   └── fonts
+├── auth.config.ts
+├── auth.ts
+├── components
+│   ├── analytics.tsx
+│   ├── bookmarkmanager
+│   ├── charts
+│   ├── content
+│   ├── dashboard
+│   ├── docs
+│   ├── forms
+│   ├── layout
+│   ├── modals
+│   ├── pricing
+│   ├── sections
+│   ├── shared
+│   ├── tailwind-indicator.tsx
+│   ├── ui
+│   └── visualizations
+├── components.json
+├── config
+│   ├── blog.ts
+│   ├── dashboard.ts
+│   ├── docs.ts
+│   ├── landing.ts
+│   ├── marketing.ts
+│   ├── site.ts
+│   └── subscriptions.ts
+├── content
+│   ├── blog
+│   ├── docs
+│   ├── guides
+│   └── pages
+├── contentlayer.config.ts
+├── emails
+│   └── magic-link-email.tsx
+├── env.mjs
+├── hooks
+│   ├── use-intersection-observer.ts
+│   ├── use-local-storage.ts
+│   ├── use-lock-body.ts
+│   ├── use-media-query.ts
+│   ├── use-mounted.ts
+│   └── use-scroll.ts
+├── lib
+│   ├── db.ts
+│   ├── email.ts
+│   ├── exceptions.ts
+│   ├── parseBookmarks.ts
+│   ├── passwordUtils.ts
+│   ├── rateLimit.ts
+│   ├── session.ts
+│   ├── stripe.ts
+│   ├── subscription.ts
+│   ├── toc.ts
+│   ├── types.ts
+│   ├── user.ts
+│   ├── utils.ts
+│   └── validations
+├── middleware.ts
+├── next-env.d.ts
+├── next.config.js
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.js
+├── prettier.config.js
+├── prisma
+│   ├── migrations
+│   └── schema.prisma
+├── public
+│   ├── _static
+│   ├── fav.ico
+│   ├── favicon.ico
+│   └── site.webmanifest
+├── styles
+│   ├── globals.css
+│   └── mdx.css
+├── tailwind.config.ts
+├── tsconfig.json
+└── types
+    ├── index.d.ts
+    └── next-auth.d.ts
