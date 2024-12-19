@@ -1,10 +1,11 @@
+import Link from "next/link";
+import { Bookmark, BookOpen, HelpCircle, Settings } from "lucide-react";
+
 import { getCurrentUser } from "@/lib/session";
 import { constructMetadata } from "@/lib/utils";
-import { DashboardHeader } from "@/components/dashboard/header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Bookmark, HelpCircle, Settings } from "lucide-react";
-import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DashboardHeader } from "@/components/dashboard/header";
 
 export const metadata = constructMetadata({
   title: "Dashboard – Bookmark Organizer",
@@ -17,10 +18,10 @@ export default async function DashboardPage() {
   return (
     <>
       <DashboardHeader
-        heading={`Welcome, ${user?.name || 'User'}!`}
+        heading={`Welcome, ${user?.name || "User"}!`}
         text="Organize your bookmarks with ease."
       />
-      
+
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -30,10 +31,12 @@ export default async function DashboardPage() {
             <Bookmark className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">Start a new organization session for your bookmarks.</p>
-            <Button className="mt-4" asChild>
-              <Link href="/organize-bookmarks">Start Organizing</Link>
-            </Button>
+            <p className="text-sm text-muted-foreground">
+              Start a new organization session for your bookmarks.
+            </p>
+            <Link href="/organize-bookmarks">
+              <Button className="mt-4">Start Organizing</Button>
+            </Link>
           </CardContent>
         </Card>
         <Card>
@@ -44,10 +47,12 @@ export default async function DashboardPage() {
             <BookOpen className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">View the documentation for the Bookmark Organizer.</p>
-            <Button className="mt-4" asChild>
-              <Link href="/docs">View Documentation</Link>
-            </Button>
+            <p className="text-sm text-muted-foreground">
+              View the documentation for the Bookmark Organizer.
+            </p>
+            <Link href="/docs">
+              <Button className="mt-4">View Documentation</Button>
+            </Link>
           </CardContent>
         </Card>
         <Card>
@@ -58,10 +63,12 @@ export default async function DashboardPage() {
             <Settings className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">Manage your account preferences and details.</p>
-            <Button className="mt-4" asChild>
-              <Link href="/dashboard/settings">Go to Settings</Link>
-            </Button>
+            <p className="text-sm text-muted-foreground">
+              Manage your account preferences and details.
+            </p>
+            <Link href="/dashboard/settings">
+              <Button className="mt-4">Go to Settings</Button>
+            </Link>
           </CardContent>
         </Card>
       </div>
@@ -71,7 +78,10 @@ export default async function DashboardPage() {
           <CardTitle>Need Help?</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">If you have any questions or need assistance, our support team is here to help.</p>
+          <p className="text-sm text-muted-foreground">
+            If you have any questions or need assistance, our support team is
+            here to help.
+          </p>
           <Link href="/dashboard/support">
             <Button className="mt-4" variant="outline">
               <HelpCircle className="mr-2 h-4 w-4" />

@@ -185,6 +185,14 @@ Prisma + neon 的问题
 但是依然无法解决，使用 google 认证的问题，即使使用 set proxy
 
 
+---
+
+修复 build 错误
+https://github.com/resend/react-email/issues/1105#issuecomment-2028382781
+
+---
+
+
 
 测试当前terminal是否能链接google
 curl -L http://www.google.com
