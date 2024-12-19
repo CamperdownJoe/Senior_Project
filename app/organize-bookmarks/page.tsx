@@ -178,7 +178,7 @@ export default function OrganizeBookmarksPage() {
         <StepInvalidUrls 
           bookmarks={bookmarks} 
           itemsToRemove={itemsToRemove} 
-          onFinish={handleInvalidUrlsComplete}
+          onComplete={handleInvalidUrlsComplete}
           showExportOption={false}
           isProcessing={false}
           standalone={false}

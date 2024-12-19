@@ -32,7 +32,7 @@ type RepairInfo = {
 type Props = {
   bookmarks: Map<string, Bookmark>;
   itemsToRemove: Set<string>;
-  onFinish: (idsToRemove: string[], repairsMap: Map<string, { newUrl: string; archiveDate: string }>) => void;
+  onComplete: (idsToRemove: string[], repairsMap: Map<string, { newUrl: string; archiveDate: string }>) => void;
   showExportOption?: boolean;
   onExport?: (format: string, idsToRemove: string[], repairsMap: Map<string, { newUrl: string; archiveDate: string }>) => void;
   isProcessing?: boolean;
@@ -42,7 +42,7 @@ type Props = {
 export default function StepInvalidUrls({ 
   bookmarks, 
   itemsToRemove, 
-  onFinish, 
+  onComplete, 
   showExportOption = false,
   onExport,
   isProcessing = false,
@@ -199,7 +199,7 @@ export default function StepInvalidUrls({
   };
 
   const handleContinue = () => {
-    const idsToRemove = Array.from(selectedForRemoval) as string[];
+    const idsToRemove = Array.from(selectedForRemoval);
     const repairsMap = new Map<string, { newUrl: string; archiveDate: string }>();
     
     selectedForRepair.forEach(id => {
@@ -214,8 +214,8 @@ export default function StepInvalidUrls({
 
     if (showExportOption && onExport && exportFormat) {
       onExport(exportFormat, idsToRemove, repairsMap);
-    } else if (onFinish) {
-      onFinish(idsToRemove, repairsMap);
+    } else {
+      onComplete(idsToRemove, repairsMap);
     }
   };
 

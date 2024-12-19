@@ -192,6 +192,11 @@ https://github.com/resend/react-email/issues/1105#issuecomment-2028382781
 
 ---
 
+npx prettier --write "**/*.{ts,tsx,js}"
+
+自动化格式化代码，主要解决tailwind类名顺序的问题
+
+---
 
 
 测试当前terminal是否能链接google

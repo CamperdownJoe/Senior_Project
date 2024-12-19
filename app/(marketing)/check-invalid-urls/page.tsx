@@ -102,6 +102,11 @@ export default function CheckInvalidUrlsPage() {
     setIsProcessing(false);
   };
 
+  const handleComplete = (idsToRemove: string[], repairsMap: Map<string, { newUrl: string; archiveDate: string }>) => {
+    // 处理非导出情况的逻辑（如果需要的话）
+    console.log("Completed without export");
+  };
+
   return (
     <div className="container mx-auto p-4">
       {/* <h1 className="text-3xl font-bold mb-8 text-center">Check and Fix Invalid URLs</h1> */}
@@ -152,11 +157,11 @@ export default function CheckInvalidUrlsPage() {
             </Card>
           </div>
         </div>
-      ) : (
+      ) : isUploaded && (
         <StepInvalidUrls 
           bookmarks={bookmarks} 
           itemsToRemove={new Set()} 
-          onFinish={handleExportAndFix}
+          onComplete={handleComplete}
           showExportOption={true}
           onExport={handleExportAndFix}
           isProcessing={isProcessing}
