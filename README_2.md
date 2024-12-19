@@ -199,6 +199,11 @@ npx prettier --write "**/*.{ts,tsx,js}"
 ---
 
 
+npx tsc --noEmit
+
+
+---
+
 测试当前terminal是否能链接google
 curl -L http://www.google.com
 

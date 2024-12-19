@@ -2,15 +2,24 @@ import Link from "next/link";
 import { allGuides } from "contentlayer/generated";
 import { compareDesc } from "date-fns";
 
-import { formatDate } from "@/lib/utils";
+import { constructMetadata, formatDate } from "@/lib/utils";
 import { DocsPageHeader } from "@/components/docs/page-header";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
-export const metadata = {
-  title: "Guides",
-  description:
-    "This section includes end-to-end guides for developing Next.js 13 apps.",
-};
+export const metadata = constructMetadata({
+  title: "In-Depth Bookmark Management Guides",
+  description: "Comprehensive guides on advanced bookmark organization strategies, AI-powered sorting techniques, and optimizing your digital library.",
+  keywords: ["bookmark organization", "digital library management", "AI-powered sorting", "advanced bookmark techniques", "productivity guides"],
+  openGraph: {
+    type: "article",
+    authors: ["Markly"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Expert Bookmark Management Guides",
+    description: "Master the art of bookmark organization with our in-depth guides.",
+  },
+});
 
 export default function GuidesPage() {
   const guides = allGuides
@@ -22,8 +31,8 @@ export default function GuidesPage() {
   return (
     <MaxWidthWrapper className="py-6 lg:py-10">
       <DocsPageHeader
-        heading="Guides"
-        text="This section includes end-to-end guides for developing Next.js 13 apps."
+        heading="Expert Bookmark Management Guides"
+        text="Dive deep into advanced strategies for organizing, optimizing, and leveraging your bookmarks. Our comprehensive guides cover everything from AI-powered sorting to creating an efficient digital library."
       />
       {guides?.length ? (
         <div className="mt-5 grid gap-4 md:grid-cols-2 md:gap-6">
@@ -59,7 +68,7 @@ export default function GuidesPage() {
           ))}
         </div>
       ) : (
-        <p>No guides published.</p>
+        <p>No guides published yet. Check back soon for in-depth bookmark management strategies!</p>
       )}
     </MaxWidthWrapper>
   );

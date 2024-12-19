@@ -12,7 +12,7 @@ import { FileUp } from "lucide-react";
 import { saveAs } from 'file-saver';
 import { convertHtmlToJson, convertJsonToBookmarkStructure, convertJsonToBookMarkMap } from '@/lib/parseBookmarks';
 
-export default function CheckInvalidUrlsPage() {
+export default function RemoveBrokenBookmarksPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [bookmarks, setBookmarks] = useState<Map<string, Bookmark>>(new Map());

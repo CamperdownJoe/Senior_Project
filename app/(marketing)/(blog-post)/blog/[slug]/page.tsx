@@ -8,7 +8,7 @@ import "@/styles/mdx.css";
 import { Metadata } from "next";
 import Link from "next/link";
 
-import { BLOG_CATEGORIES } from "@/config/blog";
+import { BLOG_CATEGORIES, BLOG_AUTHORS } from "@/config/blog";
 import { getTableOfContents } from "@/lib/toc";
 import {
   cn,
@@ -39,12 +39,25 @@ export async function generateMetadata({
     return;
   }
 
-  const { title, description, image } = post;
+  const { title, description, image, date, authors, categories, keywords } = post;
+  const authorNames = authors.map(author => BLOG_AUTHORS[author]?.name).filter(Boolean);
+  const category = BLOG_CATEGORIES.find(cat => cat.slug === categories[0]);
 
   return constructMetadata({
-    title: `${title} – SaaS Starter`,
-    description: description,
+    title: `${title} | AI Bookmark Manager Blog`,
+    description,
     image,
+    authors: authorNames.map(name => ({ name })),
+    keywords: keywords || [], // 如果 post 没有 keywords，这里会传入空数组，然后使用默认关键词
+    openGraph: {
+      type: 'article',
+      publishedTime: date,
+      authors: authorNames,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      creator: BLOG_AUTHORS[authors[0]]?.twitter,
+    },
   });
 }
 
@@ -63,20 +76,19 @@ export default async function PostPage({
 
   const category = BLOG_CATEGORIES.find(
     (category) => category.slug === post.categories[0],
-  )!;
+  );
   const relatedArticles =
     (post.related &&
       post.related.map(
         (slug) => allPosts.find((post) => post.slugAsParams === slug)!,
       )) ||
     [];
-
-
+    
   const toc = await getTableOfContents(post.body.raw);
 
   const [thumbnailBlurhash, images] = await Promise.all([
     getBlurDataURL(post.image),
-    await Promise.all(
+    Promise.all(
       post.images.map(async (src: string) => ({
         src,
         blurDataURL: await getBlurDataURL(src),
@@ -89,19 +101,21 @@ export default async function PostPage({
       <MaxWidthWrapper className="pt-6 md:pt-10">
         <div className="flex flex-col space-y-4">
           <div className="flex items-center space-x-4">
-            <Link
-              href={`/blog/category/${category.slug}`}
-              className={cn(
-                buttonVariants({
-                  variant: "outline",
-                  size: "sm",
-                  rounded: "lg",
-                }),
-                "h-8",
-              )}
-            >
-              {category.title}
-            </Link>
+            {category && (
+              <Link
+                href={`/blog/category/${category.slug}`}
+                  className={cn(
+                    buttonVariants({
+                      variant: "outline",
+                      size: "sm",
+                      rounded: "lg",
+                    }),
+                    "h-8",
+                  )}
+                >
+                {category.title}
+              </Link>
+            )}
             <time
               dateTime={post.date}
               className="text-sm font-medium text-muted-foreground"

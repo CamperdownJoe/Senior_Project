@@ -14,53 +14,74 @@ export function constructMetadata({
   title = siteConfig.name,
   description = siteConfig.description,
   image = siteConfig.ogImage,
-  icons = "/fav.ico",
+  icons = "/favicon.ico",
   noIndex = false,
+  keywords = [],
+  authors = [{ name: "Markly" }],
+  twitter = {},
+  openGraph = {},
 }: {
   title?: string;
   description?: string;
   image?: string;
   icons?: string;
   noIndex?: boolean;
+  keywords?: string[];
+  authors?: { name: string; url?: string }[];
+  twitter?: Partial<Metadata["twitter"]>;
+  openGraph?: Partial<Metadata["openGraph"]>;
 } = {}): Metadata {
+  const baseKeywords = [
+    'AI bookmarks',
+    'organize bookmarks',
+    'remove duplicate bookmarks',
+    'fix broken bookmarks',
+    'export bookmarks',
+    'merge bookmarks',
+  ];
+
+  const finalKeywords = keywords.length > 0 
+    ? keywords 
+    : baseKeywords;
+
+  // 移除可能的空字符串，并去除每个关键词的首尾空白
+  const cleanedKeywords = finalKeywords
+    .filter(keyword => keyword.trim() !== '')
+    .map(keyword => keyword.trim());
+
   return {
     title,
     description,
-    keywords: [
-      "Next.js",
-      "React",
-      "Prisma",
-      "Neon",
-      "Auth.js",
-      "shadcn ui",
-      "Resend",
-      "React Email",
-      "Stripe",
-    ],
-    authors: [
-      {
-        name: "mickasmt",
-      },
-    ],
-    creator: "mickasmt",
+    keywords: cleanedKeywords.join(','), // 使用逗号连接关键词，不包含换行符
+    authors,
+    creator: "Markly",
     openGraph: {
       type: "website",
       locale: "en_US",
       url: siteConfig.url,
       title,
       description,
-      siteName: title,
+      siteName: siteConfig.name,
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      ...openGraph,
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
       images: [image],
-      creator: "@miickasmt",
+      creator: "@markly",
+      ...twitter,
     },
     icons,
     metadataBase: new URL(siteConfig.url),
-    manifest: `${siteConfig.url}/site.webmanifest`,
     ...(noIndex && {
       robots: {
         index: false,

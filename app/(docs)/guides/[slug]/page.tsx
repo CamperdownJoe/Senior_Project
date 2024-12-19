@@ -32,11 +32,19 @@ export async function generateMetadata({
     return;
   }
 
-  const { title, description } = guide;
+  const { title, description, keywords, date } = guide;
 
   return constructMetadata({
-    title: `${title} – SaaS Starter`,
-    description: description,
+    title: `${title} – AI Bookmark Manager`,
+    description,
+    keywords: keywords || [],
+    openGraph: {
+      type: 'article',
+      publishedTime: date,
+    },
+    twitter: {
+      card: 'summary_large_image',
+    },
   });
 }
 

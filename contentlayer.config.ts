@@ -72,6 +72,11 @@ export const Guide = defineDocumentType(() => ({
       type: "boolean",
       default: false,
     },
+    keywords: {
+      type: "list",
+      of: { type: "string" },
+      default: [],
+    },
   },
   computedFields: defaultComputedFields,
 }));
@@ -109,10 +114,16 @@ export const Post = defineDocumentType(() => ({
       type: "list",
       of: {
         type: "enum",
-        options: ["news", "education"],
-        default: "news",
+        // options: ["news", "education"],
+        options: ["tips", "updates", "uncategorized"],
+        default: "uncategorized",
       },
       required: true,
+    },
+    keywords: {
+      type: "list",
+      of: { type: "string" },
+      default: [],
     },
     related: {
       type: "list",
