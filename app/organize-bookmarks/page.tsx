@@ -81,7 +81,11 @@ export default function OrganizeBookmarksPage() {
       });
     });
     
-    setItemsToRemove(prev => new Set([...prev, ...toRemove]));
+    setItemsToRemove(prev => {
+      const newSet = new Set(prev);
+      toRemove.forEach(item => newSet.add(item));
+      return newSet;
+    });
     setBookmarks(updatedBookmarks);
     
 
@@ -90,7 +94,11 @@ export default function OrganizeBookmarksPage() {
   };
 
   const handleInvalidUrlsComplete = (idsToRemove: string[], repairsMap: Map<string, { newUrl: string; archiveDate: string }>) => {
-    setItemsToRemove(prev => new Set([...prev, ...idsToRemove]));
+    setItemsToRemove(prev => {
+      const newSet = new Set(prev);
+      idsToRemove.forEach(id => newSet.add(id));
+      return newSet;
+    });
     
     const updatedBookmarks = new Map(bookmarks);
   
@@ -136,6 +144,10 @@ export default function OrganizeBookmarksPage() {
 
     try {
       // Export bookmarks in the selected format
+      if (!reorganizedBookmarks) {
+        throw new Error("Bookmarks have not been reorganized");
+      }
+  
       const exportedBookmarks = await exportBookmarks(reorganizedBookmarks, finalBookmarks, format);
   
       // Download the file

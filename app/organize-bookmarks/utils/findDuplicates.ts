@@ -4,7 +4,7 @@ export function findDuplicates(bookmarks: Map<string, Bookmark>): DuplicateGroup
   const urlMap = new Map<string, string[]>();
 
   bookmarks.forEach((bookmark, id) => {
-    if (bookmark.type === 'link') {
+    if (bookmark.type === 'link' && bookmark.url) {
       const existingIds = urlMap.get(bookmark.url) || [];
       urlMap.set(bookmark.url, [...existingIds, id]);
     }

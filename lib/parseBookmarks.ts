@@ -13,7 +13,7 @@ function convertIdsToString(data: any): any {
     const newObj: any = {};
     for (const [key, value] of Object.entries(data)) {
       if (key === 'id') {
-        newObj[key] = value.toString(); // Convert ID to string
+        newObj[key] = (value as number).toString(); // Convert ID to string
       } else if (key === 'children') {
         newObj[key] = convertIdsToString(value);
       } else {

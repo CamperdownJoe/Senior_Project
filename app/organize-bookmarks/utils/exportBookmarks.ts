@@ -81,16 +81,40 @@ async function exportForChrome(reorganizedBookmarks: BookmarkStructure, finalBoo
 }
 
 async function exportForFirefox(reorganizedBookmarks: BookmarkStructure, finalBookmarks: BookmarkMap): Promise<string> {
-  // Implement Firefox export format
-  // Return a string representation of the bookmarks in Firefox's format
+  try {
+    const nbffJson = convertToNBFFFormat(reorganizedBookmarks, finalBookmarks);
+    const converter = new NBFFConverter();
+    const { nbffStr } = await converter.jsonToNetscape(nbffJson);
+
+    return nbffStr;
+  } catch (error) {
+    console.error('Error exporting bookmarks for Firefox:', error);
+    throw new Error('Failed to export bookmarks for Firefox');
+  }
 }
 
 async function exportForArc(reorganizedBookmarks: BookmarkStructure, finalBookmarks: BookmarkMap): Promise<string> {
-  // Implement Arc export format
-  // Return a string representation of the bookmarks in Arc's format
+  try {
+    const nbffJson = convertToNBFFFormat(reorganizedBookmarks, finalBookmarks);
+    const converter = new NBFFConverter();
+    const { nbffStr } = await converter.jsonToNetscape(nbffJson);
+
+    return nbffStr;
+  } catch (error) {
+    console.error('Error exporting bookmarks for Arc:', error);
+    throw new Error('Failed to export bookmarks for Arc');
+  }
 }
 
 async function exportForRaindrop(reorganizedBookmarks: BookmarkStructure, finalBookmarks: BookmarkMap): Promise<string> {
-  // Implement Raindrop export format
-  // Return a string representation of the bookmarks in Raindrop's format
+  try {
+    const nbffJson = convertToNBFFFormat(reorganizedBookmarks, finalBookmarks);
+    const converter = new NBFFConverter();
+    const { nbffStr } = await converter.jsonToNetscape(nbffJson);
+
+    return nbffStr;
+  } catch (error) {
+    console.error('Error exporting bookmarks for Raindrop:', error);
+    throw new Error('Failed to export bookmarks for Raindrop');
+  }
 }

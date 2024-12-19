@@ -40,7 +40,8 @@ export function PricingCardsSingle({ userId, subscriptionPlan }: PricingCardsSin
               </ul>
             </div>
             <div className="border-t p-8">
-              {userId ? (
+              {/* make sure subscriptionPlan is not null */}
+              {userId && subscriptionPlan ? (
                 <BillingFormButtonSingle
                   offer={oneTimePurchase}
                   subscriptionPlan={subscriptionPlan}

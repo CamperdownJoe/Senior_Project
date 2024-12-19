@@ -13,7 +13,8 @@ export const metadata = constructMetadata({
 export default async function SupportPage() {
   const user = await getCurrentUser();
 
-  if (!user?.id) redirect("/login");
+  if (!user?.id) redirect("/");
+  if (!user?.email) redirect("/");
 
   return (
     <>
@@ -22,7 +23,7 @@ export default async function SupportPage() {
         text="Need help? Send us a message and we'll get back to you as soon as possible."
       />
       <div className="max-w-2xl">
-        <SupportForm user={user} />
+        <SupportForm user={{ id: user.id, email: user.email }} />
       </div>
     </>
   );
