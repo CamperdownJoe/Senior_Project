@@ -7,9 +7,19 @@ import { DocsPageHeader } from "@/components/docs/page-header";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
 export const metadata = constructMetadata({
-  title: "In-Depth Bookmark Management Guides",
+  title: "Master Advanced Bookmark Organization",
   description: "Comprehensive guides on advanced bookmark organization strategies, AI-powered sorting techniques, and optimizing your digital library.",
-  keywords: ["bookmark organization", "digital library management", "AI-powered sorting", "advanced bookmark techniques", "productivity guides"],
+  keywords: [
+    "bookmark organization",
+    "digital library management",
+    "AI-powered sorting techniques",
+    "advanced bookmark organization strategies",
+    "how to organize bookmarks",
+    "best bookmark management guides",
+    "optimize your digital library",
+    "productivity guides for bookmark organization",
+    "advanced bookmark techniques"
+  ],
   openGraph: {
     type: "article",
     authors: ["Markly"],

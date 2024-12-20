@@ -19,11 +19,11 @@ interface RootLayoutProps {
 export const metadata: Metadata = {
   metadataBase: new URL(site_url),
   title: {
-    default: 'AI Bookmark Manager | Organize Your Bookmarks Effortlessly',
+    default: 'AI Bookmark Manager | Remove Duplicates, Remove Broken Links, & Organize Bookmarks',
     template: '%s | AI Bookmark Manager'
   },
-  description: 'Streamline your browsing with our AI-powered Bookmark Manager. Remove duplicates, fix broken links, and automatically categorize your bookmarks.',
-  keywords: ['AI bookmarks', 'organize bookmarks', 'remove duplicate bookmarks', 'fix broken bookmarks', 'export bookmarks', 'merge bookmarks'],
+  description: 'Streamline your browsing with our AI-powered Bookmark Manager. Remove duplicates, remove broken links, and automatically categorize your bookmarks.',
+  keywords: ['AI bookmarks', 'organize bookmarks', 'remove duplicate bookmarks', 'remove broken bookmarks', 'export bookmarks', 'merge bookmarks'],
   authors: [{ name: 'Markly' }],
   creator: 'Markly',
   publisher: 'Markly',

@@ -35,7 +35,7 @@ export async function generateMetadata({
   const { title, description, keywords, date } = guide;
 
   return constructMetadata({
-    title: `${title} – AI Bookmark Manager`,
+    title: `${title}`,
     description,
     keywords: keywords || [],
     openGraph: {
@@ -44,8 +44,11 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
+      title: title,
+      description: description,
     },
   });
+
 }
 
 export default async function GuidePage({

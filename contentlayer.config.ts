@@ -115,8 +115,8 @@ export const Post = defineDocumentType(() => ({
       of: {
         type: "enum",
         // options: ["news", "education"],
-        options: ["tips", "updates", "uncategorized"],
-        default: "uncategorized",
+        options: ["tips", "updates"],
+        default: "tips",
       },
       required: true,
     },

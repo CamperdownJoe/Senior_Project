@@ -1,6 +1,6 @@
 export const BLOG_CATEGORIES: {
   title: string;
-  slug: "tips" | "updates" | "uncategorized";
+  slug: "tips" | "updates";
   description: string;
   keywords: string[];
 }[] = [
@@ -11,9 +11,13 @@ export const BLOG_CATEGORIES: {
     keywords: [
       "bookmark tips",
       "bookmark organization",
+      "how to manage bookmarks",
       "productivity hacks",
       "efficient browsing",
-      "bookmark management tricks"
+      "bookmark management tricks",
+      "organize browser bookmarks",
+      "time-saving bookmark tips",
+      "best practices for bookmark management"
     ],
   },
   {
@@ -25,19 +29,10 @@ export const BLOG_CATEGORIES: {
       "new features",
       "bookmark tool improvements",
       "software updates",
-      "bookmark management news"
-    ],
-  },
-  {
-    title: "Uncategorized",
-    slug: "uncategorized",
-    description: "Miscellaneous articles related to bookmarks and productivity.",
-    keywords: [
-      "bookmark articles",
-      "productivity tips",
-      "browser management",
-      "digital organization",
-      "web browsing efficiency"
+      "latest bookmark management news",
+      "AI-powered bookmark updates",
+      "new bookmark management features",
+      "AI bookmark manager news"
     ],
   },
 ];

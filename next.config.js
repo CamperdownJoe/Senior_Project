@@ -29,6 +29,16 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["@prisma/client"],
   },
+  async redirects() {
+    return [
+      {
+        source: "/docs/:path*",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
 };
+
 
 module.exports = withContentlayer(nextConfig);
