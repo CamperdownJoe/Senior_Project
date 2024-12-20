@@ -36,6 +36,11 @@ const nextConfig = {
         destination: "/",
         permanent: true,
       },
+      {
+        source: "/dashboard/:path*",
+        destination: "/",
+        permanent: false, // 302 redirect, will be changed to true in the future
+      },
     ];
   },
 };
