@@ -20,8 +20,9 @@ export const footerLinks: SidebarNavItem[] = [
   {
     title: "Company",
     items: [
-      { title: "About", href: "#" },
-      { title: "Enterprise", href: "#" },
+      // { title: "About", href: "#" },
+      // { title: "Enterprise", href: "#" },
+      { title: "Security", href: "#" },
       { title: "Terms", href: "/terms" },
       { title: "Privacy", href: "/privacy" },
     ],
@@ -29,19 +30,24 @@ export const footerLinks: SidebarNavItem[] = [
   {
     title: "Product",
     items: [
-      { title: "Security", href: "#" },
-      { title: "Customization", href: "#" },
-      { title: "Customers", href: "#" },
-      { title: "Changelog", href: "#" },
+      { title: "Organize bookmarks", href: "/organize-bookmarks" },
+      { title: "Remove Broken bookmarks", href: "/remove-broken-bookmarks" },
+      { title: "Remove Duplicate bookmarks", href: "/remove-duplicate-bookmarks" },
+      
+      // { title: "Security", href: "#" },
+      // { title: "Customization", href: "#" },
+
+      // { title: "Customers", href: "#" },
+      // { title: "Changelog", href: "#" },
     ],
   },
   {
-    title: "Docs",
+    title: "Guide",
     items: [
       { title: "Introduction", href: "#" },
-      { title: "Installation", href: "#" },
-      { title: "Components", href: "#" },
-      { title: "Code Blocks", href: "#" },
+      // { title: "Installation", href: "#" },
+      // { title: "Components", href: "#" },
+      // { title: "Code Blocks", href: "#" },
     ],
   },
 ];
