@@ -251,12 +251,12 @@ export default function StepInvalidUrls({
           </div>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2">
-            <Progress value={checkingProgress} className="w-full" />
-            <p className="text-sm text-muted-foreground">
-              Checking URLs: {Math.round(checkingProgress)}%
+          <div className="flex items-center space-x-2">
+            <Progress value={checkingProgress} className="flex-grow h-2" />
+            <span className="text-sm text-muted-foreground whitespace-nowrap">
+              {Math.round(checkingProgress)}%
               {isPaused && " (Paused)"}
-            </p>
+            </span>
           </div>
         </CardContent>
       </Card>
@@ -270,7 +270,7 @@ export default function StepInvalidUrls({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-[300px] pr-4">
+            <ScrollArea className="h-[250px] pr-4">
               {Object.entries(finalBrokenBookmarks).map(([errorCode, bookmarks]) => (
                 <div key={errorCode} className="mb-4">
                   <h4 className="text-sm font-semibold mb-2">Error {errorCode} ({bookmarks.length})</h4>
@@ -306,7 +306,7 @@ export default function StepInvalidUrls({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-[300px] pr-4">
+            <ScrollArea className="h-[250px] pr-4">
             {repairableBookmarks.map(bookmark => (
               <div key={bookmark.id} className="flex items-center space-x-2 mb-2">
                 <Checkbox
