@@ -44,7 +44,7 @@ export async function generateMetadata({
   const category = BLOG_CATEGORIES.find(cat => cat.slug === categories[0]);
 
   return constructMetadata({
-    title: `${title} | AI Bookmark Manager Blog`,
+    title: `${title}`,
     description,
     image,
     authors: authorNames.map(name => ({ name })),
