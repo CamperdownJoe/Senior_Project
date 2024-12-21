@@ -38,7 +38,7 @@ export default function StepReorganize({ bookmarks, onComplete }: Props) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-3xl font-bold text-center">Reorganize Your Bookmarks</h2>
+      {/* <h2 className="text-3xl font-bold text-center">Reorganize Your Bookmarks</h2> */}
       <p className="text-center text-gray-600">Choose a method to bring order to your digital library:</p>
       <div className="flex space-x-6 justify-center">
         <Card 

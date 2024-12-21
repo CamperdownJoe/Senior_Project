@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FileUp } from "lucide-react";
 import { saveAs } from 'file-saver';
+import { ToastProvider } from "@/components/ui/toast";
+import { Toaster } from "@/components/ui/toaster";
 import { convertHtmlToJson, convertJsonToBookmarkStructure, convertJsonToBookMarkMap } from '@/lib/parseBookmarks';
 
 export default function RemoveBrokenBookmarksPage() {
@@ -40,10 +42,7 @@ export default function RemoveBrokenBookmarksPage() {
         setBookmarkStructure(bookmarkStructure);
         setBookmarks(bookmarkMap);
         setIsUploaded(true);
-        toast({
-          title: "File processed",
-          description: `Bookmarks loaded successfully.`,
-        });
+
       } catch (error) {
         console.error('Error processing file:', error);
         toast({
@@ -84,12 +83,7 @@ export default function RemoveBrokenBookmarksPage() {
       const blob = new Blob([exportedBookmarks], { type: 'text/html;charset=utf-8' });
       saveAs(blob, `bookmarks_fixed_urls_${format}.html`);
 
-      toast({
-        title: "Invalid URLs fixed and exported",
-        description: `Your bookmarks have been updated and exported with fixed URLs in ${format} format.`,
-      });
-
-      router.push('/');
+      // router.push('/');
     } catch (error) {
       console.error('Error exporting bookmarks:', error);
       toast({
@@ -108,6 +102,7 @@ export default function RemoveBrokenBookmarksPage() {
   };
 
   return (
+    <ToastProvider>
     <div className="container mx-auto p-4">
       {/* <h1 className="text-3xl font-bold mb-8 text-center">Check and Fix Invalid URLs</h1> */}
       
@@ -169,5 +164,7 @@ export default function RemoveBrokenBookmarksPage() {
         />
       )}
     </div>
+    <Toaster />
+    </ToastProvider>
   );
 }

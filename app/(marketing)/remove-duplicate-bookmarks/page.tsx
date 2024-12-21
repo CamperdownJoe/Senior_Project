@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FileUp } from "lucide-react";
 import { saveAs } from 'file-saver';
+import { ToastProvider } from "@/components/ui/toast";
+import { Toaster } from "@/components/ui/toaster";
 import { convertHtmlToJson, convertJsonToBookmarkStructure, convertJsonToBookMarkMap } from '@/lib/parseBookmarks';
 
 export default function RemoveDuplicatesPage() {
@@ -48,10 +50,6 @@ export default function RemoveDuplicatesPage() {
         console.log('duplicates', duplicates);
         setDuplicateGroups(duplicates);
         setIsUploaded(true);
-        toast({
-          title: "File processed",
-          description: `Bookmarks loaded successfully.`,
-        });
       } catch (error) {
         console.error('Error processing file:', error);
         toast({
@@ -91,10 +89,7 @@ export default function RemoveDuplicatesPage() {
       const blob = new Blob([exportedBookmarks], { type: 'text/html;charset=utf-8' });
       saveAs(blob, `bookmarks_without_duplicates_${format}.html`);
 
-      toast({
-        title: "Duplicates removed and exported",
-        description: `Your bookmarks have been updated and exported without duplicates in ${format} format.`,
-      });
+
     } catch (error) {
       console.error('Error exporting bookmarks:', error);
       toast({
@@ -108,6 +103,7 @@ export default function RemoveDuplicatesPage() {
   };
 
   return (
+    <ToastProvider>
     <div className="container mx-auto p-4">
       {/* <h1 className="text-3xl font-bold mb-8 text-center">Remove Duplicate Bookmarks</h1> */}
       
@@ -176,6 +172,8 @@ export default function RemoveDuplicatesPage() {
       )}
 
     </div>
+    <Toaster />
+    </ToastProvider>
   );
 }
 
