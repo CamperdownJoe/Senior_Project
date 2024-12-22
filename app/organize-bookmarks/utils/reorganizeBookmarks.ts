@@ -1,4 +1,4 @@
-import { Bookmark, BookmarkMap, BookmarkStructure } from '@/lib/types';
+import { Bookmark, BookmarkMap, BookmarkStructure, BookmarkCategory } from '@/lib/types';
 import { fetchAIRecommendation } from './fetchAIRecommendation';
 
 interface SeparatedBookmarks {
@@ -19,6 +19,40 @@ function separateBookmarks(bookmarks: BookmarkMap): SeparatedBookmarks {
   });
 
   return { folders, links };
+}
+
+
+function processAIResponse(aiResponse: any): BookmarkStructure {
+  const processedStructure: BookmarkStructure = {};
+
+  function processCategory(category: any): BookmarkCategory {
+    const processedCategory: BookmarkCategory = {
+      name: category.name,
+      bookmarks: category.bookmarks || [],
+    };
+
+    if (category.subcategories) {
+      processedCategory.subcategories = {};
+      for (const [subKey, subCategory] of Object.entries(category.subcategories)) {
+        processedCategory.subcategories[subKey] = processCategory(subCategory);
+      }
+    }
+
+    return processedCategory;
+  }
+
+  if (aiResponse.categories) {
+    for (const [key, category] of Object.entries(aiResponse.categories)) {
+      processedStructure[key] = processCategory(category);
+    }
+  } else {
+    // 如果 AI 直接返回了顶级类别而不是嵌套在 "categories" 中
+    for (const [key, category] of Object.entries(aiResponse)) {
+      processedStructure[key] = processCategory(category);
+    }
+  }
+
+  return processedStructure;
 }
 
 export async function reorganizeBookmarks(bookmarks: BookmarkMap, method: 'dewey' | 'ai'): Promise<BookmarkStructure> {
@@ -61,35 +95,71 @@ export async function reorganizeBookmarks(bookmarks: BookmarkMap, method: 'dewey
     Here are the bookmarks to categorize:
     ${JSON.stringify(links, null, 2)}`;
   } else {
-    systemPrompt = `You are an AI assistant skilled in organizing information based on user-specific needs and interests. Your task is to create a tailored organizational structure for a set of bookmarks and categorize them accordingly.`;
+    systemPrompt = `You are an intelligent bookmark categorization assistant that can analyze the bookmarks provided by the user, examining each bookmark's content, title, URL, and added date. Based on a comprehensive assessment of the user's interests, profession, and characteristics, you will create a suitable categorization system.
+    Please follow these steps:
 
-    userPrompt = `Please create a custom organizational structure for the following bookmarks and categorize them. The structure should be tailored to the user's apparent interests and needs, with a maximum of two levels (main categories and optional subcategories).
+    1. **User Analysis:**
+      - Analyze all bookmarks to identify the user's main areas of interest, profession, hobbies, and traits.
+      - Determine the possible identity of the user (e.g., student, programmer, designer, financial professional, etc.).
 
-    Guidelines:
-    1. Analyze the bookmarks to identify the user's main areas of interest.
-    2. Create main categories that reflect these interests (e.g., Work, Personal, Hobbies).
-    3. Use subcategories only when necessary to group closely related bookmarks within a main category.
-    4. Ensure each bookmark is placed in the most appropriate category or subcategory.
-    5. Consider the content, purpose, and potential use-case of each bookmark when categorizing.
-    6. Aim for a balanced structure, avoiding too many or too few items in any category.
-    7. Use clear, intuitive names for categories and subcategories.
+    2. **Create Categorization System:**
+    - Based on the analysis, establish a categorization system that includes **general categories** and **customized categories**.
+     - **General Categories:** Should include common categories that are suitable for most users, such as: Work, Study, Entertainment, Technology, Travel, Food, Photography, etc.
+     - **Customized Categories:** These should only be created if there is strong evidence that the user has a deep interest in specific topics. They should be few in number and niche, tailored exclusively to the user, such as: "Pokemon," "AAA Games," "Korean Celebrities," etc.
 
-    Please provide your response in the following JSON format:
-    {
-      "categories": {
-        "Work": {
-          "name": "Work",
-          "bookmarks": ["bookmark_id_1", "bookmark_id_2"],
-          "subcategories": {
-            "Projects": {
-              "name": "Projects",
-              "bookmarks": ["bookmark_id_3", "bookmark_id_4"]
-            }
+     - The categorization system should have a hierarchical structure (with up to two levels), but should not be too deep to ensure easy browsing and management.
+     - Ensure that the categorization system covers all bookmarks, and each bookmark is assigned to the most appropriate category.
+
+    3. **Bookmark Categorization:**
+      - Assign each bookmark to the most suitable single category.
+      - **In the output, each bookmark should include the following information:**
+        - **id:** A unique identifier for the bookmark (e.g., serial number or bookmark ID).
+        - **title:** The title of the bookmark.
+
+    4. **Output Result:**
+      - Output the complete categorization results in JSON format, as follows:
+        
+        {
+          "categories": {
+            "Category1": {
+              "name": "Category1",
+              "bookmarks": [
+                {
+                  "id": "bookmark_id_1",
+                  "title": "Bookmark Title 1",
+                }
+                // ... more bookmarks
+              ],
+              "subcategories": {
+                "Subcategory1": {
+                  "name": "Subcategory1",
+                  "bookmarks": [
+                    {
+                      "id": "bookmark_id_2",
+                      "title": "Bookmark Title 2",
+                    }
+                    // ... more bookmarks
+                  ]
+                }
+                // ... more subcategories
+              }
+            },
+            // ... more categories
           }
-        },
-        // ... other categories
-      }
-    }
+        }
+        
+      - **Note:**
+        - Ensure that complete information for each bookmark is included in the output.
+        - Category names and subcategory names should clearly and accurately reflect the content of the bookmarks within.
+        - **Do not omit any bookmarks, regardless of their content.** All bookmarks provided by the user must be included in the categorization.
+
+    5. **Other Requirements:**
+      - The categorization system should be easy for the user to understand and use, avoiding overly complex or technical terms.
+      - Do not include unsolicited information in the response, and directly output the JSON result.
+
+    `;
+
+    userPrompt = `Please categorize the following bookmarks according to the guidelines provided.
 
     Here are the bookmarks to categorize:
     ${JSON.stringify(links, null, 2)}`;
@@ -97,5 +167,11 @@ export async function reorganizeBookmarks(bookmarks: BookmarkMap, method: 'dewey
 
   const aiResponse = await fetchAIRecommendation(links, 'categorize', systemPrompt, userPrompt);
 
-  return aiResponse.categories;
+  // we should conver tht response to correct format: BookmarkStructure
+  // return aiResponse.categories;
+
+  console.log(aiResponse);
+  console.log(aiResponse.categories);
+  console.log(processAIResponse(aiResponse.categories));
+  return processAIResponse(aiResponse.categories);
 }
