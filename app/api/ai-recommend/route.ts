@@ -5,9 +5,13 @@ import { zodResponseFormat } from "openai/helpers/zod";
 import { Bookmark } from '@/lib/types';
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-  baseURL: process.env.OPENAI_BASE_URL,
+  // apiKey: process.env.OPENAI_API_KEY,
+  // baseURL: process.env.OPENAI_BASE_URL,
+  apiKey: process.env.SILICONFLOW_API_KEY,
+  baseURL: process.env.SILICONFLOW_BASE_URL,
 });
+
+const model_name = "deepseek-ai/DeepSeek-V2.5"
 
 export async function POST(request: Request) {
   const { bookmarks, systemPrompt, userPrompt } = await request.json();
@@ -18,7 +22,7 @@ export async function POST(request: Request) {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: model_name,
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }
@@ -26,7 +30,11 @@ export async function POST(request: Request) {
       response_format: { type: "json_object" }
     });
 
+    console.log(userPrompt)
+
     const aiResponse = completion.choices[0].message;
+
+    console.log(aiResponse)
 
     if (aiResponse.refusal) {
       console.log('AI refusal:', aiResponse.refusal);
