@@ -28,8 +28,12 @@ function processAIResponse(aiResponse: any): BookmarkStructure {
   function processCategory(category: any): BookmarkCategory {
     const processedCategory: BookmarkCategory = {
       name: category.name,
-      bookmarks: category.bookmarks || [],
+      bookmarks: [],  // 初始化为空数组
     };
+
+    if (category.bookmarks) {
+      processedCategory.bookmarks = category.bookmarks.map((bookmark: any) => bookmark.id);
+    }
 
     if (category.subcategories) {
       processedCategory.subcategories = {};
@@ -76,19 +80,26 @@ export async function reorganizeBookmarks(bookmarks: BookmarkMap, method: 'dewey
     5. Aim for a balanced structure, avoiding too many or too few items in any category.
 
     Please provide your response in the following JSON format:
+
     {
       "categories": {
-        "000 - General Knowledge": {
-          "name": "000 - General Knowledge",
-          "bookmarks": ["bookmark_id_1", "bookmark_id_2"],
+        "Category1": {
+          "name": "Category1",
           "subcategories": {
-            "Web Development": {
-              "name": "Web Development",
-              "bookmarks": ["bookmark_id_3", "bookmark_id_4"]
+            "Subcategory1": {
+              "name": "Subcategory1",
+              "bookmarks": [
+                {
+                  "id": "bookmark_id_2",
+                  "title": "Bookmark Title 2",
+                }
+                // ... more bookmarks
+              ]
             }
+            // ... more subcategories
           }
         },
-        // ... other categories
+        // ... more categories
       }
     }
 
@@ -123,13 +134,6 @@ export async function reorganizeBookmarks(bookmarks: BookmarkMap, method: 'dewey
           "categories": {
             "Category1": {
               "name": "Category1",
-              "bookmarks": [
-                {
-                  "id": "bookmark_id_1",
-                  "title": "Bookmark Title 1",
-                }
-                // ... more bookmarks
-              ],
               "subcategories": {
                 "Subcategory1": {
                   "name": "Subcategory1",
@@ -170,8 +174,8 @@ export async function reorganizeBookmarks(bookmarks: BookmarkMap, method: 'dewey
   // we should conver tht response to correct format: BookmarkStructure
   // return aiResponse.categories;
 
-  console.log(aiResponse);
-  console.log(aiResponse.categories);
-  console.log(processAIResponse(aiResponse.categories));
+  // console.log(aiResponse);
+  // console.log(aiResponse.categories);
+  // console.log(processAIResponse(aiResponse.categories));
   return processAIResponse(aiResponse.categories);
 }
