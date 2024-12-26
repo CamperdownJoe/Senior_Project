@@ -11,7 +11,7 @@ const openai = new OpenAI({
   baseURL: process.env.SILICONFLOW_BASE_URL,
 });
 
-const model_name = "deepseek-ai/DeepSeek-V2.5"
+const model_name = "deepseek-ai/DeepSeek-V2-Chat"
 
 export async function POST(request: Request) {
   const { bookmarks, systemPrompt, userPrompt } = await request.json();

@@ -62,8 +62,8 @@ export default function StepReorganize({ bookmarks, onComplete }: Props) {
             </ul>
             <div className="mt-4 relative h-32 overflow-hidden rounded-md">
               <Image 
-                // src="/images/dewey-demo.png" 
-                src="https://via.placeholder.com/1024x768" 
+                src="/_static/examples/d.png" 
+                // src="https://via.placeholder.com/1024x768"
                 alt="Dewey Classification Demo" 
                 layout="fill" 
                 objectFit="cover"
@@ -94,8 +94,8 @@ export default function StepReorganize({ bookmarks, onComplete }: Props) {
             </ul>
             <div className="mt-4 relative h-32 overflow-hidden rounded-md">
               <Image 
-                // src="/images/ai-demo.png" 
-                src="https://via.placeholder.com/1024x768" 
+                src="/_static/examples/AI.png" 
+                // src="https://via.placeholder.com/1024x768" 
                 alt="AI Classification Demo" 
                 layout="fill" 
                 objectFit="cover"
