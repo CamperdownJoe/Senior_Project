@@ -38,6 +38,11 @@ export const BLOG_CATEGORIES: {
 ];
 
 export const BLOG_AUTHORS = {
+  markly: {
+    name: "markly",
+    image: "/_static/avatars/starweq.jpg",
+    twitter: "starweq"
+  },
   mickasmt: {
     name: "mickasmt",
     image: "/_static/avatars/mickasmt.png",
