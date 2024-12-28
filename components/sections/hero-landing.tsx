@@ -98,7 +98,7 @@ export default function HeroLanding() {
   return (
     <ToastProvider>
       <div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-50 to-indigo-100">
-        <section className="w-full py-12 md:py-24 lg:py-2">
+        <section className="w-full py-12 md:py-24 lg:py-24">
           <div className="container px-4 md:px-6">
             <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2">
               <div className="flex flex-col space-y-4">
