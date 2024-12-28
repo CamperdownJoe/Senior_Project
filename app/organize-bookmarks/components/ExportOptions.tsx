@@ -18,6 +18,7 @@ export default function ExportOptions({ onExport, isProcessing }: Props) {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="chrome">Chrome</SelectItem>
+          <SelectItem value="edge">Edge</SelectItem>
           <SelectItem value="firefox">Firefox</SelectItem>
           <SelectItem value="safari">Safari</SelectItem>
         </SelectContent>

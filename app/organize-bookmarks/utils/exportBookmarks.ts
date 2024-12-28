@@ -51,6 +51,8 @@ export async function exportBookmarks(
   switch (format) {
     case 'chrome':
       return exportForChrome(reorganizedBookmarks, finalBookmarks);
+    case 'edge':
+      return exportForEdge(reorganizedBookmarks, finalBookmarks);
     case 'firefox':
       return exportForFirefox(reorganizedBookmarks, finalBookmarks);
     case 'arc':
@@ -77,6 +79,19 @@ async function exportForChrome(reorganizedBookmarks: BookmarkStructure, finalBoo
   } catch (error) {
     console.error('Error exporting bookmarks for Chrome:', error);
     throw new Error('Failed to export bookmarks for Chrome');
+  }
+}
+
+async function exportForEdge(reorganizedBookmarks: BookmarkStructure, finalBookmarks: BookmarkMap): Promise<string> {
+  try {
+    const nbffJson = convertToNBFFFormat(reorganizedBookmarks, finalBookmarks);
+    const converter = new NBFFConverter();
+    const { nbffStr } = await converter.jsonToNetscape(nbffJson);
+
+    return nbffStr;
+  } catch (error) {
+    console.error('Error exporting bookmarks for Edge:', error);
+    throw new Error('Failed to export bookmarks for Edge');
   }
 }
 

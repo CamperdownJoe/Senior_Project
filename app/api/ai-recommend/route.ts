@@ -5,13 +5,14 @@ import { zodResponseFormat } from "openai/helpers/zod";
 import { Bookmark } from '@/lib/types';
 
 const openai = new OpenAI({
-  // apiKey: process.env.OPENAI_API_KEY,
-  // baseURL: process.env.OPENAI_BASE_URL,
-  apiKey: process.env.SILICONFLOW_API_KEY,
-  baseURL: process.env.SILICONFLOW_BASE_URL,
+  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: process.env.OPENAI_BASE_URL,
+  // apiKey: process.env.SILICONFLOW_API_KEY,
+  // baseURL: process.env.SILICONFLOW_BASE_URL,
 });
 
-const model_name = "deepseek-ai/DeepSeek-V2-Chat"
+// const model_name = "deepseek-ai/DeepSeek-V2-Chat"
+const model_name = "gpt-4o-mini"
 
 export async function POST(request: Request) {
   const { bookmarks, systemPrompt, userPrompt } = await request.json();
@@ -30,11 +31,11 @@ export async function POST(request: Request) {
       response_format: { type: "json_object" }
     });
 
-    console.log(userPrompt)
+    // console.log(userPrompt)
 
     const aiResponse = completion.choices[0].message;
 
-    console.log(aiResponse)
+    // console.log(aiResponse)
 
     if (aiResponse.refusal) {
       console.log('AI refusal:', aiResponse.refusal);

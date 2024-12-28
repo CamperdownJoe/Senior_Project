@@ -83,6 +83,12 @@ export default function StepReview({ bookmarks, reorganizedBookmarks, onComplete
                   Chrome
                 </div>
               </SelectItem>
+              <SelectItem value="edge">
+                <div className="flex items-center">
+                  {/* <EdgeIcon className="mr-2 h-4 w-4" /> */}
+                  Edge
+                </div>
+              </SelectItem>
               <SelectItem value="firefox">
                 <div className="flex items-center">
                   {/* <FirefoxIcon className="mr-2 h-4 w-4" /> */}
