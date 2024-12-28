@@ -120,7 +120,7 @@ function AuthModal({
               required
             />
             {authMode === "signup" && passwordError && (
-              <p className="text-sm text-red-500 mt-1">{passwordError}</p>
+              <p className="mt-1 text-sm text-red-500">{passwordError}</p>
             )}
           </div>
           <Button type="submit" disabled={isLoading} className="w-full">

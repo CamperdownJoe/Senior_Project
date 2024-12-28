@@ -89,7 +89,7 @@ export default function BookmarkOrganizerDemo({ stage, setStage }: BookmarkOrgan
   }
 
   return (
-    <div className="flex flex-col h-full bg-white overflow-hidden rounded-lg shadow-inner">
+    <div className="flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-inner">
       <AnimatePresence mode="wait">
         {stage === 0 && (
           <motion.div
@@ -97,9 +97,9 @@ export default function BookmarkOrganizerDemo({ stage, setStage }: BookmarkOrgan
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex-1 p-4 bg-gray-100"
+            className="flex-1 bg-gray-100 p-4"
           >
-            <h2 className="text-2xl font-bold mb-4 text-center">Messy Bookmarks</h2>
+            <h2 className="mb-4 text-center text-2xl font-bold">Messy Bookmarks</h2>
             <ScrollArea className="h-[calc(100vh-100px)]">
               <motion.div className="space-y-2">
                 {initialBookmarks.map((bookmark, index) => (
@@ -112,10 +112,10 @@ export default function BookmarkOrganizerDemo({ stage, setStage }: BookmarkOrgan
                       rotate: Math.random() * 10 - 5,
                       transition: { delay: index * 0.1 }
                     }}
-                    className="flex items-center space-x-2 p-2 bg-white rounded-md shadow-md transform hover:scale-105 transition-transform duration-200"
+                    className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-md transition-transform duration-200 hover:scale-105"
                   >
-                    <BookmarkIcon className={`h-4 w-4 ${bookmark.color}`} />
-                    <span className="text-sm truncate">{bookmark.title}</span>
+                    <BookmarkIcon className={`size-4 ${bookmark.color}`} />
+                    <span className="truncate text-sm">{bookmark.title}</span>
                   </motion.div>
                 ))}
               </motion.div>
@@ -128,14 +128,14 @@ export default function BookmarkOrganizerDemo({ stage, setStage }: BookmarkOrgan
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex-1 flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100"
+            className="flex flex-1 items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100"
           >
             <div className="text-center">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: '100%' }}
                 transition={{ duration: 3, ease: "easeInOut" }}
-                className="h-2 bg-blue-500 mb-4 rounded-full"
+                className="mb-4 h-2 rounded-full bg-blue-500"
               />
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
@@ -151,7 +151,7 @@ export default function BookmarkOrganizerDemo({ stage, setStage }: BookmarkOrgan
                 transition={{ delay: 1, type: "spring", stiffness: 260, damping: 20 }}
                 className="mt-8"
               >
-                <BookmarkIcon className="h-16 w-16 text-blue-500 mx-auto animate-pulse" />
+                <BookmarkIcon className="mx-auto size-16 animate-pulse text-blue-500" />
               </motion.div>
             </div>
           </motion.div>
@@ -162,9 +162,9 @@ export default function BookmarkOrganizerDemo({ stage, setStage }: BookmarkOrgan
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex-1 p-4 bg-gradient-to-br from-green-50 to-emerald-100"
+            className="flex-1 bg-gradient-to-br from-green-50 to-emerald-100 p-4"
           >
-            <h2 className="text-2xl font-bold mb-4 text-center">Organized Bookmarks</h2>
+            <h2 className="mb-4 text-center text-2xl font-bold">Organized Bookmarks</h2>
             <ScrollArea className="h-[calc(100vh-100px)]">
               <motion.div 
                 initial={{ opacity: 0 }}
@@ -180,11 +180,11 @@ export default function BookmarkOrganizerDemo({ stage, setStage }: BookmarkOrgan
                     transition={{ delay: index * 0.2 }}
                   >
                     <motion.div 
-                      className="flex items-center space-x-2 p-2 bg-white rounded-md shadow-md"
+                      className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-md"
                       whileHover={{ scale: 1.05 }}
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                      <BookmarkIcon className={`h-4 w-4 ${category.color}`} />
+                      <BookmarkIcon className={`size-4 ${category.color}`} />
                       <span className="text-sm font-medium">{category.title}</span>
                     </motion.div>
                     {index === 2 && (
@@ -200,10 +200,10 @@ export default function BookmarkOrganizerDemo({ stage, setStage }: BookmarkOrgan
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: bookmarkIndex * 0.1 + 0.6 }}
-                            className="flex items-center space-x-2 p-2 bg-gray-50 rounded-md"
+                            className="flex items-center space-x-2 rounded-md bg-gray-50 p-2"
                           >
-                            <BookmarkIcon className={`h-3 w-3 ${category.color}`} />
-                            <span className="text-xs truncate">{bookmark}</span>
+                            <BookmarkIcon className={`size-3 ${category.color}`} />
+                            <span className="truncate text-xs">{bookmark}</span>
                           </motion.div>
                         ))}
                       </motion.div>
@@ -221,51 +221,51 @@ export default function BookmarkOrganizerDemo({ stage, setStage }: BookmarkOrgan
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex-1 bg-white flex flex-col"
+            className="flex flex-1 flex-col bg-white"
           >
-            <div className="bg-gray-200 p-2 flex items-center space-x-2">
-              <div className="w-3 h-3 rounded-full bg-red-500" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500" />
-              <div className="w-3 h-3 rounded-full bg-green-500" />
-              <div className="flex-1 bg-white rounded-md p-2 flex items-center">
-                <GlobeIcon className="w-4 h-4 mr-2 text-gray-500" />
+            <div className="flex items-center space-x-2 bg-gray-200 p-2">
+              <div className="size-3 rounded-full bg-red-500" />
+              <div className="size-3 rounded-full bg-yellow-500" />
+              <div className="size-3 rounded-full bg-green-500" />
+              <div className="flex flex-1 items-center rounded-md bg-white p-2">
+                <GlobeIcon className="mr-2 size-4 text-gray-500" />
                 <span className="text-sm text-gray-700">https://www.example.com</span>
               </div>
             </div>
 
             <div className="relative">
-              <div className="bg-gray-100 p-1 pb-1 flex items-center space-x-2 overflow-x-auto">
+              <div className="flex items-center space-x-2 overflow-x-auto bg-gray-100 p-1">
                 {stage3Bookmarks.map((category, index) => (
                   <div key={category.id} className="relative">
                     <button
                       onClick={() => handleCategoryClick(index)}
-                      className={`flex items-center space-x-1 bg-white rounded-t px-2 py-1 shadow-sm ${index === openCategory ? 'z-10' : ''}`}
+                      className={`flex items-center space-x-1 rounded-t bg-white px-2 py-1 shadow-sm ${index === openCategory ? 'z-10' : ''}`}
                     >
-                      <BookmarkIcon className={`w-4 h-4 ${category.color}`} />
-                      <span className="text-sm whitespace-nowrap">{category.title}</span>
+                      <BookmarkIcon className={`size-4 ${category.color}`} />
+                      <span className="whitespace-nowrap text-sm">{category.title}</span>
                     </button>
                   </div>
                 ))}
               </div>
               {openCategory !== null && (
-                <div className="absolute left-1 top-[calc(100%-1px)] z-50 bg-white rounded-b-md shadow-lg p-2 space-y-1">
+                <div className="absolute left-1 top-[calc(100%-1px)] z-50 space-y-1 rounded-b-md bg-white p-2 shadow-lg">
                   {stage3Bookmarks[openCategory].items.map((item, itemIndex) => (
                     <div key={itemIndex} className="relative">
                       <button
                         onClick={() => handleSubcategoryClick(item.title)}
-                        className="flex items-center justify-between space-x-2 p-1 hover:bg-gray-100 rounded whitespace-nowrap w-full"
+                        className="flex w-full items-center justify-between space-x-2 whitespace-nowrap rounded p-1 hover:bg-gray-100"
                       >
                         <div className="flex items-center space-x-2">
-                          <BookmarkIcon className={`w-3 h-3 ${stage3Bookmarks[openCategory].color}`} />
+                          <BookmarkIcon className={`size-3 ${stage3Bookmarks[openCategory].color}`} />
                           <span className="text-xs">{item.title}</span>
                         </div>
-                        <ChevronRightIcon className="w-3 h-3" />
+                        <ChevronRightIcon className="size-3" />
                       </button>
                       {openSubcategory === item.title && (
-                        <div className="absolute left-full top-0 ml-2 bg-white rounded-md shadow-lg p-2 space-y-1 min-w-[200px]">
+                        <div className="absolute left-full top-0 ml-2 min-w-[200px] space-y-1 rounded-md bg-white p-2 shadow-lg">
                           {item.bookmarks.map((bookmark, bookmarkIndex) => (
-                            <div key={bookmarkIndex} className="flex items-center space-x-2 p-1 hover:bg-gray-100 rounded whitespace-nowrap">
-                              <BookmarkIcon className={`w-2 h-2 ${stage3Bookmarks[openCategory].color}`} />
+                            <div key={bookmarkIndex} className="flex items-center space-x-2 whitespace-nowrap rounded p-1 hover:bg-gray-100">
+                              <BookmarkIcon className={`size-2 ${stage3Bookmarks[openCategory].color}`} />
                               <span className="text-xs">{bookmark}</span>
                             </div>
                           ))}
@@ -277,15 +277,15 @@ export default function BookmarkOrganizerDemo({ stage, setStage }: BookmarkOrgan
               )}
             </div>
 
-            <div className="flex-1 p-0 bg-cover bg-center bg-no-repeat" style={{backgroundImage: 'url("_static/illustrations/infinity-3747434.webp")'}}>
-              <div className="max-w-2xl mx-auto flex flex-col items-center justify-center h-full bg-black bg-opacity-40 rounded-lg p-8">
+            <div className="flex-1 bg-cover bg-center bg-no-repeat p-0" style={{backgroundImage: 'url("_static/illustrations/infinity-3747434.webp")'}}>
+              <div className="mx-auto flex h-full max-w-2xl flex-col items-center justify-center rounded-lg bg-black bg-opacity-40 p-8">
                 <div className="relative mb-8 w-full max-w-lg">
                   <Input
                     type="text"
                     placeholder=""
-                    className="w-full pl-10 pr-4 py-2 rounded-full border-2 border-gray-300 bg-white bg-opacity-90 text-gray-800 placeholder-gray-500 focus:border-blue-400 focus:outline-none"
+                    className="w-full rounded-full border-2 border-gray-300 bg-white bg-opacity-90 py-2 pl-10 pr-4 text-gray-800 placeholder:text-gray-500 focus:border-blue-400 focus:outline-none"
                   />
-                  <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
+                  <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600" />
                 </div>
               </div>
             </div>

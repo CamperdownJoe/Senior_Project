@@ -97,22 +97,22 @@ export default function HeroLanding() {
 
   return (
     <ToastProvider>
-      <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-50 to-indigo-100">
         <section className="w-full py-12 md:py-24 lg:py-2">
           <div className="container px-4 md:px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+            <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2">
               <div className="flex flex-col space-y-4">
 
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
                   Organize Bookmarks Effortlessly
                 </h1>
-                <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
+                <p className="max-w-[600px] text-gray-500 dark:text-gray-400 md:text-xl">
                   Upload your bookmarks and let our AI-powered system remove duplicates, clean up dead links, and create a logical structure for easy navigation.
                 </p>
                 <Card className="w-full max-w-md">
                   <CardContent className="p-6">
                     <div
-                      className={`border-4 border-dashed p-6 mb-4 w-full rounded-md cursor-pointer text-center transition duration-300 ${
+                      className={`mb-4 w-full cursor-pointer rounded-md border-4 border-dashed p-6 text-center transition duration-300 ${
                         dragActive
                           ? "border-primary bg-primary/10"
                           : "border-gray-300 hover:border-primary hover:text-primary"
@@ -123,7 +123,7 @@ export default function HeroLanding() {
                       onDrop={handleDrop}
                       onClick={() => fileInputRef.current?.click()}
                     >
-                      <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                      <Upload className="mx-auto size-12 text-gray-400" />
                       <p className="mt-2 text-sm font-medium">
                         {file ? file.name : "Click or drag to upload bookmarks"}
                       </p>
@@ -145,14 +145,14 @@ export default function HeroLanding() {
                 </Card>
               </div>
 
-              <div className="hidden lg:flex justify-center items-center">
+              <div className="hidden items-center justify-center lg:flex">
         <motion.div
           layout
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className={`overflow-hidden ${demoStage < 3 ? 'w-[300px]' : 'w-full'}`}
         >
           <Card className="h-[400px] w-full">
-            <CardContent className="p-0 h-full">
+            <CardContent className="h-full p-0">
               <BookmarkOrganizerDemo stage={demoStage} setStage={setDemoStage} />
             </CardContent>
           </Card>

@@ -196,6 +196,10 @@ npx prettier --write "**/*.{ts,tsx,js}"
 
 自动化格式化代码，主要解决tailwind类名顺序的问题
 
+
+pnpm lint --fix
+真正的解决类名顺序
+
 ---
 
 

@@ -30,7 +30,7 @@ export default function StepInitial({ onClean, onSkip }: StepInitialProps) {
   }, [isStarted, onClean]);
 
   return (
-    <Card className="w-full max-w-4xl mx-auto">
+    <Card className="mx-auto w-full max-w-4xl">
       <CardHeader>
         <CardTitle>Organize Your Bookmarks</CardTitle>
         <CardDescription>Clean and organize your bookmark collection</CardDescription>
@@ -51,7 +51,7 @@ export default function StepInitial({ onClean, onSkip }: StepInitialProps) {
                 <div className="group relative flex items-start">
                   <span className="flex h-9 items-center">
                     <motion.span
-                      className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-300 bg-white"
+                      className="relative z-10 flex size-8 items-center justify-center rounded-full border-2 border-gray-300 bg-white"
                       animate={{
                         backgroundColor: isStarted || step.status === "complete" ? "#4F46E5" : "#FFFFFF",
                         borderColor: isStarted || step.status === "complete" ? "#4F46E5" : "#D1D5DB",
@@ -60,12 +60,12 @@ export default function StepInitial({ onClean, onSkip }: StepInitialProps) {
                     >
                       {isStarted || step.status === "complete" ? (
                         step.name === "Import" ? (
-                          <CheckIcon className="h-5 w-5 text-white" />
+                          <CheckIcon className="size-5 text-white" />
                         ) : (
-                          <CheckIcon className="h-5 w-5 text-white" />
+                          <CheckIcon className="size-5 text-white" />
                         )
                       ) : (
-                        <span className="h-2.5 w-2.5 rounded-full bg-transparent group-hover:bg-gray-300" />
+                        <span className="size-2.5 rounded-full bg-transparent group-hover:bg-gray-300" />
                       )}
                     </motion.span>
                   </span>
@@ -87,7 +87,7 @@ export default function StepInitial({ onClean, onSkip }: StepInitialProps) {
             ))}
           </ol>
         </nav>
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <Button variant="outline" onClick={onSkip}>
             Skip
           </Button>

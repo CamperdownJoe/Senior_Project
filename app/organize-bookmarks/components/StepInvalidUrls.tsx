@@ -228,7 +228,7 @@ export default function StepInvalidUrls({
           <CardTitle className="text-2xl font-bold">Review Invalid URLs</CardTitle>
           <div className="flex items-center space-x-4">
             <div className="flex items-center text-muted-foreground">
-              <Clock className="mr-2 h-4 w-4" />
+              <Clock className="mr-2 size-4" />
               <span>Est. time: {estimatedTime} min</span>
             </div>
             <TooltipProvider>
@@ -240,7 +240,7 @@ export default function StepInvalidUrls({
                     onClick={isChecking ? pauseUrlCheck : resumeUrlCheck}
                     disabled={allUrlsChecked}
                   >
-                    {isChecking ? <StopCircle className="h-6 w-6" /> : <PlayCircle className="h-6 w-6" />}
+                    {isChecking ? <StopCircle className="size-6" /> : <PlayCircle className="size-6" />}
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -252,8 +252,8 @@ export default function StepInvalidUrls({
         </CardHeader>
         <CardContent>
           <div className="flex items-center space-x-2">
-            <Progress value={checkingProgress} className="flex-grow h-2" />
-            <span className="text-sm text-muted-foreground whitespace-nowrap">
+            <Progress value={checkingProgress} className="h-2 grow" />
+            <span className="whitespace-nowrap text-sm text-muted-foreground">
               {Math.round(checkingProgress)}%
               {isPaused && " (Paused)"}
             </span>
@@ -261,11 +261,11 @@ export default function StepInvalidUrls({
         </CardContent>
       </Card>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <AlertCircle className="h-5 w-5 text-red-500" />
+              <AlertCircle className="size-5 text-red-500" />
               <span>Final Broken Bookmarks</span>
             </CardTitle>
           </CardHeader>
@@ -273,7 +273,7 @@ export default function StepInvalidUrls({
             <ScrollArea className="h-[250px] pr-4">
               {Object.entries(finalBrokenBookmarks).map(([errorCode, bookmarks]) => (
                 <div key={errorCode} className="mb-4">
-                  <h4 className="text-sm font-semibold mb-2">Error {errorCode} ({bookmarks.length})</h4>
+                  <h4 className="mb-2 text-sm font-semibold">Error {errorCode} ({bookmarks.length})</h4>
                   <ul className="space-y-1">
                     {bookmarks.map(bookmark => (
                       <li key={bookmark.id} className="flex items-center space-x-2">
@@ -284,7 +284,7 @@ export default function StepInvalidUrls({
                         />
                         <label 
                           htmlFor={`remove-${bookmark.id}`} 
-                          className="text-sm text-gray-700 truncate flex-1" 
+                          className="flex-1 truncate text-sm text-gray-700" 
                           title={bookmark.url}
                         >
                           {bookmark.title}
@@ -301,14 +301,14 @@ export default function StepInvalidUrls({
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <PlayCircle className="h-5 w-5 text-green-500" />
+              <PlayCircle className="size-5 text-green-500" />
               <span>Repairable Bookmarks</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-[250px] pr-4">
             {repairableBookmarks.map(bookmark => (
-              <div key={bookmark.id} className="flex items-center space-x-2 mb-2">
+              <div key={bookmark.id} className="mb-2 flex items-center space-x-2">
                 <Checkbox
                   id={`repair-${bookmark.id}`}
                   checked={selectedForRepair.has(bookmark.id)}
@@ -316,11 +316,11 @@ export default function StepInvalidUrls({
                 />
                 <label 
                   htmlFor={`repair-${bookmark.id}`} 
-                  className="text-sm text-gray-700 truncate flex-1" 
+                  className="flex-1 truncate text-sm text-gray-700" 
                   title={bookmark.url}
                 >
                   {bookmark.title}
-                  <span className="text-xs text-gray-500 ml-2">
+                  <span className="ml-2 text-xs text-gray-500">
                     (Archived: {bookmark.archiveDate ? new Date(bookmark.archiveDate).toLocaleDateString() : 'Unknown'})
                   </span>
                 </label>
@@ -331,7 +331,7 @@ export default function StepInvalidUrls({
         </Card>
       </div>
 
-      <div className="flex justify-end items-center space-x-4">
+      <div className="flex items-center justify-end space-x-4">
         {showExportOption && (
           <Select onValueChange={setExportFormat}>
             <SelectTrigger className="w-[180px]">
@@ -360,7 +360,7 @@ export default function StepInvalidUrls({
                   : "Finish without Changes"
                 : "Continue to Reorganize"}
           </span>
-          <ArrowRight className="h-4 w-4" />
+          <ArrowRight className="size-4" />
         </Button>
       </div>
     </div>

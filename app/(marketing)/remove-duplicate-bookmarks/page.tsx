@@ -108,14 +108,14 @@ export default function RemoveDuplicatesPage() {
       {/* <h1 className="text-3xl font-bold mb-8 text-center">Remove Duplicate Bookmarks</h1> */}
       
       {!isUploaded ? (
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex flex-col gap-8 md:flex-row">
           <div className="w-full md:w-1/2">
             <Card className="h-full">
               <CardContent className="p-6">
-                <h2 className="text-2xl font-semibold mb-4">How it works</h2>
-                <ol className="list-decimal list-inside space-y-2">
+                <h2 className="mb-4 text-2xl font-semibold">How it works</h2>
+                <ol className="list-inside list-decimal space-y-2">
                   <li>Upload your bookmarks HTML file</li>
-                  <li>We'll scan for duplicate bookmarks</li>
+                  <li>We&apos;ll scan for duplicate bookmarks</li>
                   <li>Review and select which duplicates to keep</li>
                   <li>Download your cleaned bookmarks file</li>
                 </ol>
@@ -129,12 +129,12 @@ export default function RemoveDuplicatesPage() {
           <div className="w-full md:w-1/2">
             <Card className="h-full">
               <CardContent className="p-6">
-                <h2 className="text-2xl font-semibold mb-4">Upload Bookmarks</h2>
+                <h2 className="mb-4 text-2xl font-semibold">Upload Bookmarks</h2>
                 <div
-                  className="border-4 border-dashed p-8 mb-4 w-full rounded-md cursor-pointer text-center transition duration-300 hover:border-primary hover:text-primary"
+                  className="mb-4 w-full cursor-pointer rounded-md border-4 border-dashed p-8 text-center transition duration-300 hover:border-primary hover:text-primary"
                   onClick={() => fileInputRef.current?.click()}
                 >
-                  <FileUp className="mx-auto h-16 w-16 text-gray-400" />
+                  <FileUp className="mx-auto size-16 text-gray-400" />
                   <p className="mt-4 text-lg font-medium">
                     {file ? file.name : "Click or drag to upload bookmarks"}
                   </p>

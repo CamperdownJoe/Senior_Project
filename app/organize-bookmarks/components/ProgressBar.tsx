@@ -8,7 +8,7 @@ export default function ProgressBar({ value }: ProgressBarProps) {
   return (
     <Progress 
       value={value} 
-      className="w-full h-0.5 mb-4" 
+      className="mb-4 h-0.5 w-full" 
     />
   );
 }

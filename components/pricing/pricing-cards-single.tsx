@@ -33,7 +33,7 @@ export function PricingCardsSingle({ userId, subscriptionPlan }: PricingCardsSin
               <ul className="mt-8 space-y-3">
                 {oneTimePurchase.benefits.map((benefit) => (
                   <li key={benefit} className="flex items-center">
-                    <Icons.check className="mr-3 h-5 w-5 text-green-500" />
+                    <Icons.check className="mr-3 size-5 text-green-500" />
                     <span>{benefit}</span>
                   </li>
                 ))}

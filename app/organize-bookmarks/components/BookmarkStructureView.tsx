@@ -38,15 +38,15 @@ const BookmarkStructureView: React.FC<BookmarkStructureViewProps> = ({ structure
     if (!bookmark) return null;
     return (
       <li key={bookmarkId} className="ml-6 flex items-center space-x-2 py-1">
-        <File className="h-4 w-4 text-blue-500" />
+        <File className="size-4 text-blue-500" />
         <a 
           href={bookmark.url} 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="text-sm hover:underline flex items-center"
+          className="flex items-center text-sm hover:underline"
         >
           {bookmark.title}
-          <ExternalLink className="h-3 w-3 ml-1" />
+          <ExternalLink className="ml-1 size-3" />
         </a>
       </li>
     );
@@ -65,8 +65,8 @@ const BookmarkStructureView: React.FC<BookmarkStructureViewProps> = ({ structure
           onClick={() => toggleCategory(currentPath)}
         >
           <div className="flex items-center space-x-2">
-            {isOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-            <Folder className="h-5 w-5 text-yellow-500" />
+            {isOpen ? <ChevronDown className="size-4" /> : <ChevronRight className="size-4" />}
+            <Folder className="size-5 text-yellow-500" />
             <span>{categoryName}</span>
             <span className="text-xs text-gray-500">({bookmarkCount})</span>
           </div>
@@ -84,7 +84,7 @@ const BookmarkStructureView: React.FC<BookmarkStructureViewProps> = ({ structure
   };
 
   return (
-    <Card className="w-full h-full">
+    <Card className="size-full">
       <CardHeader>
         <CardTitle>Bookmark Structure</CardTitle>
       </CardHeader>

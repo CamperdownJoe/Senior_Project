@@ -70,8 +70,8 @@ export default function StepDuplicates({
     <div className="space-y-8">
       <h2 className="text-2xl font-bold">Review Duplicate Bookmarks</h2>
       
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="text-lg font-semibold mb-3">Recommendation Rule</h3>
+      <div className="rounded-lg bg-gray-50 p-4">
+        <h3 className="mb-3 text-lg font-semibold">Recommendation Rule</h3>
         <RadioGroup
           value={recommendationRule}
           onValueChange={(value) => handleRecommendationChange(value as 'short' | 'newest')}
@@ -89,8 +89,8 @@ export default function StepDuplicates({
       </div>
 
       {duplicateGroups.map((group) => (
-        <div key={group.url} className="border p-6 rounded-lg shadow-sm">
-          <h3 className="text-lg font-semibold mb-4 truncate">{group.url}</h3>
+        <div key={group.url} className="rounded-lg border p-6 shadow-sm">
+          <h3 className="mb-4 truncate text-lg font-semibold">{group.url}</h3>
           <div className="space-y-3">
             {group.bookmarkIds.map((id) => {
               const bookmark = bookmarks.get(id);
@@ -99,8 +99,8 @@ export default function StepDuplicates({
               return (
                 <div 
                   key={id} 
-                  className={`flex items-center space-x-3 p-3 rounded-md transition-colors ${
-                    isSelected ? 'bg-green-50 border border-green-200' : 'hover:bg-gray-50'
+                  className={`flex items-center space-x-3 rounded-md p-3 transition-colors ${
+                    isSelected ? 'border border-green-200 bg-green-50' : 'hover:bg-gray-50'
                   }`}
                 >
                   <Checkbox
@@ -108,7 +108,7 @@ export default function StepDuplicates({
                     checked={isSelected}
                     onCheckedChange={() => handleCheckboxChange(group.url, id)}
                   />
-                  <label htmlFor={id} className="flex-grow text-sm cursor-pointer">
+                  <label htmlFor={id} className="grow cursor-pointer text-sm">
                     <span className="font-medium">{bookmark.title}</span>
                     {recommendationRule === 'newest' && bookmark.addDate && (
                       <span className="ml-2 text-xs text-gray-500">
@@ -117,7 +117,7 @@ export default function StepDuplicates({
                     )}
                   </label>
                   {isSelected && (
-                    <Check className="text-green-500 h-5 w-5" />
+                    <Check className="size-5 text-green-500" />
                   )}
                 </div>
               );
@@ -126,7 +126,7 @@ export default function StepDuplicates({
         </div>
       ))}
 
-      <div className="flex justify-end items-center space-x-4">
+      <div className="flex items-center justify-end space-x-4">
         {showExportOption && (
           <Select onValueChange={setExportFormat}>
             <SelectTrigger className="w-[180px]">

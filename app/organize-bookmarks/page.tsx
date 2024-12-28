@@ -174,7 +174,7 @@ export default function OrganizeBookmarksPage() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Organize Bookmarks</h1>
+      <h1 className="mb-4 text-center text-2xl font-bold">Organize Bookmarks</h1>
       <ProgressBar value={progress} />
 
       {step === 'initial' && <StepInitial onClean={handleStartOrganizing} onSkip={handleSkip} />}

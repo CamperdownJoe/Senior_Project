@@ -45,7 +45,7 @@ export default function StepReview({ bookmarks, reorganizedBookmarks, onComplete
   };
 
   return (
-    <div className="flex flex-col h-full space-y-4">
+    <div className="flex h-full flex-col space-y-4">
       <div className="space-y-2">
         <h2 className="text-2xl font-bold">Review Your Organized Bookmarks</h2>
         <p className="text-muted-foreground">Check the new structure of your bookmarks below</p>
@@ -56,11 +56,11 @@ export default function StepReview({ bookmarks, reorganizedBookmarks, onComplete
         </div>
       </div>
       
-      <div className="flex-grow min-h-0">
+      <div className="min-h-0 grow">
         <BookmarkStructureView structure={reorganizedBookmarks} bookmarks={bookmarks} />
       </div>
       
-      <div className="flex justify-between items-center pt-2">
+      <div className="flex items-center justify-between pt-2">
         <div className="invisible">
           <Button variant="outline">Edit Categories</Button>
         </div>

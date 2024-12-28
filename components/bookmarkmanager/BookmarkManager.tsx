@@ -33,16 +33,16 @@ export default function BookmarkManager() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-8">AI 书签管理器</h1>
+      <h1 className="mb-8 text-3xl font-bold">AI 书签管理器</h1>
       
-      <div className="flex justify-between mb-8">
+      <div className="mb-8 flex justify-between">
         {steps.map((s, index) => (
           <Card key={index} className={`w-1/5 ${step === index ? 'border-blue-500' : ''}`}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 {s.title}
               </CardTitle>
-              <s.icon className={`h-4 w-4 ${step > index ? 'text-green-500' : 'text-gray-500'}`} />
+              <s.icon className={`size-4 ${step > index ? 'text-green-500' : 'text-gray-500'}`} />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{index + 1}</div>
@@ -77,7 +77,7 @@ export default function BookmarkManager() {
             <CardTitle>AI 分类建议</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="bg-gray-100 p-4 rounded-lg mb-4">
+            <div className="mb-4 rounded-lg bg-gray-100 p-4">
               这里将显示分类树状图
             </div>
             <Button onClick={() => { setStep(3); }}>确认分类</Button>
@@ -93,7 +93,7 @@ export default function BookmarkManager() {
           </CardHeader>
           <CardContent>
             <p>所有书签已整理完毕，请确认以下内容：</p>
-            <ul className="list-disc list-inside mt-2">
+            <ul className="mt-2 list-inside list-disc">
               <li>总计处理书签数：1234</li>
               <li>删除无效链接：56</li>
               <li>合并重复项：78</li>

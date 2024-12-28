@@ -28,7 +28,7 @@ export default async function DashboardPage() {
             <CardTitle className="text-sm font-medium">
               Organize Bookmarks
             </CardTitle>
-            <Bookmark className="h-4 w-4 text-muted-foreground" />
+            <Bookmark className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
@@ -44,7 +44,7 @@ export default async function DashboardPage() {
             <CardTitle className="text-sm font-medium">
               View Documentation
             </CardTitle>
-            <BookOpen className="h-4 w-4 text-muted-foreground" />
+            <BookOpen className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
@@ -60,7 +60,7 @@ export default async function DashboardPage() {
             <CardTitle className="text-sm font-medium">
               Account Settings
             </CardTitle>
-            <Settings className="h-4 w-4 text-muted-foreground" />
+            <Settings className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
@@ -84,7 +84,7 @@ export default async function DashboardPage() {
           </p>
           <Link href="/dashboard/support">
             <Button className="mt-4" variant="outline">
-              <HelpCircle className="mr-2 h-4 w-4" />
+              <HelpCircle className="mr-2 size-4" />
               Contact Support
             </Button>
           </Link>
