@@ -151,7 +151,7 @@ export default function StepReorganize({ bookmarks, onComplete }: Props) {
       </div>
 
       {selectedMethod === 'custom' && (
-        <div className="max-w-2xl mx-auto space-y-4">
+        <div className="mx-auto max-w-2xl space-y-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">Desired Structure</label>
             <Textarea 
