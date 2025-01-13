@@ -5,18 +5,31 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import Image from 'next/image';
 import { Icons } from "@/components/shared/icons";
 import { reorganizeBookmarks } from '../utils/reorganizeBookmarks';
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 
 type Props = {
   bookmarks: BookmarkMap;
-  onComplete: (method: 'dewey' | 'ai', reorganizedBookmarks: BookmarkStructure) => void;
+  onComplete: (method: 'dewey' | 'ai' | 'custom', reorganizedBookmarks: BookmarkStructure) => void;
 };
 
 export default function StepReorganize({ bookmarks, onComplete }: Props) {
-  const [selectedMethod, setSelectedMethod] = useState<'dewey' | 'ai' | null>(null);
+  const [selectedMethod, setSelectedMethod] = useState<'dewey' | 'ai' | 'custom' | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [customPreferences, setCustomPreferences] = useState({
+    structure: '',
+    preferences: ''
+  });
 
-  const handleMethodSelect = (method: 'dewey' | 'ai') => {
+  const handleMethodSelect = (method: 'dewey' | 'ai' | 'custom') => {
     setSelectedMethod(method);
+  };
+
+  const handleCustomInputChange = (field: 'structure' | 'preferences', value: string) => {
+    setCustomPreferences(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   const handleReorganize = async () => {
@@ -24,21 +37,21 @@ export default function StepReorganize({ bookmarks, onComplete }: Props) {
 
     setIsLoading(true);
     try {
-      const reorganizedBookmarks = await reorganizeBookmarks(bookmarks, selectedMethod);
-      // console.log('AI API Response:', reorganizedBookmarks);
+      const reorganizedBookmarks = await reorganizeBookmarks(
+        bookmarks, 
+        selectedMethod, 
+        selectedMethod === 'custom' ? customPreferences : undefined
+      );
       onComplete(selectedMethod, reorganizedBookmarks);
     } catch (error) {
       console.error('Error reorganizing bookmarks:', error);
-      // Handle error (e.g., show a toast notification)
     } finally {
       setIsLoading(false);
     }
   };
 
-
   return (
     <div className="space-y-8">
-      {/* <h2 className="text-3xl font-bold text-center">Reorganize Your Bookmarks</h2> */}
       <p className="text-center text-gray-600">Choose a method to bring order to your digital library:</p>
       <div className="flex justify-center space-x-6">
         <Card 
@@ -104,12 +117,68 @@ export default function StepReorganize({ bookmarks, onComplete }: Props) {
             </div>
           </CardContent>
         </Card>
+        
+        <Card 
+          className={`h-96 w-72 cursor-pointer transition-all duration-300 ${
+            selectedMethod === 'custom' ? 'shadow-lg ring-2 ring-green-500' : 'hover:shadow-md'
+          }`}
+          onClick={() => handleMethodSelect('custom')}
+        >
+          <CardHeader className="bg-gradient-to-br from-green-100 to-green-200 p-6">
+            <CardTitle className="flex items-center space-x-2">
+              <Icons.settings className="size-6 text-green-600" />
+              <span>Custom Structure</span>
+            </CardTitle>
+            <CardDescription>Define your own organization</CardDescription>
+          </CardHeader>
+          <CardContent className="p-6">
+            <ul className="list-inside list-disc space-y-2 text-sm">
+              <li>Full control over structure</li>
+              <li>Personalized categories</li>
+              <li>Flexible organization</li>
+            </ul>
+            <div className="relative mt-4 h-32 overflow-hidden rounded-md">
+              <Image 
+                src="/_static/examples/AI.png"
+                alt="Custom Organization Demo" 
+                layout="fill" 
+                objectFit="cover"
+                className="transition-transform duration-300 hover:scale-110"
+              />
+            </div>
+          </CardContent>
+        </Card>
       </div>
+
+      {selectedMethod === 'custom' && (
+        <div className="max-w-2xl mx-auto space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Desired Structure</label>
+            <Textarea 
+              placeholder="Describe your desired folder structure (e.g., Work/Projects/Client1)"
+              value={customPreferences.structure}
+              onChange={(e) => handleCustomInputChange('structure', e.target.value)}
+              className="h-24"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Special Preferences</label>
+            <Textarea 
+              placeholder="Any specific organization preferences or rules?"
+              value={customPreferences.preferences}
+              onChange={(e) => handleCustomInputChange('preferences', e.target.value)}
+              className="h-24"
+            />
+          </div>
+        </div>
+      )}
+
       {selectedMethod && (
         <div className="text-center">
           <Button 
             onClick={handleReorganize}
-            disabled={isLoading}
+            disabled={isLoading || (selectedMethod === 'custom' && 
+              (!customPreferences.structure.trim() || !customPreferences.preferences.trim()))}
           >
             {isLoading ? 'Reorganizing...' : 'Complete Organization'}
           </Button>
