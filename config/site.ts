@@ -4,7 +4,7 @@ import { env } from "@/env.mjs";
 export const site_url = env.NEXT_PUBLIC_APP_URL;
 
 export const siteConfig: SiteConfig = {
-  name: "Markly",
+  name: "SmartMark",
   description:
     "Get your project off to an explosive start with SaaS Starter! Harness the power of Next.js 14, Prisma, Neon, Auth.js v5, Resend, React Email, Shadcn/ui and Stripe to build your next big thing.",
   url: site_url,
@@ -13,7 +13,7 @@ export const siteConfig: SiteConfig = {
     twitter: "https://twitter.com/StarWeQ",
     github: "https://github.com/mickasmt/next-saas-stripe-starter",
   },
-  mailSupport: "support@markly.me",
+  mailSupport: "support@smartmark.me",
 };
 
 export const footerLinks: SidebarNavItem[] = [
